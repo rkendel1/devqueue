@@ -1,37 +1,37 @@
 {
-  "date": "2026-10-04T22:58:24.338Z",
+  "date": "2026-10-04T23:08:21.093Z",
   "adapter": "deterministic LocalWorker",
   "inspection": {
-    "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+    "projectId": "29a97452-481f-40ea-972c-907bc7ea3be5",
     "sessions": [
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
-        "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
-        "prId": "eb970785-274f-4dcb-a5f0-8a9c32ab9453",
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "projectId": "29a97452-481f-40ea-972c-907bc7ea3be5",
+        "prId": "e0d117bc-f2c8-4a56-aaa6-b1588f77bd85",
         "ownerId": "local-worker",
         "workerType": "deterministic-local-calculator",
-        "workspacePath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+        "workspacePath": "/tmp/dev-queue-real-loop-GB7NxX/repo",
         "status": "completed",
-        "startedAt": "2026-10-04T22:57:52.335Z",
-        "updatedAt": "2026-10-04T22:58:15.171Z",
-        "lastHeartbeatAt": "2026-10-04T22:58:10.965Z",
-        "sequence": 11,
+        "startedAt": "2026-10-04T23:07:57.855Z",
+        "updatedAt": "2026-10-04T23:08:09.797Z",
+        "lastHeartbeatAt": "2026-10-04T23:08:08.589Z",
+        "sequence": 55,
         "taskPacket": {
-          "taskId": "task:8879d1bc-85b6-47cf-ab69-a5c211be8164:eb970785-274f-4dcb-a5f0-8a9c32ab9453",
-          "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+          "taskId": "task:29a97452-481f-40ea-972c-907bc7ea3be5:e0d117bc-f2c8-4a56-aaa6-b1588f77bd85",
+          "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
           "project": {
             "name": "Disposable calculator",
             "goal": "Real commands, no AI",
-            "repositoryPath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+            "repositoryPath": "/tmp/dev-queue-real-loop-GB7NxX/repo",
             "defaultBranch": "master",
-            "id": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
-            "createdAt": "2026-10-04T22:57:49.867Z",
-            "updatedAt": "2026-10-04T22:57:49.867Z",
+            "id": "29a97452-481f-40ea-972c-907bc7ea3be5",
+            "createdAt": "2026-10-04T23:07:56.286Z",
+            "updatedAt": "2026-10-04T23:07:56.286Z",
             "__version": 1
           },
           "pr": {
-            "id": "eb970785-274f-4dcb-a5f0-8a9c32ab9453",
-            "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "id": "e0d117bc-f2c8-4a56-aaa6-b1588f77bd85",
+            "projectId": "29a97452-481f-40ea-972c-907bc7ea3be5",
             "number": 1,
             "title": "add",
             "objective": "Implement add",
@@ -44,8 +44,8 @@
             "status": "queued",
             "priority": 0,
             "position": 0,
-            "createdAt": "2026-10-04T22:57:50.397Z",
-            "updatedAt": "2026-10-04T22:57:50.397Z",
+            "createdAt": "2026-10-04T23:07:56.719Z",
+            "updatedAt": "2026-10-04T23:07:56.719Z",
             "__version": 1
           },
           "previousDecisions": [],
@@ -60,7 +60,7 @@
         "__version": 1,
         "currentQuestion": "",
         "consumedDecisionIds": [
-          "0be1235a-753d-44b1-b0cf-fd78eb3a78a8"
+          "5ac64859-3dfe-46d1-a55b-83fa19721c1f"
         ],
         "resultEvidence": {
           "result": "PASS",
@@ -69,43 +69,43 @@
             {
               "command": "npm test",
               "exitCode": 0,
-              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.93319ms)\n✔ calculator (1.796964ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 273.851882\n",
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.11431ms)\n✔ calculator (1.588653ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 354.986429\n",
               "stderr": ""
             }
           ]
         },
-        "completionRequestedAt": "2026-10-04T22:58:14.018Z",
-        "acceptanceRunId": "7c830cf8-6a89-4914-901c-10a5cff108a1",
-        "completedAt": "2026-10-04T22:58:15.171Z"
+        "completionRequestedAt": "2026-10-04T23:08:08.437Z",
+        "acceptanceRunId": "2d22bcf6-ff7e-4f41-b973-a79ffe94c13b",
+        "completedAt": "2026-10-04T23:08:09.797Z"
       },
       {
-        "id": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba",
-        "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
-        "prId": "d6e4d12d-7d15-4122-a31c-d33d34d4141d",
+        "id": "57b73502-1f68-4ed2-a20d-406be313c16f",
+        "projectId": "29a97452-481f-40ea-972c-907bc7ea3be5",
+        "prId": "a3e81882-4440-48b8-a6fb-5fbde134eb47",
         "ownerId": "local-worker",
         "workerType": "deterministic-local-calculator",
-        "workspacePath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+        "workspacePath": "/tmp/dev-queue-real-loop-GB7NxX/repo",
         "status": "failed",
-        "startedAt": "2026-10-04T22:58:15.942Z",
-        "updatedAt": "2026-10-04T22:58:16.155Z",
-        "lastHeartbeatAt": "2026-10-04T22:58:15.942Z",
+        "startedAt": "2026-10-04T23:08:10.377Z",
+        "updatedAt": "2026-10-04T23:08:10.646Z",
+        "lastHeartbeatAt": "2026-10-04T23:08:10.377Z",
         "sequence": 2,
         "taskPacket": {
-          "taskId": "task:8879d1bc-85b6-47cf-ab69-a5c211be8164:d6e4d12d-7d15-4122-a31c-d33d34d4141d",
-          "sessionId": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba",
+          "taskId": "task:29a97452-481f-40ea-972c-907bc7ea3be5:a3e81882-4440-48b8-a6fb-5fbde134eb47",
+          "sessionId": "57b73502-1f68-4ed2-a20d-406be313c16f",
           "project": {
             "name": "Disposable calculator",
             "goal": "Real commands, no AI",
-            "repositoryPath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+            "repositoryPath": "/tmp/dev-queue-real-loop-GB7NxX/repo",
             "defaultBranch": "master",
-            "id": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
-            "createdAt": "2026-10-04T22:57:49.867Z",
-            "updatedAt": "2026-10-04T22:57:49.867Z",
+            "id": "29a97452-481f-40ea-972c-907bc7ea3be5",
+            "createdAt": "2026-10-04T23:07:56.286Z",
+            "updatedAt": "2026-10-04T23:07:56.286Z",
             "__version": 1
           },
           "pr": {
-            "id": "d6e4d12d-7d15-4122-a31c-d33d34d4141d",
-            "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "id": "a3e81882-4440-48b8-a6fb-5fbde134eb47",
+            "projectId": "29a97452-481f-40ea-972c-907bc7ea3be5",
             "number": 2,
             "title": "subtract",
             "objective": "Implement subtract",
@@ -120,8 +120,8 @@
             "status": "queued",
             "priority": 1,
             "position": 1,
-            "createdAt": "2026-10-04T22:57:50.456Z",
-            "updatedAt": "2026-10-04T22:57:50.456Z",
+            "createdAt": "2026-10-04T23:07:56.755Z",
+            "updatedAt": "2026-10-04T23:07:56.755Z",
             "__version": 1
           },
           "previousDecisions": [],
@@ -136,33 +136,33 @@
         "__version": 1
       },
       {
-        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
-        "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
-        "prId": "d6e4d12d-7d15-4122-a31c-d33d34d4141d",
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "projectId": "29a97452-481f-40ea-972c-907bc7ea3be5",
+        "prId": "a3e81882-4440-48b8-a6fb-5fbde134eb47",
         "ownerId": "local-worker",
         "workerType": "deterministic-local-calculator",
-        "workspacePath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+        "workspacePath": "/tmp/dev-queue-real-loop-GB7NxX/repo",
         "status": "completed",
-        "startedAt": "2026-10-04T22:58:16.352Z",
-        "updatedAt": "2026-10-04T22:58:19.286Z",
-        "lastHeartbeatAt": "2026-10-04T22:58:16.564Z",
-        "sequence": 7,
+        "startedAt": "2026-10-04T23:08:10.851Z",
+        "updatedAt": "2026-10-04T23:08:14.477Z",
+        "lastHeartbeatAt": "2026-10-04T23:08:13.728Z",
+        "sequence": 33,
         "taskPacket": {
-          "taskId": "task:8879d1bc-85b6-47cf-ab69-a5c211be8164:d6e4d12d-7d15-4122-a31c-d33d34d4141d",
-          "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+          "taskId": "task:29a97452-481f-40ea-972c-907bc7ea3be5:a3e81882-4440-48b8-a6fb-5fbde134eb47",
+          "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
           "project": {
             "name": "Disposable calculator",
             "goal": "Real commands, no AI",
-            "repositoryPath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+            "repositoryPath": "/tmp/dev-queue-real-loop-GB7NxX/repo",
             "defaultBranch": "master",
-            "id": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
-            "createdAt": "2026-10-04T22:57:49.867Z",
-            "updatedAt": "2026-10-04T22:57:49.867Z",
+            "id": "29a97452-481f-40ea-972c-907bc7ea3be5",
+            "createdAt": "2026-10-04T23:07:56.286Z",
+            "updatedAt": "2026-10-04T23:07:56.286Z",
             "__version": 1
           },
           "pr": {
-            "id": "d6e4d12d-7d15-4122-a31c-d33d34d4141d",
-            "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "id": "a3e81882-4440-48b8-a6fb-5fbde134eb47",
+            "projectId": "29a97452-481f-40ea-972c-907bc7ea3be5",
             "number": 2,
             "title": "subtract",
             "objective": "Implement subtract",
@@ -177,8 +177,8 @@
             "status": "queued",
             "priority": 1,
             "position": 1,
-            "createdAt": "2026-10-04T22:57:50.456Z",
-            "updatedAt": "2026-10-04T22:58:16.251Z",
+            "createdAt": "2026-10-04T23:07:56.755Z",
+            "updatedAt": "2026-10-04T23:08:10.768Z",
             "__version": 1
           },
           "previousDecisions": [],
@@ -198,43 +198,43 @@
             {
               "command": "npm test",
               "exitCode": 0,
-              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.629922ms)\n✔ calculator (1.57263ms)\n✔ subtract (1.798181ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 674.729879\n",
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (8.148558ms)\n✔ calculator (4.248512ms)\n✔ subtract (1.637554ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 498.106851\n",
               "stderr": ""
             }
           ]
         },
-        "completionRequestedAt": "2026-10-04T22:58:18.276Z",
-        "acceptanceRunId": "a6bd9f44-a631-4459-9618-c97385260252",
-        "completedAt": "2026-10-04T22:58:19.286Z"
+        "completionRequestedAt": "2026-10-04T23:08:13.686Z",
+        "acceptanceRunId": "b89ef49d-74a3-4235-b8de-3bdbe0ee724f",
+        "completedAt": "2026-10-04T23:08:14.477Z"
       },
       {
-        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
-        "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
-        "prId": "0102315f-ad78-41aa-a1b7-2e2a3ac7d711",
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "projectId": "29a97452-481f-40ea-972c-907bc7ea3be5",
+        "prId": "648d311e-efc1-41cb-af55-ff6425058c7d",
         "ownerId": "local-worker",
         "workerType": "deterministic-local-calculator",
-        "workspacePath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+        "workspacePath": "/tmp/dev-queue-real-loop-GB7NxX/repo",
         "status": "completed",
-        "startedAt": "2026-10-04T22:58:19.401Z",
-        "updatedAt": "2026-10-04T22:58:23.550Z",
-        "lastHeartbeatAt": "2026-10-04T22:58:19.663Z",
-        "sequence": 7,
+        "startedAt": "2026-10-04T23:08:14.533Z",
+        "updatedAt": "2026-10-04T23:08:20.735Z",
+        "lastHeartbeatAt": "2026-10-04T23:08:19.816Z",
+        "sequence": 56,
         "taskPacket": {
-          "taskId": "task:8879d1bc-85b6-47cf-ab69-a5c211be8164:0102315f-ad78-41aa-a1b7-2e2a3ac7d711",
-          "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+          "taskId": "task:29a97452-481f-40ea-972c-907bc7ea3be5:648d311e-efc1-41cb-af55-ff6425058c7d",
+          "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
           "project": {
             "name": "Disposable calculator",
             "goal": "Real commands, no AI",
-            "repositoryPath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+            "repositoryPath": "/tmp/dev-queue-real-loop-GB7NxX/repo",
             "defaultBranch": "master",
-            "id": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
-            "createdAt": "2026-10-04T22:57:49.867Z",
-            "updatedAt": "2026-10-04T22:57:49.867Z",
+            "id": "29a97452-481f-40ea-972c-907bc7ea3be5",
+            "createdAt": "2026-10-04T23:07:56.286Z",
+            "updatedAt": "2026-10-04T23:07:56.286Z",
             "__version": 1
           },
           "pr": {
-            "id": "0102315f-ad78-41aa-a1b7-2e2a3ac7d711",
-            "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "id": "648d311e-efc1-41cb-af55-ff6425058c7d",
+            "projectId": "29a97452-481f-40ea-972c-907bc7ea3be5",
             "number": 3,
             "title": "multiply",
             "objective": "Implement multiply",
@@ -249,8 +249,8 @@
             "status": "queued",
             "priority": 2,
             "position": 2,
-            "createdAt": "2026-10-04T22:57:50.515Z",
-            "updatedAt": "2026-10-04T22:57:50.515Z",
+            "createdAt": "2026-10-04T23:07:56.779Z",
+            "updatedAt": "2026-10-04T23:07:56.779Z",
             "__version": 1
           },
           "previousDecisions": [],
@@ -270,101 +270,461 @@
             {
               "command": "npm test",
               "exitCode": 0,
-              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.68702ms)\n✔ calculator (1.786672ms)\n✔ multiply (1.433344ms)\n✔ subtract (1.334882ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 580.813305\n",
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (2.176081ms)\n✔ calculator (1.398084ms)\n✔ multiply (1.430329ms)\n✔ subtract (1.259191ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 495.851175\n",
               "stderr": ""
             }
           ]
         },
-        "completionRequestedAt": "2026-10-04T22:58:21.278Z",
-        "acceptanceRunId": "27e2d701-af2e-415e-bf7c-589fb1f847ff",
-        "completedAt": "2026-10-04T22:58:23.550Z"
+        "completionRequestedAt": "2026-10-04T23:08:19.031Z",
+        "acceptanceRunId": "03466661-ad9f-4911-acc3-8279c8cf236b",
+        "completedAt": "2026-10-04T23:08:20.735Z"
       }
     ],
     "events": [
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-1",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-1",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
         "sequence": 1,
         "type": "started",
         "message": "LocalWorker started verified disposable fixture operation",
-        "createdAt": "2026-10-04T22:57:52.594Z",
+        "createdAt": "2026-10-04T23:07:58.068Z",
         "__version": 1
       },
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-2",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-2",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
         "sequence": 2,
         "type": "heartbeat",
         "message": "Worker transport heartbeat (not a lease or proof of coding)",
-        "createdAt": "2026-10-04T22:57:52.738Z",
+        "createdAt": "2026-10-04T23:07:58.244Z",
         "__version": 1
       },
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-3",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-3",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
         "sequence": 3,
-        "type": "question",
-        "message": "Should the new function follow the existing direct-export pattern?",
-        "createdAt": "2026-10-04T22:57:52.916Z",
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:58.319Z",
         "__version": 1
       },
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-4",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-4",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
         "sequence": 4,
         "type": "heartbeat",
         "message": "Worker transport heartbeat (not a lease or proof of coding)",
-        "createdAt": "2026-10-04T22:58:10.965Z",
+        "createdAt": "2026-10-04T23:07:58.475Z",
         "__version": 1
       },
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-5",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-5",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
         "sequence": 5,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:58.507Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-6",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 6,
+        "type": "question",
+        "message": "Should the new function follow the existing direct-export pattern?",
+        "createdAt": "2026-10-04T23:07:58.540Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-7",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 7,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:58.589Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-8",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 8,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:58.725Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-9",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 9,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:58.821Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-10",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 10,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:58.911Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-11",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 11,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:59.035Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-12",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 12,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:59.170Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-13",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 13,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:59.290Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-14",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 14,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:59.340Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-15",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 15,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:59.483Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-16",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 16,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:59.661Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-17",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 17,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:07:59.708Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-18",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 18,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:05.412Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-19",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 19,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:05.635Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-20",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 20,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:05.733Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-21",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 21,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:05.814Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-22",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 22,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:05.973Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-23",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 23,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:06.065Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-24",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 24,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:06.117Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-25",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 25,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:06.242Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-26",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 26,
         "type": "progress",
         "message": "Local operator answered question",
         "metadata": {
-          "decisionId": "0be1235a-753d-44b1-b0cf-fd78eb3a78a8"
+          "decisionId": "5ac64859-3dfe-46d1-a55b-83fa19721c1f"
         },
-        "createdAt": "2026-10-04T22:58:12.188Z",
+        "createdAt": "2026-10-04T23:08:06.442Z",
         "__version": 1
       },
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-6",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
-        "sequence": 6,
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-27",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 27,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:06.532Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-28",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 28,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:06.587Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-29",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 29,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:06.627Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-30",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 30,
         "type": "progress",
         "message": "Worker acknowledged durable decision",
-        "createdAt": "2026-10-04T22:58:12.651Z",
+        "createdAt": "2026-10-04T23:08:06.733Z",
         "__version": 1
       },
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-7",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
-        "sequence": 7,
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-31",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 31,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:06.794Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-32",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 32,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:06.896Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-33",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 33,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:06.958Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-34",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 34,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:07.011Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-35",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 35,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:07.041Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-36",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 36,
         "type": "progress",
         "message": "Wrote add implementation to disposable repository",
-        "createdAt": "2026-10-04T22:58:12.768Z",
+        "createdAt": "2026-10-04T23:08:07.113Z",
         "__version": 1
       },
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-8",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
-        "sequence": 8,
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-37",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 37,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:07.161Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-38",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 38,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:07.258Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-39",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 39,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:07.323Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-40",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 40,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:07.448Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-41",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 41,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:07.557Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-42",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 42,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:07.669Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-43",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 43,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:07.752Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-44",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 44,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:07.886Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-45",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 45,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:07.978Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-46",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 46,
         "type": "output",
         "message": "Actual npm test output",
         "metadata": {
           "exitCode": 0,
-          "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.93319ms)\n✔ calculator (1.796964ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 273.851882\n",
+          "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.11431ms)\n✔ calculator (1.588653ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 354.986429\n",
           "stderr": ""
         },
-        "createdAt": "2026-10-04T22:58:13.808Z",
+        "createdAt": "2026-10-04T23:08:08.020Z",
         "__version": 1
       },
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-9",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
-        "sequence": 9,
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-47",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 47,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:08.089Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-48",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 48,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:08.183Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-49",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 49,
         "type": "progress",
         "message": "Worker result reported (not acceptance)",
         "metadata": {
@@ -374,104 +734,347 @@
             {
               "command": "npm test",
               "exitCode": 0,
-              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.93319ms)\n✔ calculator (1.796964ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 273.851882\n",
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.11431ms)\n✔ calculator (1.588653ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 354.986429\n",
               "stderr": ""
             }
           ]
         },
-        "createdAt": "2026-10-04T22:58:13.928Z",
+        "createdAt": "2026-10-04T23:08:08.252Z",
         "__version": 1
       },
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-10",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
-        "sequence": 10,
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-50",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 50,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:08.326Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-51",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 51,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:08.382Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-52",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 52,
         "type": "completed",
         "message": "Worker requested completion; acceptance enforcement pending",
         "metadata": {
           "acceptance": "pending",
           "workerRequestedCompletion": true
         },
-        "createdAt": "2026-10-04T22:58:14.018Z",
+        "createdAt": "2026-10-04T23:08:08.437Z",
         "__version": 1
       },
       {
-        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-11",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
-        "sequence": 11,
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-53",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 53,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:08.504Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-54",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 54,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:08.589Z",
+        "__version": 1
+      },
+      {
+        "id": "b606f6ce-f343-4414-aee5-826f51af868c-55",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "sequence": 55,
         "type": "completed",
         "message": "Human-authorized acceptance gates passed",
         "metadata": {
           "gateIds": [
-            "f603734b-52dc-4614-9136-4dd3fb95612c"
+            "f32d177a-2053-4835-9657-d8e7b6014a72"
           ]
         },
-        "createdAt": "2026-10-04T22:58:15.171Z",
+        "createdAt": "2026-10-04T23:08:09.797Z",
         "__version": 1
       },
       {
-        "id": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba-1",
-        "sessionId": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba",
+        "id": "57b73502-1f68-4ed2-a20d-406be313c16f-1",
+        "sessionId": "57b73502-1f68-4ed2-a20d-406be313c16f",
         "sequence": 1,
         "type": "started",
         "message": "Verified deterministic failure fixture starting",
-        "createdAt": "2026-10-04T22:58:16.066Z",
+        "createdAt": "2026-10-04T23:08:10.534Z",
         "__version": 1
       },
       {
-        "id": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba-2",
-        "sessionId": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba",
+        "id": "57b73502-1f68-4ed2-a20d-406be313c16f-2",
+        "sessionId": "57b73502-1f68-4ed2-a20d-406be313c16f",
         "sequence": 2,
         "type": "failed",
         "message": "Explicit deterministic failure scenario; no test PASS claimed",
-        "createdAt": "2026-10-04T22:58:16.155Z",
+        "createdAt": "2026-10-04T23:08:10.646Z",
         "__version": 1
       },
       {
-        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-1",
-        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-1",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
         "sequence": 1,
         "type": "started",
         "message": "LocalWorker started verified disposable fixture operation",
-        "createdAt": "2026-10-04T22:58:16.490Z",
+        "createdAt": "2026-10-04T23:08:11.008Z",
         "__version": 1
       },
       {
-        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-2",
-        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-2",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
         "sequence": 2,
         "type": "heartbeat",
         "message": "Worker transport heartbeat (not a lease or proof of coding)",
-        "createdAt": "2026-10-04T22:58:16.564Z",
+        "createdAt": "2026-10-04T23:08:11.106Z",
         "__version": 1
       },
       {
-        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-3",
-        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-3",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
         "sequence": 3,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:11.183Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-4",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 4,
         "type": "progress",
         "message": "Wrote subtract implementation to disposable repository",
-        "createdAt": "2026-10-04T22:58:16.651Z",
+        "createdAt": "2026-10-04T23:08:11.278Z",
         "__version": 1
       },
       {
-        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-4",
-        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
-        "sequence": 4,
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-5",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 5,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:11.380Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-6",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 6,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:11.469Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-7",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 7,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:11.551Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-8",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 8,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:11.660Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-9",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 9,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:11.727Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-10",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 10,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:11.903Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-11",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 11,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:11.969Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-12",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 12,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:12.043Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-13",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 13,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:12.121Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-14",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 14,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:12.219Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-15",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 15,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:12.445Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-16",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 16,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:12.514Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-17",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 17,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:12.571Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-18",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 18,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:12.633Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-19",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 19,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:12.709Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-20",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 20,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:12.866Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-21",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 21,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:12.941Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-22",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 22,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:13.037Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-23",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 23,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:13.145Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-24",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 24,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:13.225Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-25",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 25,
         "type": "output",
         "message": "Actual npm test output",
         "metadata": {
           "exitCode": 0,
-          "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.629922ms)\n✔ calculator (1.57263ms)\n✔ subtract (1.798181ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 674.729879\n",
+          "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (8.148558ms)\n✔ calculator (4.248512ms)\n✔ subtract (1.637554ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 498.106851\n",
           "stderr": ""
         },
-        "createdAt": "2026-10-04T22:58:18.097Z",
+        "createdAt": "2026-10-04T23:08:13.266Z",
         "__version": 1
       },
       {
-        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-5",
-        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
-        "sequence": 5,
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-26",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 26,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:13.378Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-27",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 27,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:13.447Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-28",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 28,
         "type": "progress",
         "message": "Worker result reported (not acceptance)",
         "metadata": {
@@ -481,86 +1084,311 @@
             {
               "command": "npm test",
               "exitCode": 0,
-              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.629922ms)\n✔ calculator (1.57263ms)\n✔ subtract (1.798181ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 674.729879\n",
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (8.148558ms)\n✔ calculator (4.248512ms)\n✔ subtract (1.637554ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 498.106851\n",
               "stderr": ""
             }
           ]
         },
-        "createdAt": "2026-10-04T22:58:18.219Z",
+        "createdAt": "2026-10-04T23:08:13.543Z",
         "__version": 1
       },
       {
-        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-6",
-        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
-        "sequence": 6,
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-29",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 29,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:13.610Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-30",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 30,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:13.646Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-31",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 31,
         "type": "completed",
         "message": "Worker requested completion; acceptance enforcement pending",
         "metadata": {
           "acceptance": "pending",
           "workerRequestedCompletion": true
         },
-        "createdAt": "2026-10-04T22:58:18.276Z",
+        "createdAt": "2026-10-04T23:08:13.686Z",
         "__version": 1
       },
       {
-        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-7",
-        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
-        "sequence": 7,
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-32",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 32,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:13.728Z",
+        "__version": 1
+      },
+      {
+        "id": "0df9f4ec-b1c7-479b-ace0-e25dad02051d-33",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "sequence": 33,
         "type": "completed",
         "message": "Human-authorized acceptance gates passed",
         "metadata": {
           "gateIds": [
-            "8025b831-92b3-4da9-8330-ad37c0183244"
+            "26067883-76b2-459f-b4e0-00525acef859"
           ]
         },
-        "createdAt": "2026-10-04T22:58:19.286Z",
+        "createdAt": "2026-10-04T23:08:14.477Z",
         "__version": 1
       },
       {
-        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-1",
-        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-1",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
         "sequence": 1,
         "type": "started",
         "message": "LocalWorker started verified disposable fixture operation",
-        "createdAt": "2026-10-04T22:58:19.552Z",
+        "createdAt": "2026-10-04T23:08:14.665Z",
         "__version": 1
       },
       {
-        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-2",
-        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-2",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
         "sequence": 2,
         "type": "heartbeat",
         "message": "Worker transport heartbeat (not a lease or proof of coding)",
-        "createdAt": "2026-10-04T22:58:19.663Z",
+        "createdAt": "2026-10-04T23:08:14.764Z",
         "__version": 1
       },
       {
-        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-3",
-        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-3",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
         "sequence": 3,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:14.823Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-4",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 4,
         "type": "progress",
         "message": "Wrote multiply implementation to disposable repository",
-        "createdAt": "2026-10-04T22:58:19.785Z",
+        "createdAt": "2026-10-04T23:08:14.875Z",
         "__version": 1
       },
       {
-        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-4",
-        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
-        "sequence": 4,
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-5",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 5,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:14.950Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-6",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 6,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:15.039Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-7",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 7,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:15.137Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-8",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 8,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:15.256Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-9",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 9,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:15.462Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-10",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 10,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:15.709Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-11",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 11,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:15.854Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-12",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 12,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:15.941Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-13",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 13,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.042Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-14",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 14,
         "type": "output",
         "message": "Actual npm test output",
         "metadata": {
           "exitCode": 0,
-          "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.68702ms)\n✔ calculator (1.786672ms)\n✔ multiply (1.433344ms)\n✔ subtract (1.334882ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 580.813305\n",
+          "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (2.176081ms)\n✔ calculator (1.398084ms)\n✔ multiply (1.430329ms)\n✔ subtract (1.259191ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 495.851175\n",
           "stderr": ""
         },
-        "createdAt": "2026-10-04T22:58:21.111Z",
+        "createdAt": "2026-10-04T23:08:16.124Z",
         "__version": 1
       },
       {
-        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-5",
-        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
-        "sequence": 5,
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-15",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 15,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.201Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-16",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 16,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.261Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-17",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 17,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.380Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-18",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 18,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.486Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-19",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 19,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.566Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-20",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 20,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.631Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-21",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 21,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.725Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-22",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 22,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.790Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-23",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 23,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.880Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-24",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 24,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.920Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-25",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 25,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.962Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-26",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 26,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:16.998Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-27",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 27,
         "type": "progress",
         "message": "Worker result reported (not acceptance)",
         "metadata": {
@@ -570,83 +1398,326 @@
             {
               "command": "npm test",
               "exitCode": 0,
-              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.68702ms)\n✔ calculator (1.786672ms)\n✔ multiply (1.433344ms)\n✔ subtract (1.334882ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 580.813305\n",
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (2.176081ms)\n✔ calculator (1.398084ms)\n✔ multiply (1.430329ms)\n✔ subtract (1.259191ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 495.851175\n",
               "stderr": ""
             }
           ]
         },
-        "createdAt": "2026-10-04T22:58:21.184Z",
+        "createdAt": "2026-10-04T23:08:17.099Z",
         "__version": 1
       },
       {
-        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-6",
-        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
-        "sequence": 6,
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-28",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 28,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:17.181Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-29",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 29,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:17.285Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-30",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 30,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:17.358Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-31",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 31,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:17.473Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-32",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 32,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:17.632Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-33",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 33,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:17.733Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-34",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 34,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:17.901Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-35",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 35,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:18.004Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-36",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 36,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:18.091Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-37",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 37,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:18.197Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-38",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 38,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:18.286Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-39",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 39,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:18.356Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-40",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 40,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:18.437Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-41",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 41,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:18.630Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-42",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 42,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:18.692Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-43",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 43,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:18.729Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-44",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 44,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:18.832Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-45",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 45,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:18.891Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-46",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 46,
         "type": "completed",
         "message": "Worker requested completion; acceptance enforcement pending",
         "metadata": {
           "acceptance": "pending",
           "workerRequestedCompletion": true
         },
-        "createdAt": "2026-10-04T22:58:21.278Z",
+        "createdAt": "2026-10-04T23:08:19.031Z",
         "__version": 1
       },
       {
-        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-7",
-        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
-        "sequence": 7,
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-47",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 47,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:19.133Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-48",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 48,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:19.233Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-49",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 49,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:19.379Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-50",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 50,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:19.461Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-51",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 51,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:19.571Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-52",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 52,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:19.641Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-53",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 53,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:19.714Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-54",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 54,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:19.769Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-55",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 55,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T23:08:19.816Z",
+        "__version": 1
+      },
+      {
+        "id": "a73946d5-a679-4a78-822a-9e7c84c1959c-56",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "sequence": 56,
         "type": "completed",
         "message": "Human-authorized acceptance gates passed",
         "metadata": {
           "gateIds": [
-            "6daab28a-d28b-42c0-b7e9-c246d3857eb8"
+            "acb9a615-66fb-4f10-bf24-396f29e30fe3"
           ]
         },
-        "createdAt": "2026-10-04T22:58:23.550Z",
+        "createdAt": "2026-10-04T23:08:20.735Z",
         "__version": 1
       }
     ],
     "acceptance": [
       {
         "command": "npm test",
-        "workingDirectory": "/tmp/dev-queue-real-loop-AynmT3/repo",
-        "startedAt": "2026-10-04T22:58:14.155Z",
-        "completedAt": "2026-10-04T22:58:15.153Z",
+        "workingDirectory": "/tmp/dev-queue-real-loop-GB7NxX/repo",
+        "startedAt": "2026-10-04T23:08:08.936Z",
+        "completedAt": "2026-10-04T23:08:09.779Z",
         "exitCode": 0,
-        "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.708602ms)\n✔ calculator (1.734073ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 321.738598\n",
+        "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.722689ms)\n✔ calculator (1.922674ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 293.13454\n",
         "stderr": "",
         "result": "PASS",
-        "id": "f603734b-52dc-4614-9136-4dd3fb95612c",
-        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
-        "prId": "eb970785-274f-4dcb-a5f0-8a9c32ab9453",
+        "id": "f32d177a-2053-4835-9657-d8e7b6014a72",
+        "sessionId": "b606f6ce-f343-4414-aee5-826f51af868c",
+        "prId": "e0d117bc-f2c8-4a56-aaa6-b1588f77bd85",
         "__version": 1
       },
       {
         "command": "npm test",
-        "workingDirectory": "/tmp/dev-queue-real-loop-AynmT3/repo",
-        "startedAt": "2026-10-04T22:58:18.339Z",
-        "completedAt": "2026-10-04T22:58:19.268Z",
+        "workingDirectory": "/tmp/dev-queue-real-loop-GB7NxX/repo",
+        "startedAt": "2026-10-04T23:08:13.766Z",
+        "completedAt": "2026-10-04T23:08:14.474Z",
         "exitCode": 0,
-        "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (4.49829ms)\n✔ calculator (1.505602ms)\n✔ subtract (1.521592ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 500.511644\n",
+        "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.507143ms)\n✔ calculator (1.680465ms)\n✔ subtract (1.224293ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 367.055948\n",
         "stderr": "",
         "result": "PASS",
-        "id": "8025b831-92b3-4da9-8330-ad37c0183244",
-        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
-        "prId": "d6e4d12d-7d15-4122-a31c-d33d34d4141d",
+        "id": "26067883-76b2-459f-b4e0-00525acef859",
+        "sessionId": "0df9f4ec-b1c7-479b-ace0-e25dad02051d",
+        "prId": "a3e81882-4440-48b8-a6fb-5fbde134eb47",
         "__version": 1
       },
       {
         "command": "npm test",
-        "workingDirectory": "/tmp/dev-queue-real-loop-AynmT3/repo",
-        "startedAt": "2026-10-04T22:58:21.528Z",
-        "completedAt": "2026-10-04T22:58:23.532Z",
+        "workingDirectory": "/tmp/dev-queue-real-loop-GB7NxX/repo",
+        "startedAt": "2026-10-04T23:08:19.860Z",
+        "completedAt": "2026-10-04T23:08:20.733Z",
         "exitCode": 0,
-        "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (6.026097ms)\n✔ calculator (1.653282ms)\n✔ multiply (1.672787ms)\n✔ subtract (2.063906ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 993.56668\n",
+        "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.300864ms)\n✔ calculator (1.529114ms)\n✔ multiply (1.657726ms)\n✔ subtract (1.608699ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 504.704966\n",
         "stderr": "",
         "result": "PASS",
-        "id": "6daab28a-d28b-42c0-b7e9-c246d3857eb8",
-        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
-        "prId": "0102315f-ad78-41aa-a1b7-2e2a3ac7d711",
+        "id": "acb9a615-66fb-4f10-bf24-396f29e30fe3",
+        "sessionId": "a73946d5-a679-4a78-822a-9e7c84c1959c",
+        "prId": "648d311e-efc1-41cb-af55-ff6425058c7d",
         "__version": 1
       }
     ]
