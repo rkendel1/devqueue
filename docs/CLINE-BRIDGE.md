@@ -1,5 +1,8 @@
 # VS Code bridge — integration disabled pending installed Cline audit
 
+Start with the [operator guide](OPERATING-DEV-QUEUE.md); this is the technical
+reference. See [development](DEVELOPMENT.md) for commands and test boundaries.
+
 ## Audit evidence and limits
 
 The implementation environment contains neither a `code` executable nor an
@@ -36,7 +39,7 @@ remain authoritative; the bridge cannot validate token role without the server.
 
 `cd vscode-bridge && npm install && npm run build && npm test`.
 Open this folder in VS Code and launch an Extension Development Host using a
-standard extension launch configuration. Packaging/marketplace publication is
+included Run Dev Queue Bridge launch configuration (.vscode/launch.json). Packaging/marketplace publication is
 not performed. Configure `devQueue.endpoint` and `devQueue.projectId` in settings.
 Run **Dev Queue: Configure Worker** and supply a dedicated worker token provisioned
 through the server's authenticated local-worker configuration. Never use the human
@@ -69,3 +72,27 @@ This is a disabled adapter foundation, not a completed coding loop. Before enabl
 The client exposes these operations but the disabled adapter does not invoke them.
 No running heartbeat or execution is claimed. No GPT, autonomous approval, retry,
 merge or deployment is included.
+
+## Authentication and server boundary
+
+`lib/worker-auth.ts` defines WorkerAuthenticator and WorkerPrincipal. Local mode
+maps configured bearer credentials to identity/project grants; production refuses
+until a trusted identity adapter is provisioned. WorkerType is never identity.
+`lib/worker-protocol.ts` owns session authorization and completion eligibility.
+The bridge knows only DevQueueClient/CodingWorker, not queue selection policy.
+Worker tokens in SecretStorage are distinct from DEV_QUEUE_LOCAL_HUMAN_TOKEN and
+FELTDB_TOKEN. The server rejects human-only credentials at worker authentication;
+worker ownership is checked on every session endpoint. There is no credential
+provisioning API in the extension.
+
+`devQueue.pendingClaim` stores endpoint/input/idempotency key before sending.
+`devQueue.session` stores endpoint/sessionId before proceeding. Neither contains a
+credential. A session binding forbids a second claim and requires inspection.
+Pending claims for another workspace are refused. Retry identity must be the same
+body/key; server durable receipts enforce that invariant. The adapter is currently
+disabled before these execution paths; no real extension-host restart test passed.
+
+Required audit inputs: exact Cline version, VSIX or accessible source, documented
+public execution interface and documented public event interface. Public pause,
+stop and recovery semantics must be established before supporting questions/resume.
+No guessed Cline API, UI scraping or keyboard automation is a valid substitute.
