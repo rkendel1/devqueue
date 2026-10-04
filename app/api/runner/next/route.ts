@@ -1,0 +1,3 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { runNext } from '@/lib/queue-runner'
+export async function POST(request: NextRequest) { const body = await request.json().catch(() => ({})); if (!body.projectId) return NextResponse.json({ error: 'projectId is required' }, { status: 400 }); try { const result = await runNext(body.projectId); return result ? NextResponse.json({ data: result }) : NextResponse.json({ data: null, message: 'No executable PR' }) } catch (error) { return NextResponse.json({ error: error instanceof Error ? error.message : 'Runner failed' }, { status: 500 }) } }
