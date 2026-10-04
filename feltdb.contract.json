@@ -171,6 +171,41 @@
           "required": true
         },
         {
+          "name": "ownerId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "lastHeartbeatAt",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "sequence",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "taskPacket",
+          "type": "json",
+          "required": true
+        },
+        {
+          "name": "currentQuestion",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "resultEvidence",
+          "type": "json",
+          "required": false
+        },
+        {
+          "name": "completionRequestedAt",
+          "type": "datetime",
+          "required": false
+        },
+        {
           "name": "status",
           "type": "text",
           "required": true
@@ -203,6 +238,11 @@
         {
           "name": "sessionId",
           "type": "text",
+          "required": true
+        },
+        {
+          "name": "sequence",
+          "type": "integer",
           "required": true
         },
         {
@@ -276,6 +316,31 @@
           "required": true
         }
       ]
+    },
+    {
+      "name": "WorkerRequest",
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "ownerId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "input",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "response",
+          "type": "json",
+          "required": true
+        }
+      ]
     }
   ],
   "indexes": [],
@@ -346,6 +411,13 @@
     {
       "name": "Decision",
       "resource": "Decision",
+      "read": "authenticated",
+      "write": "authenticated",
+      "capabilities": []
+    },
+    {
+      "name": "WorkerRequest",
+      "resource": "WorkerRequest",
       "read": "authenticated",
       "write": "authenticated",
       "capabilities": []

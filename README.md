@@ -65,3 +65,12 @@ FeltDB docs: https://github.com/rkendel1/feltdb
 `proxy.ts` fails closed for production API requests until caller-level
 identity and authorization are integrated. Local development works against
 an authenticated authority. Do not remove this guard just to enable a preview.
+
+## Worker protocol follow-up
+
+See [WORKER_PROTOCOL.md](WORKER_PROTOCOL.md). Session ownership, authenticated
+local claim-next, evidence/heartbeat/question/result/failure, idempotency and
+immutable packets are now implemented. This supersedes the earlier list of
+unimplemented worker endpoints. Production authentication remains unprovisioned
+and fail-closed; completion remains pending actual acceptance enforcement.
+Local file durability is now explicitly opt-in and never a production fallback.
