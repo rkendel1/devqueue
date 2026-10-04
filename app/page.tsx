@@ -1,31 +1,25 @@
 'use client'
-import { useEffect, useState } from 'react'
-type Item = { id: number; title: string; objective: string; status: string; branch?: string; dependencies: string[]; priority: number }
-export default function Page() {
-  const [queue, setQueue] = useState<Item[]>([])
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [busy, setBusy] = useState(false)
-  const [title, setTitle] = useState('')
-  const [objective, setObjective] = useState('')
-  const [packet, setPacket] = useState<unknown>(null)
-  async function request(url: string, method = 'GET', body?: unknown) {
-    const response = await fetch(url, { method, cache: 'no-store', headers: { 'Content-Type': 'application/json' }, body: body ? JSON.stringify(body) : undefined })
-    const payload = response.status === 204 ? {} : await response.json()
-    if (!response.ok) throw new Error(payload.error ?? 'FeltDB request failed')
-    return payload.data
-  }
-  async function refresh() { setQueue(await request('/api/queue')) }
-  useEffect(() => { refresh().catch(e => setError(e.message)).finally(() => setLoading(false)) }, [])
-  async function perform(action: () => Promise<void>) {
-    setBusy(true); setError('')
-    try { await action(); await refresh() } catch (e) { setError(e instanceof Error ? e.message : 'Request failed') } finally { setBusy(false) }
-  }
-  return <main className="page-content" style={{ maxWidth: 1100, margin: 'auto' }}>
-    <div className="page-heading"><div><div className="eyebrow">DEV QUEUE · FELTDB</div><h1>Development control plane</h1><p>Persisted human-defined order. Deterministic dependency resolution. External coding workers.</p></div><button className="primary-button" disabled={busy || loading || !queue.length} onClick={() => perform(async () => { const result = await request('/api/runner/next', 'POST', { projectId: 'default-project' }); setPacket(result); if (!result) setError('No executable PR: check status and dependencies.') })}>Build next TaskPacket</button></div>
-    {error && <p role="alert" className="attention-banner">{error}</p>}
-    <section className="panel" style={{ padding: 24, marginBottom: 24 }}><h2>Create work</h2><form onSubmit={e => { e.preventDefault(); perform(async () => { await request('/api/queue', 'POST', { title, objective }); setTitle(''); setObjective('') }) }} style={{ display: 'grid', gap: 12 }}><label>Title <input required value={title} onChange={e => setTitle(e.target.value)} /></label><label>Objective <textarea required value={objective} onChange={e => setObjective(e.target.value)} /></label><button className="secondary-button" disabled={busy || loading}>Create PR</button></form></section>
-    <section className="queue-panel panel"><div className="panel-heading"><h2>Persisted queue · {queue.length} PRs</h2><button disabled={busy} onClick={() => perform(refresh)}>Refresh</button></div>{loading ? <p>Loading FeltDB…</p> : !queue.length ? <p style={{ padding: 24 }}>No persisted PRs. Create work to begin. No sample data is inserted.</p> : queue.map((item, index) => <div className="queue-row" key={item.id}><span className="pr-number">#{item.id}</span><div className="queue-main"><strong>{item.title}</strong><span>{item.objective}</span><span>Dependencies: {item.dependencies.join(', ') || 'none'}</span></div><span className={`status-pill ${item.status}`}>{item.status}</span><button disabled={busy || index === 0} onClick={() => perform(async () => { await request(`/api/queue/${item.id}`, 'PATCH', { action: 'reorder', direction: 'up' }) })}>↑</button><button disabled={busy || index === queue.length - 1} onClick={() => perform(async () => { await request(`/api/queue/${item.id}`, 'PATCH', { action: 'reorder', direction: 'down' }) })}>↓</button><button disabled={busy || ['running','waiting'].includes(item.status)} onClick={() => { if (confirm(`Delete PR #${item.id}?`)) perform(async () => { await request(`/api/queue/${item.id}`, 'DELETE') }) }}>Delete</button></div>)}</section>
-    {packet !== null && <section className="panel" style={{ padding: 24, marginTop: 24 }}><h2>Server-generated TaskPacket</h2><p>Admitted durably. Awaiting an external execution provider; no worker execution or acceptance results are fabricated.</p><pre style={{ whiteSpace: 'pre-wrap' }}>{JSON.stringify(packet, null, 2)}</pre></section>}
-  </main>
+import { useState } from 'react'
+type Project={id:string;name:string;goal:string;repositoryPath:string;defaultBranch:string}
+type Task={id:number;title:string;objective:string;specification:string;acceptanceCriteria:string[];constraints:string[];dependencies:string[];branch?:string;priority:number;position:number;status:string}
+const empty={title:'',objective:'',specification:'',acceptanceCriteria:[],constraints:[],dependencies:[],branch:'',priority:0,position:0} as Omit<Task,'id'|'status'>
+export default function Page(){
+ const [token,setToken]=useState(''),[projects,setProjects]=useState<Project[]>([]),[projectId,setProjectId]=useState(''),[queue,setQueue]=useState<Task[]>([]),[error,setError]=useState(''),[busy,setBusy]=useState(false),[task,setTask]=useState(empty),[editing,setEditing]=useState<number|null>(null),[project,setProject]=useState({name:'',goal:'',repositoryPath:'',defaultBranch:'main'}),[inspection,setInspection]=useState<unknown>(null),[requestedNumber,setRequestedNumber]=useState('')
+ async function request(path:string,method='GET',body?:unknown){const response=await fetch(path,{method,cache:'no-store',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{})});const result=response.status===204?{}:await response.json();if(!response.ok)throw new Error(result.error??'Request failed');return result.data}
+ async function perform(action:()=>Promise<void>){setBusy(true);setError('');try{await action()}catch(e){setError(e instanceof Error?e.message:'Request failed')}finally{setBusy(false)}}
+ async function loadQueue(id:string){const data=await request(`/api/queue?projectId=${encodeURIComponent(id)}`);setQueue(data)}
+ return <main className="page-content" style={{maxWidth:1100,margin:'auto'}}><h1>Dev Queue</h1><p>Human defines work. Server authorizes work. Worker executes work. Cline execution remains blocked.</p>
+ <label>Human operator credential (memory only, not worker/FeltDB token) <input type="password" autoComplete="off" value={token} onChange={e=>setToken(e.target.value)}/></label><button disabled={busy} onClick={()=>perform(async()=>setProjects(await request('/api/projects')))}>Connect / load projects</button><button onClick={()=>{setToken('');setProjects([]);setQueue([]);setProjectId('');setInspection(null)}}>Sign out</button>
+ {error&&<p role="alert">{error}</p>}
+ <h2>Projects</h2>{!projects.length&&<p>No projects yet. Create Project (or connect to load existing projects).</p>}
+ <label>Project <select value={projectId} onChange={e=>{const id=e.target.value;setProjectId(id);setQueue([]);setInspection(null);setTask(empty);setEditing(null);if(id)perform(()=>loadQueue(id))}}><option value="">Select project</option>{projects.map(p=><option key={p.id} value={p.id}>{p.name}</option>)}</select></label>
+ <form onSubmit={e=>{e.preventDefault();perform(async()=>{const data=await request('/api/projects','POST',project);setProjects(await request('/api/projects'));setProjectId(data.id);await loadQueue(data.id)})}}>{(['name','goal','repositoryPath','defaultBranch'] as const).map(key=><label key={key}>{key}<input required value={project[key]} onChange={e=>setProject({...project,[key]:e.target.value})}/></label>)}<button disabled={busy}>Create Project</button></form>
+ {projectId&&<><button disabled={busy} onClick={()=>perform(async()=>{await request(`/api/projects/${encodeURIComponent(projectId)}`,'PATCH',project);setProjects(await request('/api/projects'))})}>Update selected project with fields above</button><button onClick={()=>{const p=projects.find(p=>p.id===projectId);if(p)setProject(p)}}>Load selected project into editor</button>
+ <h2>{editing?'Edit':'Create'} PR task</h2><form onSubmit={e=>{e.preventDefault();perform(async()=>{await request(editing?`/api/queue/${editing}`:'/api/queue',editing?'PATCH':'POST',{...task,projectId,...(!editing&&requestedNumber?{number:Number(requestedNumber)}:{})});await loadQueue(projectId);setTask(empty);setEditing(null)})}}>
+ {(['title','objective','specification','branch'] as const).map(key=><label key={key}>{key==='specification'?'Specification — implementation requested':key}<textarea required={key==='title'||key==='objective'} value={task[key]??''} onChange={e=>setTask({...task,[key]:e.target.value})}/></label>)}
+ {(['acceptanceCriteria','constraints','dependencies'] as const).map(key=><label key={key}>{key==='acceptanceCriteria'?'Acceptance criteria — separate gates (empty means no criteria defined)':key+' (one per line)'}<textarea value={task[key].join('\n')} onChange={e=>setTask({...task,[key]:e.target.value?e.target.value.split('\n'):[]})}/></label>)}
+ {(['priority','position'] as const).map(key=><label key={key}>{key}<input type="number" min="0" value={task[key]} onChange={e=>setTask({...task,[key]:Number(e.target.value)})}/></label>)}<label>PR number (optional at creation)<input type="number" min="1" disabled={editing!==null} value={editing??requestedNumber} onChange={e=>setRequestedNumber(e.target.value)}/></label><p>PR number is allocated atomically by the server and shown below; it is not editable after creation.</p><button disabled={busy}>Save task</button></form>
+ <h2>Project queue</h2>{!queue.length&&<p>No PRs in this project.</p>}{queue.map((item,index)=><section className="panel" key={item.id} style={{padding:16}}><h3>#{item.id} {item.title} — {item.status}</h3><p>{item.objective}</p><p>Acceptance criteria: {item.acceptanceCriteria.length?item.acceptanceCriteria.join('; '):'Empty — no gates defined'}</p><button onClick={()=>{setEditing(item.id);setTask(item)}}>Edit</button>{(['up','down'] as const).map(direction=><button key={direction} disabled={busy||(direction==='up'?index===0:index===queue.length-1)} onClick={()=>perform(async()=>{await request(`/api/queue/${item.id}`,'PATCH',{projectId,action:'reorder',direction});await loadQueue(projectId)})}>{direction}</button>)}<button disabled={busy} onClick={()=>{if(confirm(`Delete PR #${item.id}?`))perform(async()=>{await request(`/api/queue/${item.id}?projectId=${encodeURIComponent(projectId)}`,'DELETE');await loadQueue(projectId)})}}>Delete</button></section>)}
+ <h2>Worker sessions / evidence</h2><button disabled={busy} onClick={()=>perform(async()=>setInspection(await request(`/api/inspection?projectId=${encodeURIComponent(projectId)}`)))}>Inspect project execution</button><pre style={{whiteSpace:'pre-wrap'}}>{inspection?JSON.stringify(inspection,null,2):'No inspection loaded.'}</pre></>}
+ </main>
 }

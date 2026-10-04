@@ -1,3 +1,5 @@
+import { getProject } from '@/lib/queue-store'
+import { verifyAuthority } from '@/lib/readiness'
 import { database } from '@/lib/queue-store'
 import { workerAuthenticator, ProtocolError } from '@/lib/worker-auth'
 import { WorkerProtocol } from '@/lib/worker-protocol'
@@ -6,6 +8,15 @@ async function handle(request: Request, context: Context) {
   try {
     const principal = await workerAuthenticator.authenticate(request)
     const path = (await context.params).path ?? []
+    if (request.method === 'GET' && path.length === 1 && path[0] === 'readiness') {
+      const projectId = new URL(request.url).searchParams.get('projectId')
+      if (!projectId) throw new ProtocolError(400, 'projectId_required')
+      if (!principal.projects.includes(projectId)) throw new ProtocolError(403, 'project_forbidden')
+      const project = await getProject(projectId)
+      if (!project) throw new ProtocolError(404, 'project_not_found')
+      const authority = process.env.NODE_ENV === 'production' ? await verifyAuthority() : { ready: true }
+      return Response.json({ data: { ...authority, authenticated: true, authorized: true, workerId: principal.id, projectId, repositoryPath: project.repositoryPath } }, { headers: { 'Cache-Control': 'no-store' } })
+    }
     const protocol = new WorkerProtocol(database())
     if (request.method === 'GET' && path.length === 1) { const session = await protocol.read(principal, path[0]); const activity = ['completed','failed'].includes(session.status) ? session.status : Date.now() - Date.parse(session.lastHeartbeatAt) > 60000 ? 'stale' : 'active'; return Response.json({ data: { ...session, activity }, staleAfterMs: 60000 }) }
     if (request.method !== 'POST') throw new ProtocolError(405, 'method_not_allowed')

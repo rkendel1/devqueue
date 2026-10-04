@@ -1,11 +1,19 @@
 import { timingSafeEqual } from 'node:crypto'
-export type WorkerPrincipal = { id: string; projects: string[] }
+import { ProtocolError, type WorkerPrincipal } from './auth-types'
+export { ProtocolError, type WorkerPrincipal } from './auth-types'
+import { database } from './queue-store'
+import { authenticateDurableWorker, bearer, digest } from './production-auth'
 export interface WorkerAuthenticator { authenticate(request: Request): Promise<WorkerPrincipal> }
-export class ProtocolError extends Error { constructor(public status: number, message: string) { super(message) } }
 // Explicit local authenticated mode only. Production requires a trusted identity adapter.
 export const workerAuthenticator: WorkerAuthenticator = {
   async authenticate(request) {
-    if (process.env.NODE_ENV === 'production' || process.env.DEV_QUEUE_LOCAL_AUTH !== 'enabled') throw new ProtocolError(503, 'worker_authentication_unavailable')
+    if (process.env.NODE_ENV === 'production') {
+      if (!process.env.FELTDB_URL || !process.env.FELTDB_TOKEN || !process.env.FELTDB_APPLICATION_ID || !process.env.FELTDB_ENVIRONMENT || !process.env.DEV_QUEUE_HUMAN_TOKEN_SHA256) throw new ProtocolError(503, 'worker_authentication_unavailable')
+      const token = bearer(request)
+      if (token === process.env.FELTDB_TOKEN || digest(token) === process.env.DEV_QUEUE_HUMAN_TOKEN_SHA256) throw new ProtocolError(401, 'unauthenticated')
+      try { return await authenticateDurableWorker(database(), token) } catch (error) { if (error instanceof ProtocolError) throw error; throw new ProtocolError(503, 'worker_authority_unavailable') }
+    }
+    if (process.env.DEV_QUEUE_LOCAL_AUTH !== 'enabled') throw new ProtocolError(503, 'worker_authentication_unavailable')
     let identities: { id: string; token: string; projects: string[] }[]
     try { identities = JSON.parse(process.env.DEV_QUEUE_LOCAL_WORKERS ?? '[]') } catch { throw new ProtocolError(503, 'worker_authentication_unavailable') }
     if (!Array.isArray(identities) || identities.some(i => !i || typeof i.id !== 'string' || !Array.isArray(i.projects) || typeof i.token !== 'string' || i.token === process.env.DEV_QUEUE_LOCAL_HUMAN_TOKEN)) throw new ProtocolError(503, 'invalid_worker_identity_configuration')

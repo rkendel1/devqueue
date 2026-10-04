@@ -9,7 +9,7 @@ import assert from 'node:assert/strict'
 import { FileJsDb } from '@feltdb/core/file-db'
 import { StateFirstDB } from '@feltdb/core/db'
 const dir=mkdtempSync(join(tmpdir(),'next-worker-')), path=join(dir,'state')
-const token=randomBytes(32).toString('hex')
+const token=randomBytes(32).toString('hex'),humanToken=randomBytes(32).toString('hex')
 const runtime=new FileJsDb(path), db=new StateFirstDB(runtime), timestamp=new Date().toISOString()
 await db.collection('Project').insert({id:'p',name:'Smoke',goal:'Protocol',repositoryPath:'/test',defaultBranch:'main',createdAt:timestamp,updatedAt:timestamp},'p')
 await db.collection('PR').insert({id:'pr1',projectId:'p',number:1,title:'Smoke',objective:'Restart',specification:'Real persistence',acceptanceCriteria:['gate'],constraints:[],dependencies:[],priority:0,status:'queued',createdAt:timestamp,updatedAt:timestamp},'pr1')
@@ -17,7 +17,7 @@ runtime.close()
 let child
 const base='http://127.0.0.1:3187'
 async function start(production=false){
- child=spawn(process.execPath,['node_modules/next/dist/bin/next',production?'start':'dev','--hostname','127.0.0.1','--port','3187'],{env:{...process.env,NODE_ENV:production?'production':'development',DEV_QUEUE_LOCAL_AUTH:'enabled',DEV_QUEUE_LOCAL_DATA_PATH:path,DEV_QUEUE_LOCAL_WORKERS:JSON.stringify([{id:'smoke-worker',token,projects:['p']}])},stdio:['ignore','pipe','pipe']})
+ child=spawn(process.execPath,['node_modules/next/dist/bin/next',production?'start':'dev','--hostname','127.0.0.1','--port','3187'],{env:{...process.env,NODE_ENV:production?'production':'development',DEV_QUEUE_LOCAL_AUTH:'enabled',DEV_QUEUE_LOCAL_HUMAN_TOKEN:humanToken,DEV_QUEUE_LOCAL_DATA_PATH:path,DEV_QUEUE_LOCAL_WORKERS:JSON.stringify([{id:'smoke-worker',token,projects:['p']}])},stdio:['ignore','pipe','pipe']})
  child.stdout.on('data',()=>{});child.stderr.on('data',()=>{})
  for(let i=0;i<120;i++){if(child.exitCode!==null)throw new Error('Next process exited');try{await fetch(base);return}catch{await new Promise(r=>setTimeout(r,500))}}
  throw new Error('Next startup timeout')
@@ -28,6 +28,10 @@ try{
  await start()
  const anonymous=await fetch(base+'/api/worker-sessions/missing');assert.equal(anonymous.status,401)
  const forbidden=await fetch(base+'/api/projects',{headers:{authorization:`Bearer ${token}`}});assert.equal(forbidden.status,403)
+ const ready=await call('/api/worker-sessions/readiness?projectId=p');assert.equal(ready.workerId,'smoke-worker');assert.equal(ready.authorized,true)
+ const missingProject=await fetch(base+'/api/queue',{headers:{authorization:`Bearer ${humanToken}`}});assert.equal(missingProject.status,400)
+ const absentProject=await fetch(base+'/api/queue?projectId=absent',{headers:{authorization:`Bearer ${humanToken}`}});assert.equal(absentProject.status,404)
+ const wrongGrant=await fetch(base+'/api/worker-sessions/readiness?projectId=other',{headers:{authorization:`Bearer ${token}`}});assert.equal(wrongGrant.status,403)
  const result=await call('/api/worker-sessions/claim-next',{projectId:'p',workerType:'test-only',workspacePath:'/test'})
  const id=result.session.id
  await call(`/api/worker-sessions/${id}/heartbeat`,{},'heartbeat-0001')
