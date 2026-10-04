@@ -1,0 +1,124 @@
+// Version 0.1.0: durable development control plane.
+// Persisted PR.priority is authoritative; selection is deterministic.
+// Only queued work whose dependencies are done is executable.
+// TaskPackets are server-generated from Project, PR and prior Decisions.
+// Workers execute packets; they do not select work or own queue authority.
+// AI may propose decisions, never reorder work or approve human escalations.
+// Completion requires worker success, passing acceptance criteria, no question,
+// and result PASS. These rules require service enforcement, not DSL inference.
+// Permitted transitions: queued -> running; running -> waiting/done/failed;
+// waiting -> running. done and failed are terminal without explicit retry.
+// Dev Queue owns orchestration, never coding execution.
+app dev_queue {
+  collection Project {
+    id: text
+    name: text
+    goal: text
+    repositoryPath: text
+    defaultBranch: text
+    createdAt: datetime
+    updatedAt: datetime
+  }
+  collection PR {
+    id: text
+    projectId: text
+    number: integer
+    title: text
+    objective: text
+    specification: text
+    acceptanceCriteria: json
+    constraints: json
+    dependencies: json
+    status: text
+    priority: integer
+    position: integer
+    branch: text?
+    workerSessionId: text?
+    currentQuestion: text?
+    result: text?
+    createdAt: datetime
+    updatedAt: datetime
+  }
+  collection WorkerSession {
+    id: text
+    projectId: text
+    prId: text
+    workerType: text
+    workspacePath: text
+    status: text
+    startedAt: datetime
+    updatedAt: datetime
+    completedAt: datetime?
+  }
+  collection WorkerEvent {
+    id: text
+    sessionId: text
+    type: text
+    message: text
+    metadata: object?
+    createdAt: datetime
+  }
+  collection Decision {
+    id: text
+    sessionId: text
+    prId: text
+    question: text
+    answer: text
+    recommendation: text?
+    confidence: number?
+    requiresHumanApproval: boolean
+    createdAt: datetime
+  }
+  capability Projects {
+    read Project
+    write Project
+  }
+  capability Queue {
+    read Project
+    read PR
+    write PR
+  }
+  capability BuildTaskPacket {
+    read Project
+    read PR
+    read Decision
+  }
+  capability RunNext {
+    read Project
+    read PR
+    read WorkerSession
+    write PR
+    write WorkerSession
+    write WorkerEvent
+  }
+  capability WorkerEvidence {
+    read WorkerSession
+    write WorkerEvent
+  }
+  capability Decisions {
+    read PR
+    read WorkerSession
+    read Decision
+    write Decision
+  }
+  policy Project {
+    read: authenticated
+    write: authenticated
+  }
+  policy PR {
+    read: authenticated
+    write: authenticated
+  }
+  policy WorkerSession {
+    read: authenticated
+    write: authenticated
+  }
+  policy WorkerEvent {
+    read: authenticated
+    write: authenticated
+  }
+  policy Decision {
+    read: authenticated
+    write: authenticated
+  }
+}

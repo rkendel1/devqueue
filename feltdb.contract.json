@@ -1,0 +1,392 @@
+{
+  "application_id": "dev-queue",
+  "tenant_id": "dev-queue",
+  "schema": 1,
+  "metadata": {
+    "name": "dev_queue",
+    "labels": {}
+  },
+  "collections": [
+    {
+      "name": "Project",
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "goal",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "repositoryPath",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "defaultBranch",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "datetime",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "PR",
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "number",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "title",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "objective",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "specification",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "acceptanceCriteria",
+          "type": "json",
+          "required": true
+        },
+        {
+          "name": "constraints",
+          "type": "json",
+          "required": true
+        },
+        {
+          "name": "dependencies",
+          "type": "json",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "priority",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "position",
+          "type": "integer",
+          "required": true
+        },
+        {
+          "name": "branch",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "workerSessionId",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "currentQuestion",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "result",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "datetime",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "WorkerSession",
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "prId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "workerType",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "workspacePath",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "startedAt",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "updatedAt",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "completedAt",
+          "type": "datetime",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "WorkerEvent",
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "sessionId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "type",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "message",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "metadata",
+          "type": "object",
+          "required": false
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "Decision",
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "sessionId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "prId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "question",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "answer",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "recommendation",
+          "type": "text",
+          "required": false
+        },
+        {
+          "name": "confidence",
+          "type": "number",
+          "required": false
+        },
+        {
+          "name": "requiresHumanApproval",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true
+        }
+      ]
+    }
+  ],
+  "indexes": [],
+  "references": [],
+  "queries": [],
+  "actions": [],
+  "workflows": [],
+  "triggers": [],
+  "schedules": [],
+  "agents": [],
+  "capabilities": [
+    {
+      "name": "Projects",
+      "visibility": "public"
+    },
+    {
+      "name": "Queue",
+      "visibility": "public"
+    },
+    {
+      "name": "BuildTaskPacket",
+      "visibility": "public"
+    },
+    {
+      "name": "RunNext",
+      "visibility": "public"
+    },
+    {
+      "name": "WorkerEvidence",
+      "visibility": "public"
+    },
+    {
+      "name": "Decisions",
+      "visibility": "public"
+    }
+  ],
+  "modules": [],
+  "connections": [],
+  "policies": [
+    {
+      "name": "Project",
+      "resource": "Project",
+      "read": "authenticated",
+      "write": "authenticated",
+      "capabilities": []
+    },
+    {
+      "name": "PR",
+      "resource": "PR",
+      "read": "authenticated",
+      "write": "authenticated",
+      "capabilities": []
+    },
+    {
+      "name": "WorkerSession",
+      "resource": "WorkerSession",
+      "read": "authenticated",
+      "write": "authenticated",
+      "capabilities": []
+    },
+    {
+      "name": "WorkerEvent",
+      "resource": "WorkerEvent",
+      "read": "authenticated",
+      "write": "authenticated",
+      "capabilities": []
+    },
+    {
+      "name": "Decision",
+      "resource": "Decision",
+      "read": "authenticated",
+      "write": "authenticated",
+      "capabilities": []
+    }
+  ],
+  "ui": {
+    "routes": [],
+    "bindings": [],
+    "forms": [],
+    "dashboards": []
+  },
+  "environments": [
+    {
+      "name": "development",
+      "configuration": {}
+    },
+    {
+      "name": "preview",
+      "configuration": {}
+    },
+    {
+      "name": "staging",
+      "configuration": {}
+    },
+    {
+      "name": "production",
+      "configuration": {}
+    }
+  ],
+  "artifacts": [],
+  "deployment": {
+    "environments": [
+      "development",
+      "preview",
+      "staging",
+      "production"
+    ]
+  },
+  "runtime": {
+    "contract": 1,
+    "minimum_engine": "0.2.0",
+    "maximum_engine_exclusive": "2.0.0"
+  }
+}
