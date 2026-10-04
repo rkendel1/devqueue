@@ -45,6 +45,13 @@ app dev_queue {
     prId: text
     workerType: text
     workspacePath: text
+    ownerId: text
+    lastHeartbeatAt: datetime
+    sequence: integer
+    taskPacket: json
+    currentQuestion: text?
+    resultEvidence: json?
+    completionRequestedAt: datetime?
     status: text
     startedAt: datetime
     updatedAt: datetime
@@ -53,6 +60,7 @@ app dev_queue {
   collection WorkerEvent {
     id: text
     sessionId: text
+    sequence: integer
     type: text
     message: text
     metadata: object?
@@ -118,6 +126,16 @@ app dev_queue {
     write: authenticated
   }
   policy Decision {
+    read: authenticated
+    write: authenticated
+  }
+  collection WorkerRequest {
+    id: text
+    ownerId: text
+    input: text
+    response: json
+  }
+  policy WorkerRequest {
     read: authenticated
     write: authenticated
   }

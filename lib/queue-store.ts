@@ -1,5 +1,6 @@
 import { selectNext } from './queue-selection'
-import { createFeltDB } from '@feltdb/core'
+import { createFeltDB, StateFirstDB } from '@feltdb/core'
+import { FileJsDb } from '@feltdb/core/file-db'
 
 export type QueueStatus = 'running' | 'queued' | 'waiting' | 'done' | 'failed'
 export type Project = { id: string; name: string; goal: string; repositoryPath: string; defaultBranch: string; createdAt: string; updatedAt: string }
@@ -12,6 +13,9 @@ export type Decision = { id: string; sessionId: string; prId: string; question: 
 
 let instance: ReturnType<typeof createFeltDB> | undefined
 export function database() {
+  if (!instance && process.env.NODE_ENV !== 'production' && process.env.DEV_QUEUE_LOCAL_AUTH === 'enabled' && process.env.DEV_QUEUE_LOCAL_DATA_PATH) {
+    instance = new StateFirstDB(new FileJsDb(process.env.DEV_QUEUE_LOCAL_DATA_PATH))
+  }
   if (!instance) {
     const url = process.env.FELTDB_URL
     const token = process.env.FELTDB_TOKEN
