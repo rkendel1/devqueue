@@ -10,7 +10,9 @@
     "feltdb:validate": "feltdb validate feltdb.flow",
     "feltdb:sync": "feltdb sync",
     "feltdb:studio": "feltdb studio",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
+    "test:worker-http": "node tests/next-worker-smoke.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
