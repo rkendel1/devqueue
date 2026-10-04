@@ -1,0 +1,8 @@
+{
+ "name":"dev-queue-worker-bridge","displayName":"Dev Queue Worker Bridge","version":"0.1.0","publisher":"dev-queue","private":true,
+ "engines":{"vscode":"^1.95.0"},"main":"./dist/extension.js",
+ "activationEvents":["onStartupFinished"],
+ "contributes":{"commands":[{"command":"devQueue.setup","title":"Dev Queue: Configure Worker"},{"command":"devQueue.startNext","title":"Dev Queue: Start Next Task"},{"command":"devQueue.inspectSession","title":"Dev Queue: Inspect Existing Session"}],"configuration":{"title":"Dev Queue","properties":{"devQueue.endpoint":{"type":"string","default":"http://127.0.0.1:3000"},"devQueue.projectId":{"type":"string","default":""}}}},
+ "scripts":{"build":"tsc -p .","typecheck":"tsc -p . --noEmit","test":"npm run build && node --test tests/*.test.cjs"},
+ "devDependencies":{"typescript":"^5.7.3","@types/node":"^24","@types/vscode":"^1.95.0"}
+}
