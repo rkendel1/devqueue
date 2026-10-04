@@ -1,5 +1,5 @@
 import {createProject,listProjects} from '@/lib/queue-store'
-import {authenticateHuman} from '@/lib/production-auth'
+import {authenticateHuman} from '@/lib/human-auth'
 import {httpError} from '@/lib/human-http'
 import {ProtocolError} from '@/lib/auth-types'
 export async function GET(request:Request){try{authenticateHuman(request);return Response.json({data:await listProjects()})}catch(e){return httpError(e)}}

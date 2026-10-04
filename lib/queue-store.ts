@@ -1,6 +1,5 @@
 import { selectNext } from './queue-selection'
 import { createFeltDB, StateFirstDB } from '@feltdb/core'
-import { FileJsDb } from '@feltdb/core/file-db'
 
 export type QueueStatus = 'running' | 'queued' | 'waiting' | 'done' | 'failed'
 export type Project = { id: string; name: string; goal: string; repositoryPath: string; defaultBranch: string; createdAt: string; updatedAt: string }
@@ -13,18 +12,9 @@ export type Decision = { id: string; sessionId: string; prId: string; question: 
 
 let instance: ReturnType<typeof createFeltDB> | undefined
 export function database() {
-  if (!instance && process.env.NODE_ENV !== 'production' && process.env.DEV_QUEUE_LOCAL_AUTH === 'enabled' && process.env.DEV_QUEUE_LOCAL_DATA_PATH) {
-    instance = new StateFirstDB(new FileJsDb(process.env.DEV_QUEUE_LOCAL_DATA_PATH))
-  }
   if (!instance) {
-    const url = process.env.FELTDB_URL
-    const token = process.env.FELTDB_TOKEN
-    if (!url || !token) throw new Error('Configure FELTDB_URL and server-only FELTDB_TOKEN; no ephemeral fallback is permitted')
-    if (process.env.NODE_ENV === 'production') {
-      const parsed = new URL(url)
-      if (parsed.protocol !== 'https:' || parsed.username || parsed.password || parsed.search || parsed.hash || !process.env.FELTDB_APPLICATION_ID || !process.env.FELTDB_ENVIRONMENT) throw new Error('Invalid production authority configuration')
-    }
-    instance = createFeltDB({ namespace: 'dev-queue', server: { url, token, applicationId: process.env.FELTDB_APPLICATION_ID, environment: process.env.FELTDB_ENVIRONMENT ?? 'development' } })
+    // Existing FeltDB local durable runtime; never choose managed authority.
+    instance = createFeltDB({ namespace: 'dev-queue', mode: 'local', path: process.env.DEV_QUEUE_LOCAL_DATA_PATH ?? '.dev-queue/data' })
   }
   return instance
 }
@@ -47,12 +37,12 @@ export async function createProject(input: Omit<Project, 'id'|'createdAt'|'updat
 export async function updateProject(projectId: string, patch: Partial<Omit<Project, 'id'|'createdAt'>>) { const existing = (await getProject(projectId)); if (!existing) return null; return put('projects', { ...existing, ...patch, id: existing.id, updatedAt: now() }) }
 export async function deleteProject(projectId: string) { if (!(await getProject(projectId))) return false; await Promise.all((await listPRs(projectId)).map(p => remove('prs', p.id))); (await remove('projects', projectId)); return true }
 
-export async function listPRs(projectId: string) { return (await records<PR>('prs')).filter((p) => p.projectId === projectId).sort((a,b) => a.priority - b.priority || a.number - b.number) }
+export async function listPRs(projectId: string) { return (await records<PR>('prs')).filter((p) => p.projectId === projectId).sort((a,b) => a.position - b.position || a.priority - b.priority || a.id.localeCompare(b.id)) }
 export async function getPR(prId: string) { return get<PR>('prs', prId) }
 export async function createPR(input: Omit<PR, 'id'|'createdAt'|'updatedAt'|'position'> & { position?: number }) { const timestamp = now(); const existing = (await listPRs(input.projectId)); return put('prs', { ...input, id: id(), position: input.position ?? existing.length, createdAt: timestamp, updatedAt: timestamp }) }
 export async function updatePR(prId: string, patch: Partial<Omit<PR, 'id'|'createdAt'>>) { const existing = (await getPR(prId)); if (!existing) return null; if (patch.status && patch.status !== existing.status) throw new Error('Execution state is owned by the runner and evidence protocol'); return put('prs', { ...existing, ...patch, id: existing.id, updatedAt: now() }) }
 export async function deletePR(prId: string) { const existing = await getPR(prId); if (!existing) return false; if (['running', 'waiting'].includes(existing.status)) throw new Error('Cannot delete active work'); (await remove('prs', prId)); return true }
-export async function reorderPRs(projectId: string, orderedIds: string[]) { const basis = await database().readBasis({ predicates: [{ collection: 'PR', where: [{ field: 'projectId', eq: projectId }] }] }); const all = (await listPRs(projectId)); if (orderedIds.length !== all.length || new Set(orderedIds).size !== all.length || orderedIds.some((x) => !all.some((p) => p.id === x))) return false; await database().transaction({ fences: [basis], operations: orderedIds.map((prId, priority) => ({ collection: 'PR', id: prId, value: { ...all.find(p => p.id === prId)!, priority, updatedAt: now() } })) }); return true }
+export async function reorderPRs(projectId: string, orderedIds: string[]) { const basis = await database().readBasis({ predicates: [{ collection: 'PR', where: [{ field: 'projectId', eq: projectId }] }] }); const all = (await listPRs(projectId)); if (orderedIds.length !== all.length || new Set(orderedIds).size !== all.length || orderedIds.some((x) => !all.some((p) => p.id === x))) return false; await database().transaction({ fences: [basis], operations: orderedIds.map((prId, priority) => ({ collection: 'PR', id: prId, value: { ...all.find(p => p.id === prId)!, position: priority, updatedAt: now() } })) }); return true }
 
 export async function requireProject(projectId: string) {
  if (!projectId) throw new Error('projectId_required')

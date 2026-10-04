@@ -17,7 +17,7 @@ runtime.close()
 let child
 const base='http://127.0.0.1:3187'
 async function start(production=false){
- child=spawn(process.execPath,['node_modules/next/dist/bin/next',production?'start':'dev','--hostname','127.0.0.1','--port','3187'],{env:{...process.env,NODE_ENV:production?'production':'development',DEV_QUEUE_LOCAL_AUTH:'enabled',DEV_QUEUE_LOCAL_HUMAN_TOKEN:humanToken,DEV_QUEUE_LOCAL_DATA_PATH:path,DEV_QUEUE_LOCAL_WORKERS:JSON.stringify([{id:'smoke-worker',token,projects:['p']}])},stdio:['ignore','pipe','pipe']})
+ child=spawn(process.execPath,['node_modules/next/dist/bin/next',production?'start':'dev','--hostname','127.0.0.1','--port','3187'],{env:{...process.env,NODE_ENV:production?'production':'development',DEV_QUEUE_LOCAL_AUTH:'enabled',DEV_QUEUE_LOCAL_HUMAN_TOKEN:humanToken,DEV_QUEUE_LOCAL_DATA_PATH:path,DEV_QUEUE_WORKER_TOKEN:token},stdio:['ignore','pipe','pipe']})
  child.stdout.on('data',()=>{});child.stderr.on('data',()=>{})
  for(let i=0;i<120;i++){if(child.exitCode!==null)throw new Error('Next process exited');try{await fetch(base);return}catch{await new Promise(r=>setTimeout(r,500))}}
  throw new Error('Next startup timeout')
@@ -28,9 +28,9 @@ try{
  await start()
  const anonymous=await fetch(base+'/api/worker-sessions/missing');assert.equal(anonymous.status,401)
  const forbidden=await fetch(base+'/api/projects',{headers:{authorization:`Bearer ${token}`}});assert.equal(forbidden.status,403)
- const ready=await call('/api/worker-sessions/readiness?projectId=p');assert.equal(ready.workerId,'smoke-worker');assert.equal(ready.authorized,true)
- const missingProject=await fetch(base+'/api/queue',{headers:{authorization:`Bearer ${humanToken}`}});assert.equal(missingProject.status,400)
- const absentProject=await fetch(base+'/api/queue?projectId=absent',{headers:{authorization:`Bearer ${humanToken}`}});assert.equal(absentProject.status,404)
+ const ready=await call('/api/worker-sessions/readiness?projectId=p');assert.equal(ready.workerId,'local-worker');assert.equal(ready.authorized,true)
+ const missingProject=await fetch(base+'/api/queue',{headers:{}});assert.equal(missingProject.status,400)
+ const absentProject=await fetch(base+'/api/queue?projectId=absent',{headers:{}});assert.equal(absentProject.status,404)
  const wrongGrant=await fetch(base+'/api/worker-sessions/readiness?projectId=other',{headers:{authorization:`Bearer ${token}`}});assert.equal(wrongGrant.status,403)
  const result=await call('/api/worker-sessions/claim-next',{projectId:'p',workerType:'test-only',workspacePath:'/test'})
  const id=result.session.id
@@ -47,7 +47,11 @@ try{
  assert.equal((await durable.collection('WorkerEvent').find({sessionId:id})).length,3)
  inspect.close()
  await start(true)
- const closed=await fetch(base+'/api/worker-sessions/claim-next',{method:'POST',headers:{authorization:`Bearer ${token}`,'content-type':'application/json'},body:'{}'})
- assert.equal(closed.status,503)
- console.log('PASS: authenticated Next worker protocol, process restart, durable evidence, ownership boundary, production fail-closed')
+ const answer=await fetch(base+'/api/local-actions',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'answer',sessionId:id,answer:'Use existing implementation'})})
+ assert.equal(answer.status,200)
+ const decisions=await call(`/api/worker-sessions/${id}/decisions`)
+ assert.equal(decisions[0].answer,'Use existing implementation')
+ const resumed=await call(`/api/worker-sessions/${id}`);assert.equal(resumed.status,'running')
+ const wrongOrigin=await fetch(base+'/api/projects',{headers:{origin:'https://untrusted.example'}});assert.equal(wrongOrigin.status,403)
+ console.log('PASS: authenticated Next worker protocol, process restart, durable evidence, ownership boundary, local answer/resume and origin safety')
 }finally{await stop();rmSync(dir,{recursive:true,force:true})}

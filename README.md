@@ -1,36 +1,48 @@
-# Dev Queue
+# Dev Queue — local-first
 
-## Dev Queue
+A single-user local queue for coding work. FeltDB owns durable work/session/evidence
+state; Git owns code. No Vercel, managed FeltDB, production credentials or worker
+IAM is required. Cline execution is still blocked pending a supported API audit.
 
-Dev Queue is the control plane for durable coding work.
+## Startup
 
-- [Operator guide](docs/OPERATING-DEV-QUEUE.md) — canonical entry point
-- [Worker bridge](docs/CLINE-BRIDGE.md) — implementation and Cline audit blocker
-- [Development](docs/DEVELOPMENT.md) — setup and verification
-- [Worker protocol](WORKER_PROTOCOL.md) — endpoints and durable evidence
-- [Deployed control plane](https://prism-nine-jade.vercel.app) — not the worker
+1. `npm install --package-lock=false` (Node 24; repository also declares pnpm).
+2. Copy `.env.example` to `.env.local`. Set DEV_QUEUE_WORKER_TOKEN to a randomly
+   generated local token of at least 32 characters, kept out of Git. Set
+   DEV_QUEUE_LOCAL_DATA_PATH to a persistent path if changing the default.
+3. `npm run dev -- --hostname 127.0.0.1` starts Next and the existing embedded local
+   FeltDB runtime. A separate managed service is not needed.
+4. Open http://127.0.0.1:3000. Create a project with the worker machine's absolute
+   repositoryPath; select it; add/edit/reorder PRs. Specification and criteria are
+   separate. Empty criteria remain empty.
+5. `cd vscode-bridge && npm install && npm run build`; open the bridge folder in
+   VS Code, F5 → Run Dev Queue Bridge. Open one trusted local repository in the host.
+6. Configure devQueue.endpoint=http://127.0.0.1:3000 and actual devQueue.projectId.
+   Configure Worker stores the dedicated token in SecretStorage. Test Connection
+   checks identity/project/path without claiming. Start Next Task remains blocked
+   before claim until Cline is audited. It does not fabricate execution.
 
-**Hosted coding execution is not operational.** This branch's production APIs
-require real authority and operator configuration and fail closed without it; no production worker credentials are
-provisioned. The Cline adapter is disabled pending an installed-version public API
-audit. Local authenticated protocol tests prove durability, not real Cline execution.
+Operator guide: [docs/OPERATING-DEV-QUEUE.md](docs/OPERATING-DEV-QUEUE.md).
+Bridge: [docs/CLINE-BRIDGE.md](docs/CLINE-BRIDGE.md).
+Development: [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md).
 
-## Contract and authority
+## Local safety
 
-`feltdb.flow` defines portable resources/capabilities, independent of UI framework
-and worker bindings. `node scripts/contract.mjs` generates `feltdb.contract.json`
-using FeltDB's converter. It is a candidate manifest, not an activated,
-server-validated managed Contract Snapshot. Supported DSL does not automatically
-enforce all application state/approval rules.
+Bind only loopback; no reverse proxy or network exposure. API rejects non-loopback
+Host, cross-origin and cross-site requests. Human UI uses same-origin local access,
+no operator token. Worker APIs require the dedicated local token; bearer credentials
+cannot invoke human routes. This is a single local principal, not multi-user IAM.
+A local malicious process is outside this boundary; do not treat Host checks as
+network isolation. FeltDB uses a persistent file runtime with one writer process.
+No alternate store or process-memory fallback exists.
 
-The server chooses work by persisted priority and done dependencies; no AI selects
-work. Session admission and evidence use real FeltDB atomic fences and durable
-receipts. TaskPackets remain immutable per session. Worker results do not imply
-acceptance; completion returns completion_pending_acceptance, not done.
+Queue selection: persisted position, priority, deterministic ID. Dependencies must
+be done. Sessions retain immutable server-generated packets and append-only evidence.
+Operator answers are durable and resume waiting state; workers retrieve decisions
+through their owned session. Retry is explicit for failed tasks and preserves the
+old session/evidence. Results never imply acceptance. Completion remains
+completion_pending_acceptance; automated gates and actual Cline execution are
+unfinished, so the full automatic done → next loop is not yet demonstrated.
 
-Remote authority credentials stay server-only. Explicit authenticated local file
-storage is opt-in, single-process, and disabled in production. No authority or
-customer credentials are provisioned by this source. Legacy filesystem data is
-not automatically migrated. Do not remove fail-closed guards to enable a preview.
-
-FeltDB documentation: https://github.com/rkendel1/feltdb
+`npm test`, `npm run typecheck`, `npm run build`, `npm run test:worker-http`.
+Extension: `npm run typecheck`, `npm run build`, `npm test` within vscode-bridge.
