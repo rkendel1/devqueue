@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { deleteProject, getProject, updateProject } from '@/lib/queue-store'
-type Context = { params: Promise<{ id: string }> }
-export async function GET(_: NextRequest, context: Context) { const item = await getProject((await context.params).id); return item ? NextResponse.json({ data: item }) : NextResponse.json({ error: 'Project not found' }, { status: 404 }) }
-export async function PATCH(request: NextRequest, context: Context) { try { const id = (await context.params).id; const body = await request.json(); const item = await updateProject(id, body); return item ? NextResponse.json({ data: item }) : NextResponse.json({ error: 'Project not found' }, { status: 404 }) } catch { return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 }) } }
-export async function DELETE(_: NextRequest, context: Context) { return await deleteProject((await context.params).id) ? new NextResponse(null, { status: 204 }) : NextResponse.json({ error: 'Project not found' }, { status: 404 }) }
-export async function OPTIONS() { return new NextResponse(null, { status: 204 }) }
+import {getProject,updateProject} from '@/lib/queue-store'
+import {authenticateHuman} from '@/lib/production-auth'
+import {httpError} from '@/lib/human-http'
+import {ProtocolError} from '@/lib/auth-types'
+type Context={params:Promise<{id:string}>}
+export async function GET(request:Request,context:Context){try{authenticateHuman(request);const data=await getProject((await context.params).id);if(!data)throw new ProtocolError(404,'project_not_found');return Response.json({data})}catch(e){return httpError(e)}}
+export async function PATCH(request:Request,context:Context){try{authenticateHuman(request);const body=await request.json(),patch:Record<string,string>={};for(const key of ['name','goal','repositoryPath','defaultBranch'])if(key in body){if(typeof body[key]!=='string'||!body[key].trim())throw new ProtocolError(400,'invalid_'+key);patch[key]=body[key]}const data=await updateProject((await context.params).id,patch);if(!data)throw new ProtocolError(404,'project_not_found');return Response.json({data})}catch(e){return httpError(e)}}

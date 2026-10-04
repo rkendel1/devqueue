@@ -341,6 +341,91 @@
           "required": true
         }
       ]
+    },
+    {
+      "name": "Worker",
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "WorkerProjectGrant",
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "workerId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "projectId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "permissions",
+          "type": "json",
+          "required": true
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "WorkerCredential",
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "workerId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "digest",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "createdAt",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "revokedAt",
+          "type": "datetime",
+          "required": false
+        }
+      ]
     }
   ],
   "indexes": [],
@@ -418,6 +503,27 @@
     {
       "name": "WorkerRequest",
       "resource": "WorkerRequest",
+      "read": "authenticated",
+      "write": "authenticated",
+      "capabilities": []
+    },
+    {
+      "name": "Worker",
+      "resource": "Worker",
+      "read": "authenticated",
+      "write": "authenticated",
+      "capabilities": []
+    },
+    {
+      "name": "WorkerProjectGrant",
+      "resource": "WorkerProjectGrant",
+      "read": "authenticated",
+      "write": "authenticated",
+      "capabilities": []
+    },
+    {
+      "name": "WorkerCredential",
+      "resource": "WorkerCredential",
       "read": "authenticated",
       "write": "authenticated",
       "capabilities": []

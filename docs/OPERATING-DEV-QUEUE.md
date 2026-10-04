@@ -14,8 +14,8 @@ bridge. Cline is the coding worker reached through a Cline-specific execution
 adapter. Git remains the source of truth for code; Dev Queue remains the source
 of truth for work state. The server owns claiming and completion eligibility.
 
-**Current release is a foundation, not an operable hosted coding loop.** Production
-APIs in this branch fail closed; local authenticated protocol tests work. Cline
+**Current release is production-configurable, not externally verified.** Production
+APIs fail closed when authority/operator configuration is absent; local tests work. Cline
 execution through the bridge is blocked pending audit. Do not interpret a Ready
 Vercel deployment as proof of working authentication, database or worker execution.
 
@@ -72,17 +72,17 @@ The following describes checked-in capabilities, not verified hosted support:
 
 | Operator action | Current path and boundary |
 | --- | --- |
-| Create/select project | Local human-authenticated `POST /api/projects` / `GET /api/projects`; project selector UI is not implemented. |
+| Create/select project | Human-authenticated API and explicit project selector/create/edit UI are implemented; hosted verification pending. |
 | Associate repository | Set absolute `repositoryPath` and `defaultBranch` at project creation, or human `PATCH /api/projects/:id`. Use the worker machine's path, not Vercel's build path. |
-| Create PR work | `POST /api/queue` accepts title/objective and optional dependency/branch; currently binds to `default-project`. |
-| Specification / acceptance criteria | Queue creation copies objective into specification and creates empty acceptance criteria/constraints. Rich task editing is not exposed in the UI or queue PATCH route. Do not assume these gates have been defined. |
-| Dependencies | Optional `dependency` at queue creation maps to one persisted dependency. Rich dependency editing is not exposed. |
-| Reorder | Local human `PATCH /api/queue/:number` with action=reorder and direction=up/down. Priority persists. UI controls exist but browser human-credential entry is not implemented. |
-| Inspect sessions | Owner-authenticated `GET /api/worker-sessions/:id`, or bridge Inspect Existing Session for its saved binding. No human session-list UI. |
-| Inspect evidence | FeltDB Studio against a provisioned authority, or test inspection of WorkerEvent records. No general evidence-list HTTP endpoint/UI. |
+| Create PR work | `POST /api/queue` requires projectId and supports complete task fields. |
+| Specification / acceptance criteria | Explicit independent editor fields; empty criteria stay empty. Criteria do not implement acceptance enforcement. |
+| Dependencies | Explicit dependencies array in the editor/API. |
+| Reorder | Local human `PATCH /api/queue/:number` with action=reorder and direction=up/down. Priority persists. Human token entry is password-masked and memory-only; sign out clears it. Worker credentials must never be entered here. |
+| Inspect sessions | Owner-authenticated `GET /api/worker-sessions/:id`, or bridge Inspect Existing Session for its saved binding. Human project inspection displays sessions and evidence read-only. |
+| Inspect evidence | FeltDB Studio against a provisioned authority, or test inspection of WorkerEvent records. Human GET /api/inspection?projectId returns read-only session/evidence inspection. |
 
-Production requests from this branch return 503 until trusted caller authentication
-is integrated. No production worker credential is provisioned by the repository.
+Production requests return 503 when authority/operator configuration is absent or unavailable.
+No production worker credential is provisioned by the repository.
 Do not remove the guard or use a shared FeltDB token as a worker credential.
 
 PR states: queued = pending work; running = session admitted, not proof of success;
@@ -111,7 +111,7 @@ pre-launch task builds the extension. Open the disposable repository in that hos
 as a trusted, single-root local workspace. This VS Code host step has not been
 executed in the sandbox.
 
-Available commands: **Dev Queue: Configure Worker**, **Dev Queue: Start Next Task**,
+Available commands: **Dev Queue: Test Connection**, **Dev Queue: Configure Worker**, **Dev Queue: Start Next Task**,
 and **Dev Queue: Inspect Existing Session**.
 
 Run **Dev Queue: Configure Worker** and enter a dedicated worker token provisioned
@@ -134,8 +134,8 @@ Project identity must be an actual server record ID, not a display name or PR
 number. Repository identity is the project's absolute repositoryPath on the worker
 machine; workspace identity is the open local folder's canonical path.
 
-**Configuring this URL does not currently enable hosted claims.** Production
-worker identity/authority integration is unprovisioned; this branch fails closed.
+**Configuring this URL alone does not enable hosted claims.** Production
+authority/operator secrets and durable worker grants must first be provisioned.
 The adapter also refuses before claiming. Stop here for hosted execution until
 those prerequisites are implemented; do not invent a credential.
 
@@ -244,7 +244,7 @@ merely because they exist. See [technical audit reference](CLINE-BRIDGE.md).
 | --- | --- |
 | Hosted Dev Queue | URL resolves to Ready deployment; browser/runtime behavior unverified |
 | Durable queue | Available in authenticated local protocol tests; hosted authority unverified |
-| Worker authentication | Available only in explicit local mode; production fail-closed |
+| Worker authentication | Durable production implementation added; production fail-closed without configuration; not live-verified |
 | Worker claim | Available in local HTTP protocol; disabled bridge refuses before claim |
 | Immutable TaskPacket | Available and tested locally |
 | Workspace validation | Available in bridge foundation and filesystem tests |
@@ -258,8 +258,8 @@ merely because they exist. See [technical audit reference](CLINE-BRIDGE.md).
 | Auto-merge | Not implemented |
 | Auto-deploy | Not implemented as a Dev Queue feature |
 | Acceptance enforcement | Not implemented; completion_pending_acceptance, never fake done |
-| Hosted human/worker credential setup | Not provisioned; no working hosted walkthrough yet |
-| Rich project/PR editor | Not complete; queue UI/API currently limited |
+| Hosted human/worker credential setup | Production configuration shape implemented; external secrets/authority not provisioned |
+| Rich project/PR editor | Project selector and complete basic task editor implemented; hosted verification pending |
 
 ## 12. Troubleshooting
 
@@ -287,18 +287,18 @@ merely because they exist. See [technical audit reference](CLINE-BRIDGE.md).
 This is **not a completed hosted walkthrough**. Use a disposable non-critical repo.
 
 1. Open hosted Dev Queue (URL established; UI/runtime manually verify locally).
-2. Create a project (local human API exists; hosted auth/project UI pending).
+2. Create a project (human UI/API implemented; hosted authority provisioning pending).
 3. Point it at the worker's absolute repository path (explicit human API field).
-4. Add PR #1 (current queue API uses default-project).
-5. Define objective/specification/criteria (rich editor/API work remains).
+4. Add PR #1 to the explicitly selected project.
+5. Define objective/specification/criteria in the basic editor.
 6. Open repo in trusted single-root local VS Code workspace.
 7. Build/start extension in Development Host (instructions above; host unverified).
 8. Configure actual dedicated local worker credential in SecretStorage.
-9. Set endpoint/project ID (hosted authentication pending).
+9. Set endpoint/project ID (hosted authority/grants require provisioning).
 10. Run Start Next Task — **current verified stop: Cline audit refusal before claim**.
 11. Inspect TaskPacket (future enabled adapter; local protocol smoke proves packet).
 12. Explicitly Start Task (pending audited adapter).
-13. Observe session (owner GET/Inspect Existing Session; no list UI).
+13. Observe session (owner GET/Inspect Existing Session or human inspection UI).
 14. Observe durable events (local tests/authority inspection; bridge outbox pending).
 15. Execute supported Cline worker — **pending Cline audit and real fixture test**.
 16. Submit observed result (server protocol exists; bridge event wiring pending).
@@ -309,3 +309,41 @@ This is **not a completed hosted walkthrough**. Use a disposable non-critical re
 A clean checkout can run local protocol verification and build the extension; it
 cannot yet demonstrate hosted Cline execution. Fix those blockers rather than
 claiming the intended sequence is already supported.
+
+## Production-configurable wiring update (not hosted verification)
+
+This branch adds durable Worker, WorkerProjectGrant and WorkerCredential to the
+FlowSpec and generated contract. Existing database() remains the sole authority
+adapter. Credentials are opaque operator-generated random worker tokens; only
+SHA-256 verification material and metadata persist in FeltDB. Workers cannot
+provision credentials, authorize projects or access human APIs.
+
+Configure real server-only deployment values (never invented examples): FELTDB_URL,
+FELTDB_TOKEN, FELTDB_APPLICATION_ID and FELTDB_ENVIRONMENT. For this candidate
+application identity use dev-queue/production only if the provisioned authority
+actually has that application/environment. Add DEV_QUEUE_HUMAN_TOKEN_SHA256 for a
+separate protected deployment-operator credential. This initial human boundary
+is one deployment administrator, not per-user IAM. Do not reuse any worker or
+FeltDB token as that human credential.
+
+Human POST /api/workers accepts name, projectIds and an operator-generated dedicated
+random token (43+ URL-safe characters), submitted through a protected API client,
+not URLs or source files. Its response contains metadata only, never the token.
+GET /api/workers/:id inspects safe metadata/grants; DELETE revokes the worker and
+its credentials. No worker self-registration endpoint exists. Store the original
+worker token exclusively in VS Code SecretStorage via Configure Worker.
+
+**Dev Queue: Test Connection** authenticates the worker, checks its persisted grant,
+reads the project and validates its canonical path locally. It does not call Cline,
+claim work, create sessions/events or change the queue. Production authority
+readiness uses FeltDB canonical application discovery, not a config-only boolean.
+
+Local and production operator UI now selects explicit projects and edits tasks;
+all queue requests require projectId. Missing project fails 400, absent project
+404. Specification and acceptance criteria are separate. Current UI allocates PR
+number server-side and displays it; priority/position are explicit edit fields.
+Read-only session/evidence inspection does not approve results. PASS still cannot
+mark a PR done. Cline connect refusal remains.
+
+Status: implementation/local checks only; no provisioned hosted authority and no
+live hosted smoke acceptance. Hosted capability claims must not be interpreted as Verified. External provisioning and live testing remain.

@@ -43,7 +43,7 @@ included Run Dev Queue Bridge launch configuration (.vscode/launch.json). Packag
 not performed. Configure `devQueue.endpoint` and `devQueue.projectId` in settings.
 Run **Dev Queue: Configure Worker** and supply a dedicated worker token provisioned
 through the server's authenticated local-worker configuration. Never use the human
-token. Production server endpoints currently fail closed.
+token. Production endpoints fail closed without real authority/operator configuration.
 
 Commands: Configure Worker, Start Next Task, Inspect Existing Session.
 Exactly one trusted, local file workspace is required. Canonical filesystem paths
@@ -76,8 +76,8 @@ merge or deployment is included.
 ## Authentication and server boundary
 
 `lib/worker-auth.ts` defines WorkerAuthenticator and WorkerPrincipal. Local mode
-maps configured bearer credentials to identity/project grants; production refuses
-until a trusted identity adapter is provisioned. WorkerType is never identity.
+maps configured bearer credentials to identity/project grants; production resolves durable identity/grants through FeltDB, refusing
+without configured authority. WorkerType is never identity.
 `lib/worker-protocol.ts` owns session authorization and completion eligibility.
 The bridge knows only DevQueueClient/CodingWorker, not queue selection policy.
 Worker tokens in SecretStorage are distinct from DEV_QUEUE_LOCAL_HUMAN_TOKEN and
@@ -96,3 +96,12 @@ Required audit inputs: exact Cline version, VSIX or accessible source, documente
 public execution interface and documented public event interface. Public pause,
 stop and recovery semantics must be established before supporting questions/resume.
 No guessed Cline API, UI scraping or keyboard automation is a valid substitute.
+
+## Read-only hosted connection seam
+
+Dev Queue: Test Connection calls DevQueueClient.readiness with configured projectId,
+loading the worker token from SecretStorage. Server WorkerAuthenticator verifies
+durable WorkerCredential, active Worker and WorkerProjectGrant through the existing
+FeltDB adapter. The bridge canonical path check runs before reporting success.
+No claim/session/event/Cline action occurs. Production remains fail-closed absent
+real authority and operator configuration. ClineWorker.connect still refuses.
