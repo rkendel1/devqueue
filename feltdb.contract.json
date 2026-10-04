@@ -206,6 +206,21 @@
           "required": false
         },
         {
+          "name": "stopRequestedAt",
+          "type": "datetime",
+          "required": false
+        },
+        {
+          "name": "stopAcknowledgedAt",
+          "type": "datetime",
+          "required": false
+        },
+        {
+          "name": "consumedDecisionIds",
+          "type": "json",
+          "required": false
+        },
+        {
           "name": "status",
           "type": "text",
           "required": true

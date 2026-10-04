@@ -52,6 +52,9 @@ app dev_queue {
     currentQuestion: text?
     resultEvidence: json?
     completionRequestedAt: datetime?
+    stopRequestedAt: datetime?
+    stopAcknowledgedAt: datetime?
+    consumedDecisionIds: json?
     status: text
     startedAt: datetime
     updatedAt: datetime

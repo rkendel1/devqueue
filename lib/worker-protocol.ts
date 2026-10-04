@@ -3,7 +3,7 @@ import type { StateFirstDB } from '@feltdb/core'
 import { selectNext } from './queue-selection'
 import { ProtocolError, type WorkerPrincipal } from './worker-auth'
 import type { PR, Project, Decision } from './queue-store'
-export type Session = { id: string; projectId: string; prId: string; ownerId: string; workerType: string; workspacePath: string; status: 'claimed'|'running'|'waiting'|'completed'|'failed'; startedAt: string; updatedAt: string; lastHeartbeatAt: string; sequence: number; taskPacket: Record<string, unknown>; currentQuestion?: string; resultEvidence?: Record<string, unknown>; completionRequestedAt?: string }
+export type Session = { id: string; projectId: string; prId: string; ownerId: string; workerType: string; workspacePath: string; status: 'claimed'|'running'|'waiting'|'completed'|'failed'; startedAt: string; updatedAt: string; lastHeartbeatAt: string; sequence: number; taskPacket: Record<string, unknown>; currentQuestion?: string; resultEvidence?: Record<string, unknown>; completionRequestedAt?: string; stopRequestedAt?: string; stopAcknowledgedAt?: string; consumedDecisionIds?: string[] }
 type Receipt = { id: string; ownerId: string; input: string; response: unknown }
 const active = ['claimed', 'running', 'waiting']
 export class WorkerProtocol {
@@ -49,7 +49,8 @@ export class WorkerProtocol {
       const pr = await this.db.collection<PR>('PR').get(session.prId)
       if (!pr || pr.workerSessionId !== id) throw new ProtocolError(409, 'session_assignment_conflict')
       let prStatus: string | undefined
-      if (action === 'heartbeat') changes.lastHeartbeatAt = timestamp
+      if (session.stopRequestedAt && action !== 'stop-ack') throw new ProtocolError(409, 'stop_requested_execution_fenced')
+      if (action === 'heartbeat') { changes.lastHeartbeatAt = timestamp; type = 'heartbeat'; message = 'Worker transport heartbeat (not a lease or proof of coding)' }
       else if (action === 'events') {
         type = String(body.type)
         if (!['started','output','progress','error'].includes(type) || !message.trim()) throw new ProtocolError(400, 'invalid_event_use_dedicated_question_or_complete_endpoint')
@@ -65,9 +66,20 @@ export class WorkerProtocol {
       } else if (action === 'complete') {
         if (session.status !== 'running' || !session.resultEvidence || session.currentQuestion) throw new ProtocolError(409, 'completion_not_eligible')
         changes.completionRequestedAt = timestamp; type = 'completed'; message = 'Worker requested completion; acceptance enforcement pending'
+      } else if (action === 'decision-ack') {
+        if (typeof body.decisionId !== 'string') throw new ProtocolError(400, 'decisionId_required')
+        const decision = await this.db.collection<Decision>('Decision').get(body.decisionId)
+        if (!decision || decision.sessionId !== id) throw new ProtocolError(403, 'decision_forbidden')
+        changes.consumedDecisionIds = [...new Set([...(session.consumedDecisionIds ?? []), body.decisionId])]
+        type = 'progress'; message = 'Worker acknowledged durable decision'
+      } else if (action === 'stop') {
+        changes.stopRequestedAt = timestamp; type = 'progress'; message = 'Stop requested; execution evidence fenced, local termination not yet acknowledged'
+      } else if (action === 'stop-ack') {
+        if (!session.stopRequestedAt) throw new ProtocolError(409, 'stop_not_requested')
+        changes.stopAcknowledgedAt = timestamp; changes.status = 'failed'; prStatus = 'failed'; type = 'failed'; message = 'Worker acknowledged safe termination after stop request'
       } else if (action === 'fail') {
         if (!['running','waiting'].includes(session.status) || !message.trim()) throw new ProtocolError(409, 'invalid_failure_transition')
-        changes.status = 'failed'; prStatus = 'failed'; type = 'error'
+        changes.status = 'failed'; prStatus = 'failed'; type = 'failed'
       } else throw new ProtocolError(404, 'unknown_operation')
       const sequence = session.sequence + (type ? 1 : 0)
       const updated = { ...session, ...changes, sequence }

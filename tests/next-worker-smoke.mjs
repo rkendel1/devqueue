@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module'
 // Real Next.js process + real FeltDB file persistence; no production fake worker.
 import { spawn } from 'node:child_process'
 import { once } from 'node:events'
@@ -34,6 +35,23 @@ try{
  const wrongGrant=await fetch(base+'/api/worker-sessions/readiness?projectId=other',{headers:{authorization:`Bearer ${token}`}});assert.equal(wrongGrant.status,403)
  const result=await call('/api/worker-sessions/claim-next',{projectId:'p',workerType:'test-only',workspacePath:'/test'})
  const id=result.session.id
+ const require=createRequire(import.meta.url)
+ const {DurableWorkerLoop}=require('../vscode-bridge/dist/worker/durable-loop.js')
+ const {HttpDevQueueClient}=require('../vscode-bridge/dist/dev-queue-client/client.js')
+ let outboxDb=DurableWorkerLoop.open(join(dir,'bridge-outbox'))
+ const api=new HttpDevQueueClient(base,async()=>token)
+ let lost=true
+ const transport={inspect:api.inspect.bind(api),deliver:async(...args)=>{const response=await api.deliver(...args);if(lost){lost=false;throw new Error('lost response after server committed')}return response}}
+ let bridge=new DurableWorkerLoop(outboxDb,transport,id)
+ await bridge.bind(base)
+ await bridge.enqueue('heartbeat',{},'outbox-heartbeat-0001')
+ await assert.rejects(bridge.flush(),/lost response/)
+ await outboxDb.close()
+ outboxDb=DurableWorkerLoop.open(join(dir,'bridge-outbox'))
+ bridge=new DurableWorkerLoop(outboxDb,transport,id)
+ await bridge.flush()
+ assert.equal((await outboxDb.collection('BridgeOutbox').get('outbox-heartbeat-0001')).state,'acknowledged')
+ await outboxDb.close()
  await call(`/api/worker-sessions/${id}/heartbeat`,{},'heartbeat-0001')
  await call(`/api/worker-sessions/${id}/events`,{type:'started',message:'Started'},'started-0001')
  await call(`/api/worker-sessions/${id}/events`,{type:'progress',message:'Progress'},'progress-0001')
@@ -44,7 +62,7 @@ try{
  await stop()
  const inspect=new FileJsDb(path), durable=new StateFirstDB(inspect)
  assert.equal((await durable.collection('PR').get('pr1')).status,'waiting')
- assert.equal((await durable.collection('WorkerEvent').find({sessionId:id})).length,3)
+ assert.equal((await durable.collection('WorkerEvent').find({sessionId:id})).length,5)
  inspect.close()
  await start(true)
  const answer=await fetch(base+'/api/local-actions',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({action:'answer',sessionId:id,answer:'Use existing implementation'})})
@@ -52,6 +70,14 @@ try{
  const decisions=await call(`/api/worker-sessions/${id}/decisions`)
  assert.equal(decisions[0].answer,'Use existing implementation')
  const resumed=await call(`/api/worker-sessions/${id}`);assert.equal(resumed.status,'running')
+ await call(`/api/worker-sessions/${id}/decision-ack`,{decisionId:decisions[0].id},'decision-ack-0001')
+ const reconnectDb=DurableWorkerLoop.open(join(dir,'bridge-outbox'))
+ const reconnect=new DurableWorkerLoop(reconnectDb,api,id)
+ await reconnect.reconnect();reconnect.disconnect()
+ assert.equal((await reconnectDb.collection('BridgeBinding').find()).length,1)
+ await reconnect.requestStop()
+ const fenced=await fetch(base+`/api/worker-sessions/${id}/heartbeat`,{method:'POST',headers:{authorization:`Bearer ${token}`,'content-type':'application/json','idempotency-key':'fenced-heartbeat-0001'},body:'{}'});assert.equal(fenced.status,409)
+ await reconnectDb.close()
  const wrongOrigin=await fetch(base+'/api/projects',{headers:{origin:'https://untrusted.example'}});assert.equal(wrongOrigin.status,403)
  console.log('PASS: authenticated Next worker protocol, process restart, durable evidence, ownership boundary, local answer/resume and origin safety')
 }finally{await stop();rmSync(dir,{recursive:true,force:true})}

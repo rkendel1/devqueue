@@ -50,7 +50,7 @@ test('durable lifecycle, immutable packet, restart, simulated decision, acceptan
     assert.equal(durable.status,'waiting')
     assert.equal(durable.currentQuestion,'Which approach?')
     assert.equal(durable.taskPacket.pr.specification,'Original')
-    assert.equal((await f.db.collection('WorkerEvent').find({sessionId:worker.id})).length,3)
+    assert.equal((await f.db.collection('WorkerEvent').find({sessionId:worker.id})).length,4)
     // Test-only simulated human decision. No production answer/approval endpoint.
     await f.db.transaction({operations:[
       {collection:'WorkerSession',id:worker.id,value:{...durable,status:'running',currentQuestion:''}},
@@ -159,4 +159,32 @@ test('real operator answer and retry preserve durable decisions and old executio
  assert.equal((await f.protocol().read(A,w.id)).status,'failed')
  assert.ok((await f.db.collection('WorkerEvent').find({sessionId:w.id})).length>=5)
  }finally{delete globalThis.__localTestDb;f.close()}
+})
+test('heartbeat restart/ownership, stop fence and decision acknowledgement remain durable',async()=>{
+ const f=await fixture();try{
+ const w=new TestWorker(f.protocol(),A);await w.claim();await w.send('events',{type:'started',message:'Started'})
+ await w.send('heartbeat',{},'heartbeat-unique-0001');const timestamp=(await f.protocol().read(A,w.id)).lastHeartbeatAt
+ await assert.rejects(f.protocol().act(B,w.id,'heartbeat',{},'other-heartbeat-0001'),/session_forbidden/)
+ f.restart();w.protocol=f.protocol();assert.equal((await w.protocol.read(A,w.id)).lastHeartbeatAt,timestamp)
+ await w.send('heartbeat',{},'heartbeat-unique-0002')
+ const decisionId='decision-test';await f.db.collection('Decision').insert({id:decisionId,sessionId:w.id,prId:'pr1',question:'Test',answer:'Answer',requiresHumanApproval:true,createdAt:new Date().toISOString()},decisionId)
+ await w.send('decision-ack',{decisionId},'decision-ack-0001')
+ assert.deepEqual((await w.protocol.read(A,w.id)).consumedDecisionIds,[decisionId])
+ await w.send('stop',{},'stop-request-0001')
+ await assert.rejects(w.send('events',{type:'progress',message:'After stop'}),/stop_requested_execution_fenced/)
+ await assert.rejects(w.send('heartbeat'),/stop_requested_execution_fenced/)
+ f.restart();w.protocol=f.protocol();assert.ok((await w.protocol.read(A,w.id)).stopRequestedAt)
+ await w.send('stop-ack',{},'stop-ack-0001');assert.equal((await w.protocol.read(A,w.id)).status,'failed')
+ await assert.rejects(w.send('heartbeat'),/session_terminal/)
+ await assert.rejects(f.protocol().act(A,'nonexistent','heartbeat',{},'invalid-session-0001'),/session_not_found/)
+ }finally{f.close()}
+})
+test('completed session refuses fresh heartbeat without reclaim',async()=>{
+ const f=await fixture();try{
+ const w=new TestWorker(f.protocol(),A);await w.claim()
+ // Test-only accepted terminal fixture; production completion still cannot do this.
+ await f.db.collection('WorkerSession').update(w.id,{status:'completed'})
+ await assert.rejects(w.send('heartbeat',{},'terminal-heartbeat-0001'),/session_terminal/)
+ assert.equal((await f.db.collection('WorkerSession').find()).length,1)
+ }finally{f.close()}
 })

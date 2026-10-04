@@ -27,8 +27,8 @@ resume or duplicate a claim. Inspect bindings rather than clearing them to force
 Cline version tested: none. No installed VSIX/public execution/event interface was
 available. Cline connect refusal remains. No UI scraping, keyboard automation,
 private APIs or fabricated events. Provide exact version/VSIX and documented public
-execution/event interface before the adapter can run. Active heartbeat/outbox and
-pause/resume are not complete. GPT escalation, automatic retry, auto-merge and
+execution/event interface before the adapter can run. Durable reconnect/outbox transport is available; actual Cline heartbeat/observed
+execution and pause/resume are not complete. GPT escalation, automatic retry, auto-merge and
 auto-deploy are not implemented.
 
 No projects: create one. Missing worker credential: configure the local server token
@@ -38,3 +38,6 @@ Completion pending: acceptance gates are not available, so done is correctly ref
 
 This is local only; historical https://prism-nine-jade.vercel.app is not required or
 claimed operational by this product. No hosted setup/readiness/IAM is exposed.
+
+Recovery: use VS Code Attach Existing Session, Reconnect Existing Task, Request Stop
+or Inspect. No automatic claim/resume. See [durable loop](DURABLE-WORKER-LOOP.md).
