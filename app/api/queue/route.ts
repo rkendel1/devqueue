@@ -8,7 +8,7 @@ export async function OPTIONS() {
 }
 
 export async function GET() {
-  return NextResponse.json({ data: listQueue() }, { headers: corsHeaders })
+  try { return NextResponse.json({ data: await listQueue() }, { headers: corsHeaders }) } catch { return NextResponse.json({ error: 'FeltDB unavailable. Configure FELTDB_URL and server-only FELTDB_TOKEN.' }, { status: 503 }) }
 }
 
 export async function POST(request: NextRequest) {
@@ -17,8 +17,8 @@ export async function POST(request: NextRequest) {
     if (typeof body.title !== 'string' || body.title.trim().length < 1 || typeof body.objective !== 'string' || body.objective.trim().length < 1) {
       return NextResponse.json({ error: 'title and objective are required' }, { status: 400 })
     }
-    return NextResponse.json({ data: createQueueItem({ title: body.title.trim(), objective: body.objective.trim(), status: body.status, dependency: body.dependency, branch: body.branch }) }, { status: 201 })
+    return NextResponse.json({ data: await createQueueItem({ title: body.title.trim(), objective: body.objective.trim(), status: body.status, dependency: body.dependency, branch: body.branch }) }, { status: 201 })
   } catch {
-    return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 })
+    return NextResponse.json({ error: 'Queue write failed: check FeltDB connection or concurrent changes' }, { status: 400 })
   }
 }

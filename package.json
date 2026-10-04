@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "feltdb:validate": "feltdb validate feltdb.flow",
+    "feltdb:sync": "feltdb sync",
+    "feltdb:studio": "feltdb studio",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",

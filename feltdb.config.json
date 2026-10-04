@@ -1,0 +1,10 @@
+{
+  "namespace": "dev-queue",
+  "mode": "local",
+  "runtime": "node",
+  "storage": "durable",
+  "applicationUrl": "http://localhost:3000",
+  "application": {
+    "lifecycle": "managed"
+  }
+}
