@@ -1,4 +1,4 @@
-import { authenticateHuman } from './production-auth'
+import { authenticateHuman } from './human-auth'
 import { database, requireProject } from './queue-store'
 import { ProtocolError } from './auth-types'
 export async function humanProject(request:Request,body?:Record<string,unknown>){authenticateHuman(request);const projectId=typeof body?.projectId==='string'?body.projectId:new URL(request.url).searchParams.get('projectId');if(!projectId)throw new ProtocolError(400,'projectId_required');try{await requireProject(projectId)}catch{throw new ProtocolError(404,'project_not_found')}return projectId}

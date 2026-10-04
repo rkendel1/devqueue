@@ -1,5 +1,5 @@
 // Version 0.1.0: durable development control plane.
-// Persisted PR.priority is authoritative; selection is deterministic.
+// Persisted PR.position then priority is authoritative; selection is deterministic.
 // Only queued work whose dependencies are done is executable.
 // TaskPackets are server-generated from Project, PR and prior Decisions.
 // Workers execute packets; they do not select work or own queue authority.
@@ -136,38 +136,6 @@ app dev_queue {
     response: json
   }
   policy WorkerRequest {
-    read: authenticated
-    write: authenticated
-  }
-  collection Worker {
-    id: text
-    name: text
-    status: text
-    createdAt: datetime
-  }
-  collection WorkerProjectGrant {
-    id: text
-    workerId: text
-    projectId: text
-    permissions: json
-    createdAt: datetime
-  }
-  collection WorkerCredential {
-    id: text
-    workerId: text
-    digest: text
-    createdAt: datetime
-    revokedAt: datetime?
-  }
-  policy Worker {
-    read: authenticated
-    write: authenticated
-  }
-  policy WorkerProjectGrant {
-    read: authenticated
-    write: authenticated
-  }
-  policy WorkerCredential {
     read: authenticated
     write: authenticated
   }

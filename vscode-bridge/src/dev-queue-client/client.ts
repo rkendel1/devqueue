@@ -6,6 +6,7 @@ export type ClaimResult = { session: Session; taskPacket: TaskPacket }
 export interface DevQueueClient {
  claimNext(input: ClaimNextInput, key: string): Promise<ClaimResult>
  readiness(projectId: string): Promise<{workerId: string;projectId:string;repositoryPath:string;authenticated:boolean;authorized:boolean}>
+ decisions(sessionId: string): Promise<unknown[]>
  inspect(sessionId: string): Promise<Session>
  heartbeat(sessionId: string, key?: string): Promise<unknown>
  appendEvent(sessionId: string, event: Record<string, unknown>, key?: string): Promise<unknown>
@@ -30,6 +31,7 @@ export class HttpDevQueueClient implements DevQueueClient {
  }
  claimNext(input: ClaimNextInput, key: string): Promise<ClaimResult> { return this.request('/claim-next',input,key) }
  readiness(projectId: string) { return this.request('/readiness?projectId='+encodeURIComponent(projectId)) }
+ decisions(id:string) { return this.request('/'+encodeURIComponent(id)+'/decisions') }
  inspect(id: string): Promise<Session> { return this.request('/'+encodeURIComponent(id)) }
  heartbeat(id: string,key=randomUUID()) { return this.request(`/${encodeURIComponent(id)}/heartbeat`,{},key) }
  appendEvent(id: string,event:Record<string,unknown>,key=randomUUID()) { return this.request(`/${encodeURIComponent(id)}/events`,event,key) }

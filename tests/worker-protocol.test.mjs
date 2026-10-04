@@ -7,11 +7,11 @@ import ts from 'typescript'
 import { FileJsDb } from '@feltdb/core/file-db'
 import { StateFirstDB } from '@feltdb/core/db'
 const compiled = mkdtempSync(join(tmpdir(), 'worker-protocol-code-'))
-for (const name of ['worker-auth','worker-protocol','queue-selection','auth-types','production-auth','queue-store']) {
+for (const name of ['worker-auth','worker-protocol','queue-selection','auth-types','human-auth','queue-store','local-boundary','local-actions']) {
   const source = readFileSync(`lib/${name}.ts`, 'utf8')
   const code = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.ESNext, target: ts.ScriptTarget.ES2022 } }).outputText.replaceAll("'./queue-selection'", "'./queue-selection.mjs'").replaceAll("'./worker-auth'", "'./worker-auth.mjs'")
   let resolved=code
-  for(const module of ['auth-types','production-auth','queue-store'])resolved=resolved.replaceAll(`'./${module}'`,`'./${module}.mjs'`)
+  for(const module of ['auth-types','human-auth','queue-store','local-boundary','local-actions'])resolved=resolved.replaceAll(`'./${module}'`,`'./${module}.mjs'`)
   for(const module of ['@feltdb/core','@feltdb/core/file-db'])resolved=resolved.replaceAll(`'${module}'`,JSON.stringify(import.meta.resolve(module)))
   writeFileSync(join(compiled, `${name}.mjs`), resolved)
 }
@@ -94,11 +94,11 @@ test('ownership, idempotency, concurrent event sequence and durable failure',asy
     await assert.rejects(f.protocol().act(A,w.id,'events',{type:'progress',message:'after failure'},'afterfail-0001'),/session_terminal/)
   }finally{f.close()}
 })
-test('arbitrary claim rejected and production authentication fails closed',async()=>{
+test('arbitrary claim rejected and local missing-token authentication fails closed',async()=>{
   const f=await fixture();try{
     await assert.rejects(f.protocol().claim(A,{projectId:'p',prId:'wrong',workerType:'test',workspacePath:'/test'},'claimbad-0001'),/not_next_executable_pr/)
-    const previous=process.env.NODE_ENV;process.env.NODE_ENV='production'
-    try{await assert.rejects(workerAuthenticator.authenticate(new Request('http://localhost')),/worker_authentication_unavailable/)}finally{if(previous===undefined)delete process.env.NODE_ENV;else process.env.NODE_ENV=previous}
+    const previous=process.env.DEV_QUEUE_WORKER_TOKEN;delete process.env.DEV_QUEUE_WORKER_TOKEN
+    try{await assert.rejects(workerAuthenticator.authenticate(new Request('http://localhost')),/local_worker_token_required/)}finally{if(previous===undefined)delete process.env.DEV_QUEUE_WORKER_TOKEN;else process.env.DEV_QUEUE_WORKER_TOKEN=previous}
   }finally{f.close()}
 })
 test('two real sessions reject cross-session read, append and completion',async()=>{
@@ -140,38 +140,23 @@ test('queue number lookup update delete reorder and empty persisted queue regres
   assert.equal(await store.deleteQueueItem('regression',2),false)
  }finally{await store.closeQueueStore();delete process.env.DEV_QUEUE_LOCAL_AUTH;delete process.env.DEV_QUEUE_LOCAL_DATA_PATH;rmSync(dir,{recursive:true,force:true})}
 })
-test('durable credential grants, invalid/revoked identity and secret-free records',async()=>{
+test('real operator answer and retry preserve durable decisions and old execution evidence',async()=>{
  const f=await fixture();try{
- const {provisionWorker,authenticateDurableWorker,digest,authenticateHuman}=await import(join(compiled,'production-auth.mjs'))
- const token='a'.repeat(64)
- const created=await provisionWorker(f.db,'Dedicated worker',['p'],token)
- assert.equal(JSON.stringify(created).includes(token),false)
- const principal=await authenticateDurableWorker(f.db,token)
- assert.equal(principal.id,created.worker.id);assert.deepEqual(principal.projects,['p'])
- await assert.rejects(authenticateDurableWorker(f.db,'invalid-token'),/unauthenticated/)
- await assert.rejects(f.protocol().claim({...principal,projects:[]},{projectId:'p',workerType:'test',workspacePath:'/test'},'nogrant-0001'),/project_forbidden/)
- const claimed=await f.protocol().claim(principal,{projectId:'p',workerType:'test',workspacePath:'/test'},'prodclaim-0001')
- assert.equal(JSON.stringify(claimed.taskPacket).includes(token),false)
- const credentials=await f.db.collection('WorkerCredential').find()
- assert.equal(JSON.stringify(credentials).includes(token),false)
- assert.equal(credentials[0].digest,digest(token))
- await f.db.collection('WorkerCredential').update(digest(token),{revokedAt:new Date().toISOString()})
- await assert.rejects(authenticateDurableWorker(f.db,token),/unauthenticated/)
- f.restart();await assert.rejects(authenticateDurableWorker(f.db,token),/unauthenticated/)
- const old=process.env.NODE_ENV,oldHash=process.env.DEV_QUEUE_HUMAN_TOKEN_SHA256
- process.env.NODE_ENV='production';process.env.DEV_QUEUE_HUMAN_TOKEN_SHA256=digest('h'.repeat(64))
- try{assert.throws(()=>authenticateHuman(new Request('http://localhost',{headers:{authorization:`Bearer ${token}`}})),/human_capability_required/)}finally{if(old===undefined)delete process.env.NODE_ENV;else process.env.NODE_ENV=old;if(oldHash===undefined)delete process.env.DEV_QUEUE_HUMAN_TOKEN_SHA256;else process.env.DEV_QUEUE_HUMAN_TOKEN_SHA256=oldHash}
- }finally{f.close()}
-})
-test('read-only readiness contract leaves queue/session/evidence unchanged',async()=>{
- const f=await fixture();try{
- const {provisionWorker,authenticateDurableWorker}=await import(join(compiled,'production-auth.mjs'))
- const token='b'.repeat(64);await provisionWorker(f.db,'Connection worker',['p'],token)
- const before=JSON.stringify({prs:await f.db.collection('PR').find(),sessions:await f.db.collection('WorkerSession').find(),events:await f.db.collection('WorkerEvent').find()})
- const principal=await authenticateDurableWorker(f.db,token)
- assert.ok(principal.projects.includes('p'));assert.equal((await f.db.collection('Project').get('p')).repositoryPath,'/test')
- await assert.rejects(authenticateDurableWorker(f.db,'wrong'),/unauthenticated/)
- const after=JSON.stringify({prs:await f.db.collection('PR').find(),sessions:await f.db.collection('WorkerSession').find(),events:await f.db.collection('WorkerEvent').find()})
- assert.equal(after,before)
- }finally{f.close()}
+ const w=new TestWorker(f.protocol(),A);await w.claim();await w.send('events',{type:'started',message:'Started'});await w.send('question',{message:'Choose approach'})
+ // Load local service against same actual durable SDK handle through a test-only module shim.
+ const source=readFileSync('lib/local-actions.ts','utf8')
+ const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}}).outputText.replace("import { database } from './queue-store';",'const database = () => globalThis.__localTestDb;').replaceAll("'./auth-types'","'./auth-types.mjs'")
+ writeFileSync(join(compiled,'local-answer.mjs'),code);globalThis.__localTestDb=f.db
+ const actions=await import(join(compiled,'local-answer.mjs'))
+ await actions.answerQuestion(w.id,'Use existing mechanism')
+ assert.equal((await f.protocol().read(A,w.id)).status,'running')
+ await w.send('result',{result:'PASS',tests:[]});const pending=await w.send('complete');assert.equal(pending.status,'completion_pending_acceptance')
+ await w.send('fail',{message:'Actual failure'})
+ await actions.retryTask('p',1)
+ assert.equal((await f.db.collection('PR').get('pr1')).status,'queued')
+ f.restart();globalThis.__localTestDb=f.db
+ assert.equal((await f.db.collection('Decision').find({sessionId:w.id}))[0].answer,'Use existing mechanism')
+ assert.equal((await f.protocol().read(A,w.id)).status,'failed')
+ assert.ok((await f.db.collection('WorkerEvent').find({sessionId:w.id})).length>=5)
+ }finally{delete globalThis.__localTestDb;f.close()}
 })

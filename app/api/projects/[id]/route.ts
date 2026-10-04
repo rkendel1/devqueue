@@ -1,5 +1,5 @@
 import {getProject,updateProject} from '@/lib/queue-store'
-import {authenticateHuman} from '@/lib/production-auth'
+import {authenticateHuman} from '@/lib/human-auth'
 import {httpError} from '@/lib/human-http'
 import {ProtocolError} from '@/lib/auth-types'
 type Context={params:Promise<{id:string}>}
