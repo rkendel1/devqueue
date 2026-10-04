@@ -5,14 +5,20 @@ export type Outgoing={id:string;order:number;sessionId:string;action:string;body
 export type Binding={id:string;endpoint:string;sessionId:string}
 // FeltDB is the only outbox persistence engine. No JSON queue or globalState evidence.
 export class DurableWorkerLoop {
- private flushing=false
+ private admission:Promise<unknown>=Promise.resolve()
+ private delivery:Promise<void>|undefined
  private timer:ReturnType<typeof setInterval>|undefined
  private connected=false
  constructor(private db:StateFirstDB,private api:HttpDevQueueClient,private sessionId:string){}
  static open(path:string){return createFeltDB({namespace:'dev-queue-bridge',mode:'local',path})}
  async bind(endpoint:string){await this.db.collection<Binding>('BridgeBinding').insert({id:this.sessionId,endpoint,sessionId:this.sessionId},this.sessionId)}
  async inspect():Promise<Session>{return this.api.inspect(this.sessionId)}
- async enqueue(action:string,body:Record<string,unknown>,id=randomUUID()){
+ enqueue(action:string,body:Record<string,unknown>,id=randomUUID()){
+  const admission=this.admission.then(()=>this.admit(action,body,id))
+  this.admission=admission.catch(()=>{})
+  return admission
+ }
+ private async admit(action:string,body:Record<string,unknown>,id:string){
   const table=this.db.collection<Outgoing>('BridgeOutbox'),existing=await table.get(id)
   if(existing){if(existing.sessionId!==this.sessionId||existing.action!==action||JSON.stringify(existing.body)!==JSON.stringify(body))throw new Error('outbox_identity_conflict');return id}
   const basis=await this.db.readBasis({predicates:[{collection:'BridgeOutbox',where:[{field:'sessionId',eq:this.sessionId}]}]})
@@ -21,18 +27,23 @@ export class DurableWorkerLoop {
   return id
  }
  async flush(){
-  if(this.flushing)return
-  this.flushing=true
-  try{
+  if(this.delivery)return this.delivery
+  this.delivery=this.drain()
+  try{await this.delivery}finally{this.delivery=undefined}
+ }
+ private async drain(){
+  while(true){
+   await this.admission
    const pending=(await this.db.collection<Outgoing>('BridgeOutbox').find({sessionId:this.sessionId})).filter(i=>i.state==='pending').sort((a,b)=>a.order-b.order)
+   if(!pending.length)return
    for(const item of pending){
     // Stable body/id retained on timeout or lost acknowledgement. Stop on first failure.
     await this.api.deliver(item.sessionId,item.action,item.body,item.id)
     await this.db.collection<Outgoing>('BridgeOutbox').update(item.id,{state:'acknowledged',acknowledgedAt:new Date().toISOString()})
    }
-  }finally{this.flushing=false}
+  }
  }
- async reconnect(){
+ async reconnect(heartbeatMs=15000){
   const session=await this.inspect()
   this.disconnect()
   if(['completed','failed'].includes(session.status))throw new Error('session_terminal_inspect_only')
@@ -40,7 +51,7 @@ export class DurableWorkerLoop {
   await this.flush() // Explicit reconnect drains previous evidence, never claims/restarts coding.
   if(session.stopRequestedAt)return session
   await this.enqueue('heartbeat',{});await this.flush()
-  this.timer=setInterval(()=>{if(this.connected)this.enqueue('heartbeat',{}).then(()=>this.flush()).catch(()=>{this.disconnect()})},15000)
+  this.timer=setInterval(()=>{if(this.connected)this.enqueue('heartbeat',{}).then(()=>this.flush()).catch(()=>{this.disconnect()})},heartbeatMs)
   return session
  }
  disconnect(){this.connected=false;if(this.timer)clearInterval(this.timer);this.timer=undefined}

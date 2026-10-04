@@ -59,3 +59,14 @@ test('concurrent acceptance is not admitted twice and changed session cannot bec
  assert.equal((await db.collection('AcceptanceEvidence').find()).length,1)
  }finally{runtime.close();rmSync(root,{recursive:true,force:true})}
 })
+test('acceptance admission remains fenced after durable reopen',async()=>{
+ const root=mkdtempSync(join(tmpdir(),'acceptance-admitted-'));let runtime=new FileJsDb(join(root,'db')),db=new StateFirstDB(runtime)
+ try{
+ await db.collection('WorkerSession').insert({id:'s',prId:'p',status:'running',workspacePath:root,sequence:0,acceptanceRunId:'interrupted-run',taskPacket:{project:{repositoryPath:root},pr:{acceptanceCriteria:['npm test']}},resultEvidence:{result:'PASS'},completionRequestedAt:'now'},'s')
+ await db.collection('PR').insert({id:'p',workerSessionId:'s',status:'running'},'p')
+ runtime.close();runtime=new FileJsDb(join(root,'db'));db=new StateFirstDB(runtime)
+ await assert.rejects(evaluateAcceptance(db,'s'),/acceptance_already_admitted_requires_attention/)
+ assert.deepEqual(await db.collection('AcceptanceEvidence').find(),[])
+ assert.equal((await db.collection('PR').get('p')).status,'running')
+ }finally{runtime.close();rmSync(root,{recursive:true,force:true})}
+})

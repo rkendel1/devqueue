@@ -1,17 +1,28 @@
+import {createRequire} from 'node:module'
+import {dirname} from 'node:path'
+const require=createRequire(import.meta.url)
+const {DurableWorkerLoop}=require('../vscode-bridge/dist/worker/durable-loop.js')
 import {randomUUID} from 'node:crypto'
 import {realpath,readFile,writeFile} from 'node:fs/promises'
 import {spawn} from 'node:child_process'
 import {join,relative,isAbsolute} from 'node:path'
 // Deterministic disposable calculator worker, never marketed as general AI coding.
 export class LocalWorker {
- constructor(endpoint,token,workspace){this.endpoint=endpoint;this.token=token;this.workspace=workspace;this.status='disconnected';this.stopped=false}
+ constructor(endpoint,token,workspace,options={}){this.options=options;this.endpoint=endpoint;this.token=token;this.workspace=workspace;this.status='disconnected';this.stopped=false}
  async request(path,body,key=randomUUID()){
+  const operation=/^\/([^/]+)\/([^/]+)$/.exec(path)
+  if(body!==undefined&&operation&&this.loop&&operation[1]===this.sessionId){await this.loop.enqueue(operation[2],body,key);await this.loop.flush();return}
+  return this.direct(path,body,key)
+ }
+ async direct(path,body,key=randomUUID()){
   const response=await fetch(new URL('/api/worker-sessions'+path,this.endpoint),{method:body===undefined?'GET':'POST',redirect:'error',headers:{authorization:`Bearer ${this.token}`,'content-type':'application/json','idempotency-key':key},...(body===undefined?{}:{body:JSON.stringify(body)})});const payload=await response.json();if(!response.ok)throw new Error(payload.error);return payload.data
  }
  async connect(){if(!this.token)throw new Error('token_required');const url=new URL(this.endpoint);if(url.username||url.password||url.search||url.hash||!['http:','https:'].includes(url.protocol)||!['localhost','127.0.0.1','[::1]'].includes(url.hostname))throw new Error('local_only');this.status='idle'}
- async claim(projectId){await this.connect();const claimed=await this.request('/claim-next',{projectId,workerType:'deterministic-local-calculator',workspacePath:await realpath(this.workspace)});this.sessionId=claimed.session.id;this.packet=claimed.taskPacket;return claimed}
- async reconnect(sessionId){const session=await this.request('/'+encodeURIComponent(sessionId));if(await realpath(session.taskPacket.project.repositoryPath)!==await realpath(this.workspace))throw new Error('workspace_mismatch');this.sessionId=sessionId;this.packet=session.taskPacket;this.status=session.status==='claimed'?'idle':session.status;return session}
- async startTask(packet){
+ async claim(projectId){await this.connect();const claimed=await this.request('/claim-next',{projectId,workerType:'deterministic-local-calculator',workspacePath:await realpath(this.workspace)});this.sessionId=claimed.session.id;this.packet=claimed.taskPacket;await this.openLoop();await this.loop.bind(this.endpoint);return claimed}
+ async reconnect(sessionId){const session=await this.request('/'+encodeURIComponent(sessionId));if(await realpath(session.taskPacket.project.repositoryPath)!==await realpath(this.workspace))throw new Error('workspace_mismatch');this.sessionId=sessionId;this.packet=session.taskPacket;this.status=session.status==='claimed'?'idle':session.status;await this.openLoop();await this.loop.reconnect(this.options.heartbeatMs??15000);return session}
+ async openLoop(){if(this.loop)return;this.outboxDb=DurableWorkerLoop.open(this.options.outboxPath??join(dirname(await realpath(this.workspace)),'.dev-queue-worker'));this.loop=new DurableWorkerLoop(this.outboxDb,{inspect:id=>this.direct('/'+id),deliver:(id,action,body,key)=>this.direct('/'+id+'/'+action,body,key)},this.sessionId)}
+ async startTask(packet){try{await this.execute(packet)}catch(error){this.status='disconnected';throw error}finally{this.loop?.disconnect()}}
+ async execute(packet){
   if(packet.sessionId!==this.sessionId||await realpath(packet.project.repositoryPath)!==await realpath(this.workspace))throw new Error('workspace_mismatch')
   const operation=packet.pr.specification.trim()
   if(!['fixture:add','fixture:subtract','fixture:multiply'].includes(operation))throw new Error('LocalWorker accepts explicit disposable fixture operations only')
@@ -21,6 +32,7 @@ export class LocalWorker {
   if(!['claimed','running','waiting'].includes(current.status))throw new Error('session_not_active')
   if(current.status==='claimed')await this.request(`/${this.sessionId}/events`,{type:'started',message:'LocalWorker started verified disposable fixture operation'})
   this.status='running'
+  await this.loop.reconnect(this.options.heartbeatMs??15000)
   await this.request(`/${this.sessionId}/heartbeat`,{})
   if(operation==='fixture:add'){
    const prior=await this.request(`/${this.sessionId}/decisions`)
@@ -46,5 +58,6 @@ export class LocalWorker {
  }
  async getStatus(){return this.status}
  async sendDecision(decision){const persisted=await this.request(`/${this.sessionId}/decisions`);const found=persisted.find(d=>d.question===decision.question&&d.answer===decision.answer&&(!decision.id||d.id===decision.id));if(!found)throw new Error('decision_not_durable');await this.request(`/${this.sessionId}/decision-ack`,{decisionId:found.id})}
- async stopTask(){this.stopped=true;if(this.child)this.child.kill('SIGTERM')}
+ async stopTask(){this.stopped=true;this.loop?.disconnect();if(this.child)this.child.kill('SIGTERM')}
+ async close(){this.loop?.disconnect();if(this.outboxDb)await this.outboxDb.close();this.loop=undefined;this.outboxDb=undefined}
 }

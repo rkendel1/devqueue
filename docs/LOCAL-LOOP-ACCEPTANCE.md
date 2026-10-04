@@ -33,8 +33,8 @@ No tokens or credentials are recorded.
 | Failed retry passes | Real retry LocalWorker execution and independent npm gate |
 | Duplicate/conflicting event delivery | Existing protocol/outbox regression tests, not every case in this fixture |
 | Full VS Code-host restart | NOT RUN; no extension host |
-| LocalWorker outgoing outbox | NOT integrated into this fixture adapter; existing generic bridge outbox tests remain |
-| Continuous fixture heartbeat | Initial heartbeat observed; recurring worker heartbeat/recovery remains incomplete |
+| LocalWorker outgoing outbox | Integrated via generic FeltDB outbox; hardening verification below |
+| Continuous fixture heartbeat | Recurring active-task transport heartbeat integrated; explicit shutdown verified below |
 | Every UI control | NOT VERIFIED |
 | Browser desktop/mobile | BLOCKED |
 | Cline execution / GPT | NOT RUN / NOT IMPLEMENTED |
@@ -110,5 +110,46 @@ but only implements these explicit test operations. No vague task is passed to A
 Verified HTTP/repository slice: Dev Queue can give dependent fixture tasks to a real
 deterministic local worker, retain human answers and interruption state, execute
 independent repository acceptance commands, mark passing work done and permit the
-next normal claim. UI/browser every-action proof and complete worker durability
-integration remain unfinished. **The full requested product acceptance is not complete.**
+next normal claim. UI/browser every-action proof and full browser and VS Code-host
+acceptance remain unfinished. **The full requested product acceptance is not complete.**
+
+## Durable adapter hardening follow-up
+
+Baseline: 114d35ed727ffa520a790d5e4e7ab75cf54f227b (landed durable-worker-loop).
+LocalWorker now sends session mutations via the generic DurableWorkerLoop/FeltDB
+BridgeOutbox. Claim remains a server protocol operation, not queue logic in worker.
+Each outgoing event/result/question/decision acknowledgement persists before send;
+failed delivery stays pending. Explicit reconnect drains the same identities. Outbox
+records live by default beside the disposable workspace in .dev-queue-worker, not
+in Git workspace files; tests supply an explicit temp outbox path. Credentials
+are never written there. Only one local writer may open that path at a time.
+
+Active-task transport heartbeats recur (default 15s). They disconnect in finally,
+on explicit interruption or transport failure. Completion-pending-acceptance stops
+worker heartbeats because local execution ended, even though server still awaits
+human gates. No task retry/reclaim is triggered. Exceptions report disconnected,
+leaving durable session/outbox for attention; pending evidence is not discarded.
+
+Generic outbox admission is serialized and flush callers share/await the drain,
+which drains newly admitted items too. This fixes returning before caller evidence
+has been acknowledged during a concurrent heartbeat drain. Receipt identity/body
+and monotonic event sequence remain unchanged. Test-only 100ms heartbeats verify
+multiple active heartbeats, cessation and all acknowledged evidence. Unit tests
+cover concurrent evidence admission/order and duplicate flush without duplicates.
+
+The updated HTTP/Git scenario explicitly closes the worker FeltDB, restarts server,
+opens a new LocalWorker, reconnects and retains prior evidence/session. New checks
+verify strict contiguous event sequences per session and heartbeat cessation.
+Acceptance admission remains fenced and is never silently replayed; interrupted
+runs continue to require attention. No change to ClineWorker or VSIX audit.
+
+Browser/core UI suite was attempted and failed before launch. Every-control coverage
+and screenshots remain incomplete; see UI-ACTION-INVENTORY.md. Real VS Code-host
+checks remain unavailable. These gaps prevent claiming full Definition of Done.
+
+Hardening verification summary (this PR): 21 root tests passed; seven bridge tests
+passed; root and extension typecheck passed; Next production build passed. Real
+HTTP/Git LocalWorker restart/answer/acceptance/retry loop passed with the shared
+outbox/continuous-heartbeat assertions. Browser suite failed before page launch;
+zero screenshots; real VS Code-host NOT RUN. Full every-action browser suite remains
+unfinished, not merely a missing screenshot file. Definition of Done: **NOT COMPLETE**.
