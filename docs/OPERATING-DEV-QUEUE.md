@@ -41,3 +41,13 @@ claimed operational by this product. No hosted setup/readiness/IAM is exposed.
 
 Recovery: use VS Code Attach Existing Session, Reconnect Existing Task, Request Stop
 or Inspect. No automatic claim/resume. See [durable loop](DURABLE-WORKER-LOOP.md).
+
+## Command acceptance follow-up
+
+After worker completion request, Run acceptance gates is a human-authorized action
+in the worker inspection panel. Exact npm test/typecheck/build criteria from the
+immutable packet execute locally; stdout/stderr/exit status persist in FeltDB.
+All gates must pass for server-owned done. Worker PASS alone still cannot do this.
+Use only trusted repositories. Interrupted acceptance requires attention, not auto-retry.
+LocalWorker is a restricted disposable calculator adapter; Cline remains disabled.
+See LOCAL-LOOP-ACCEPTANCE.md for actual test coverage and blocked browser screenshots.

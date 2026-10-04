@@ -50,3 +50,21 @@ Extension: `npm run typecheck`, `npm run build`, `npm test` within vscode-bridge
 Durable recovery/outbox/stop reference: [docs/DURABLE-WORKER-LOOP.md](docs/DURABLE-WORKER-LOOP.md).
 Extension dependencies must be installed before `npm run test:worker-http`; that
 script builds the bridge and verifies its generic transport against real local Next.
+
+## Deterministic local fixture worker and acceptance
+
+LocalWorker is a real, restricted disposable calculator adapter—not Cline or a
+mock queue. `npm run test:local-loop` runs actual Git/files/npm/protocol work.
+`npm run worker:local -- <projectId> <fixture-repository> [existing-session]`
+uses DEV_QUEUE_WORKER_TOKEN, explicit claim/reconnect, and fixture:add/subtract/multiply
+specifications. General coding tasks remain unsupported by this adapter.
+
+After worker PASS evidence and completion request, a human can explicitly authorize
+**Run acceptance gates** in session inspection. Exact supported criteria are npm test,
+npm run typecheck, npm run build. Real gate output persists and the server decides
+done/failed. Empty/text-only gates do not pass. No manual mark-done button.
+Only trusted repository scripts should be authorized. Interrupted gate admission
+requires attention; there is no automatic gate/task retry.
+
+[Local loop acceptance report](docs/LOCAL-LOOP-ACCEPTANCE.md) distinguishes passing
+HTTP/repository tests from blocked browser/screenshot and unfinished adapter proofs.

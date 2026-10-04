@@ -206,6 +206,11 @@
           "required": false
         },
         {
+          "name": "acceptanceRunId",
+          "type": "text",
+          "required": false
+        },
+        {
           "name": "stopRequestedAt",
           "type": "datetime",
           "required": false
@@ -356,6 +361,66 @@
           "required": true
         }
       ]
+    },
+    {
+      "name": "AcceptanceEvidence",
+      "fields": [
+        {
+          "name": "id",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "prId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "sessionId",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "command",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "workingDirectory",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "startedAt",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "completedAt",
+          "type": "datetime",
+          "required": true
+        },
+        {
+          "name": "exitCode",
+          "type": "integer",
+          "required": false
+        },
+        {
+          "name": "stdout",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "stderr",
+          "type": "text",
+          "required": true
+        },
+        {
+          "name": "result",
+          "type": "text",
+          "required": true
+        }
+      ]
     }
   ],
   "indexes": [],
@@ -433,6 +498,13 @@
     {
       "name": "WorkerRequest",
       "resource": "WorkerRequest",
+      "read": "authenticated",
+      "write": "authenticated",
+      "capabilities": []
+    },
+    {
+      "name": "AcceptanceEvidence",
+      "resource": "AcceptanceEvidence",
       "read": "authenticated",
       "write": "authenticated",
       "capabilities": []
