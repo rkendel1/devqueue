@@ -60,7 +60,11 @@ export default function Page() {
   const [isQueueRunning, setIsQueueRunning] = useState(true)
   const [attentionOpen, setAttentionOpen] = useState(true)
   const [toast, setToast] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [activeView, setActiveView] = useState('Overview')
+  const [nextId, setNextId] = useState(21)
 
+  const filteredQueue = queue.filter((item) => `${item.title} ${item.objective} ${item.id}`.toLowerCase().includes(searchQuery.toLowerCase()))
   const selected = queue.find((item) => item.id === selectedId) ?? queue[0]
   const counts = useMemo(() => ({
     queued: queue.filter((item) => item.status === 'queued').length,
@@ -83,8 +87,17 @@ export default function Page() {
   }
 
   function runNext() {
+    if (!isQueueRunning) {
+      setToast('Start the queue before running a PR')
+      window.setTimeout(() => setToast(''), 2200)
+      return
+    }
     const next = queue.find((item) => item.status === 'queued')
-    if (!next) return
+    if (!next) {
+      setToast('No queued PRs are ready')
+      window.setTimeout(() => setToast(''), 2200)
+      return
+    }
     setQueue((current) => current.map((item) => item.id === next.id ? { ...item, status: 'running', worker: 'Cline', elapsed: '0m 02s' } : item))
     setSelectedId(next.id)
     setToast(`Started PR #${next.id}`)
@@ -105,25 +118,21 @@ export default function Page() {
         <div className="brand"><div className="brand-mark"><Zap /></div><div><strong>dev queue</strong><span>control plane</span></div></div>
         <div className="workspace-switcher"><div className="workspace-icon">C</div><div><strong>Compute</strong><span>portable execution fabric</span></div><ChevronRight className="chevron" /></div>
         <nav className="sidebar-nav" aria-label="Primary navigation">
-          <button className="nav-item active"><LayoutDashboard />Overview</button>
-          <button className="nav-item"><ListChecks />PR Queue <span className="nav-count">18</span></button>
-          <button className="nav-item"><Radio />Worker <span className="nav-live">LIVE</span></button>
-          <button className="nav-item"><Bell />Attention <span className="nav-alert">1</span></button>
-          <button className="nav-item"><Clock3 />Activity</button>
+          {['Overview', 'PR Queue', 'Worker', 'Attention', 'Activity'].map((view) => <button key={view} className={`nav-item ${activeView === view ? 'active' : ''}`} onClick={() => { setActiveView(view); if (view === 'Attention') setAttentionOpen(true) }}><span>{view === 'Overview' ? <LayoutDashboard /> : view === 'PR Queue' ? <ListChecks /> : view === 'Worker' ? <Radio /> : view === 'Attention' ? <Bell /> : <Clock3 />}</span>{view}{view === 'PR Queue' && <span className="nav-count">{queue.length}</span>}{view === 'Worker' && <span className="nav-live">LIVE</span>}{view === 'Attention' && counts.waiting > 0 && <span className="nav-alert">{counts.waiting}</span>}</button>)}
         </nav>
         <div className="sidebar-bottom"><button className="nav-item"><Settings2 />Settings</button><div className="bridge-card"><div className="bridge-status"><span className="pulse" />Bridge connected</div><span>VS Code · /src/compute</span><button>Manage bridge <ChevronRight /></button></div><div className="user-row"><div className="avatar">RA</div><div><strong>Randy Anderson</strong><span>Local workspace</span></div><MoreHorizontal /></div></div>
       </aside>
 
       <section className="content-area">
-        <header className="topbar"><div className="crumbs"><span>Projects</span><ChevronRight /><strong>Compute</strong></div><div className="top-actions"><div className="search"><Search /><input aria-label="Search queue" placeholder="Search queue" /></div><button className="icon-button" aria-label="Notifications"><Bell /><span className="notification-dot" /></button><button className="avatar small">RA</button></div></header>
+        <header className="topbar"><div className="crumbs"><span>Projects</span><ChevronRight /><strong>Compute</strong></div><div className="top-actions"><div className="search"><Search /><input aria-label="Search queue" placeholder="Search queue" value={searchQuery} onChange={(event) => setSearchQuery(event.target.value)} /></div><button className="icon-button" aria-label="Notifications"><Bell /><span className="notification-dot" /></button><button className="avatar small">RA</button></div></header>
         <div className="page-content">
-          <div className="page-heading"><div><div className="eyebrow"><span className="live-dot" />AUTONOMOUS QUEUE</div><h1>Good morning, Randy.</h1><p>Here&apos;s what&apos;s moving through Compute today.</p></div><div className="heading-actions"><button className="secondary-button"><Plus />New PR</button><button className="primary-button" onClick={runNext}><Play />Run next</button></div></div>
+          <div className="page-heading"><div><div className="eyebrow"><span className="live-dot" />AUTONOMOUS QUEUE</div><h1>Good morning, Randy.</h1><p>Here&apos;s what&apos;s moving through Compute today.</p></div><div className="heading-actions"><button className="secondary-button" onClick={() => { const id = nextId; setNextId((value) => value + 1); setQueue((current) => [...current, { id, title: `New queue item ${id}`, objective: 'Define the implementation objective for this pull request.', status: 'queued', branch: `dev-queue/pr-${id}` }]); setSelectedId(id); setToast(`PR #${id} added to the queue`); window.setTimeout(() => setToast(''), 2200) }}><Plus />New PR</button><button className="primary-button" onClick={runNext}><Play />Run next</button></div></div>
 
           <div className="stats-grid"><div className="stat-card"><span className="stat-label">Queue health</span><strong className="stat-value">{counts.queued + counts.running + counts.waiting}<small> active</small></strong><span className="stat-meta green"><CircleDot /> On track</span></div><div className="stat-card"><span className="stat-label">Running now</span><strong className="stat-value">{counts.running}<small> worker</small></strong><span className="stat-meta"><Terminal /> Cline · 12m 34s</span></div><div className="stat-card attention-stat"><span className="stat-label">Needs attention</span><strong className="stat-value">{counts.waiting}<small> item</small></strong><span className="stat-meta amber"><AlertTriangle /> Review required</span></div><div className="stat-card"><span className="stat-label">Completed</span><strong className="stat-value">{counts.done}<small> this week</small></strong><span className="stat-meta"><Check /> 92% gate pass rate</span></div></div>
 
           {attentionOpen && <section className="attention-banner"><div className="attention-icon"><AlertTriangle /></div><div className="attention-copy"><div><strong>1 item needs your attention</strong><span>PR #19 · Service gateway cleanup</span></div><p>Cline is blocked on an architectural decision. GPT recommends preserving the existing service contract.</p></div><div className="attention-actions"><button className="text-button" onClick={() => setSelectedId(19)}>View question <ChevronRight /></button><button className="approve-button" onClick={resolveAttention}>Approve decision <Check /></button></div></section>}
 
-          <div className="dashboard-grid"><section className="queue-panel panel"><div className="panel-heading"><div><div className="section-kicker"><span className="live-dot" />LIVE QUEUE</div><h2>PR queue <span>· {queue.length} PRs</span></h2></div><div className="queue-controls"><button className={isQueueRunning ? 'control-button running' : 'control-button'} onClick={() => setIsQueueRunning((value) => !value)}>{isQueueRunning ? <Pause /> : <Play />}{isQueueRunning ? 'Pause' : 'Start'} queue</button><button className="icon-button"><MoreHorizontal /></button></div></div><div className="queue-list">{queue.map((item, index) => <button className={`queue-row ${selectedId === item.id ? 'selected' : ''}`} key={item.id} onClick={() => setSelectedId(item.id)}><span className="drag-handle"><GripVertical /></span><span className="pr-number">#{item.id}</span><span className="queue-main"><strong>{item.title}</strong><span>{item.objective}</span>{item.dependency && <em><GitBranch /> {item.dependency}</em>}</span><span className="queue-row-right"><StatusPill status={item.status} /><span className="row-actions"><button aria-label={`Move PR ${item.id} up`} onClick={(event) => { event.stopPropagation(); moveItem(item.id, -1) }} disabled={index === 0}><ArrowUp /></button><button aria-label={`Move PR ${item.id} down`} onClick={(event) => { event.stopPropagation(); moveItem(item.id, 1) }} disabled={index === queue.length - 1}><ArrowDown /></button></span></span></button>)}</div><button className="view-all">View all PRs <ChevronRight /></button></section>
+          <div className="dashboard-grid"><section className="queue-panel panel"><div className="panel-heading"><div><div className="section-kicker"><span className="live-dot" />LIVE QUEUE</div><h2>PR queue <span>· {queue.length} PRs</span></h2></div><div className="queue-controls"><button className={isQueueRunning ? 'control-button running' : 'control-button'} onClick={() => setIsQueueRunning((value) => !value)}>{isQueueRunning ? <Pause /> : <Play />}{isQueueRunning ? 'Pause' : 'Start'} queue</button><button className="icon-button"><MoreHorizontal /></button></div></div><div className="queue-list">{filteredQueue.map((item, index) => <div className={`queue-row ${selectedId === item.id ? 'selected' : ''}`} key={item.id} role="button" tabIndex={0} onClick={() => setSelectedId(item.id)} onKeyDown={(event) => { if (event.key === 'Enter' || event.key === ' ') setSelectedId(item.id) }}><span className="drag-handle"><GripVertical /></span><span className="pr-number">#{item.id}</span><span className="queue-main"><strong>{item.title}</strong><span>{item.objective}</span>{item.dependency && <em><GitBranch /> {item.dependency}</em>}</span><span className="queue-row-right"><StatusPill status={item.status} /><span className="row-actions"><button aria-label={`Move PR ${item.id} up`} onClick={(event) => { event.stopPropagation(); moveItem(item.id, -1) }} disabled={index === 0}><ArrowUp /></button><button aria-label={`Move PR ${item.id} down`} onClick={(event) => { event.stopPropagation(); moveItem(item.id, 1) }} disabled={index === filteredQueue.length - 1}><ArrowDown /></button></span></span></div>)}</div><button className="view-all" onClick={() => { setSearchQuery(''); setToast('Showing all PRs'); window.setTimeout(() => setToast(''), 1800) }}>View all PRs <ChevronRight /></button></section>
 
             <aside className="detail-panel panel"><div className="detail-top"><span className="section-kicker">CURRENTLY RUNNING</span><StatusPill status={selected.status} /></div><div className="detail-title"><span className="detail-pr">PR #{selected.id}</span><h2>{selected.title}</h2><p>{selected.objective}</p></div><div className="worker-card"><div className="worker-icon"><Code2 /></div><div><strong>{selected.worker ?? 'Cline'}</strong><span>{selected.status === 'running' ? `Working for ${selected.elapsed}` : 'Ready to execute'}</span></div><span className="worker-live"><span className="pulse" />Live</span></div><div className="progress-block"><div className="progress-label"><span>Acceptance gates</span><strong>{selected.status === 'done' ? '4 / 4' : '2 / 4'}</strong></div><div className="progress-track"><span style={{ width: selected.status === 'done' ? '100%' : '54%' }} /></div><div className="gate-list"><span><Check /> Typecheck</span><span><Check /> Unit tests</span><span className={selected.status === 'done' ? 'complete' : ''}><CircleDot /> Runtime verification</span><span><CircleDot /> No unrelated changes</span></div></div><div className="detail-footer"><span><GitBranch /> {selected.branch}</span><button className="text-button">Open details <ChevronRight /></button></div></aside></div>
 
