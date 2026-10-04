@@ -37,3 +37,9 @@ test('HTTP client preserves authoritative packet and explicit retry identity; in
  await assert.rejects(new HttpDevQueueClient(endpoint,async()=>'invalid').inspect('session-a'),/401/)
  }finally{await new Promise(resolve=>server.close(resolve))}
 })
+test('connection readiness is GET only, not a claim or evidence write',async()=>{
+ const http=require('node:http');let requests=[]
+ const server=http.createServer((req,res)=>{requests.push({method:req.method,path:req.url});res.setHeader('content-type','application/json');res.end(JSON.stringify({data:{authenticated:true,authorized:true,workerId:'worker',projectId:'p',repositoryPath:'/test'}}))})
+ await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve))
+ try{const client=new HttpDevQueueClient(`http://127.0.0.1:${server.address().port}`,async()=>'worker-test-token');const ready=await client.readiness('p');assert.equal(ready.authorized,true);assert.deepEqual(requests,[{method:'GET',path:'/api/worker-sessions/readiness?projectId=p'}])}finally{await new Promise(resolve=>server.close(resolve))}
+})

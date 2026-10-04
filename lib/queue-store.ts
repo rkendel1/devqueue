@@ -20,6 +20,10 @@ export function database() {
     const url = process.env.FELTDB_URL
     const token = process.env.FELTDB_TOKEN
     if (!url || !token) throw new Error('Configure FELTDB_URL and server-only FELTDB_TOKEN; no ephemeral fallback is permitted')
+    if (process.env.NODE_ENV === 'production') {
+      const parsed = new URL(url)
+      if (parsed.protocol !== 'https:' || parsed.username || parsed.password || parsed.search || parsed.hash || !process.env.FELTDB_APPLICATION_ID || !process.env.FELTDB_ENVIRONMENT) throw new Error('Invalid production authority configuration')
+    }
     instance = createFeltDB({ namespace: 'dev-queue', server: { url, token, applicationId: process.env.FELTDB_APPLICATION_ID, environment: process.env.FELTDB_ENVIRONMENT ?? 'development' } })
   }
   return instance
@@ -50,24 +54,28 @@ export async function updatePR(prId: string, patch: Partial<Omit<PR, 'id'|'creat
 export async function deletePR(prId: string) { const existing = await getPR(prId); if (!existing) return false; if (['running', 'waiting'].includes(existing.status)) throw new Error('Cannot delete active work'); (await remove('prs', prId)); return true }
 export async function reorderPRs(projectId: string, orderedIds: string[]) { const basis = await database().readBasis({ predicates: [{ collection: 'PR', where: [{ field: 'projectId', eq: projectId }] }] }); const all = (await listPRs(projectId)); if (orderedIds.length !== all.length || new Set(orderedIds).size !== all.length || orderedIds.some((x) => !all.some((p) => p.id === x))) return false; await database().transaction({ fences: [basis], operations: orderedIds.map((prId, priority) => ({ collection: 'PR', id: prId, value: { ...all.find(p => p.id === prId)!, priority, updatedAt: now() } })) }); return true }
 
-export async function listQueue(): Promise<QueueItem[]> { return (await listPRs('default-project')).map((p) => ({ ...p, id: p.number, dependency: p.dependencies[0], branch: p.branch ?? `dev-queue/pr-${p.number}` })) }
-export async function createQueueItem(input: { title: string; objective: string; status?: QueueStatus; dependency?: string; branch?: string }) {
-  const db = database()
-  const basis = await db.readBasis({ records: [{ collection: 'Project', id: 'default-project' }], predicates: [{ collection: 'PR', where: [{ field: 'projectId', eq: 'default-project' }] }] })
-  const project = await getProject('default-project')
-  const all = await listPRs('default-project')
-  const timestamp = now()
-  const pr: PR = { id: id(), projectId: 'default-project', number: Math.max(0, ...all.map(p => p.number)) + 1, title: input.title, objective: input.objective, specification: input.objective, acceptanceCriteria: [], constraints: [], dependencies: input.dependency ? [input.dependency] : [], status: 'queued', priority: Math.max(-1, ...all.map(p => p.priority)) + 1, position: all.length, ...(input.branch ? { branch: input.branch } : {}), createdAt: timestamp, updatedAt: timestamp }
-  await db.transaction({ fences: [basis], operations: [
-    ...(!project ? [{ collection: 'Project', id: 'default-project', requireAbsent: true, value: { id: 'default-project', name: 'Dev Queue', goal: 'Execute queued work reliably', repositoryPath: process.env.DEV_QUEUE_REPOSITORY_PATH ?? process.cwd(), defaultBranch: 'main', createdAt: timestamp, updatedAt: timestamp } }] : []),
-    { collection: 'PR', id: pr.id, requireAbsent: true, value: pr },
-  ] })
-  return { ...pr, id: pr.number }
+export async function requireProject(projectId: string) {
+ if (!projectId) throw new Error('projectId_required')
+ const project = await getProject(projectId)
+ if (!project) throw new Error('project_not_found')
+ return project
 }
-async function getQueuePR(number: number) { return (await listPRs('default-project')).find((pr) => pr.number === number) ?? null }
-export async function updateQueueItem(number: number, patch: Partial<QueueItem>) { const item = (await getQueuePR(number)); return item ? (await updatePR(item.id, patch)) : null }
-export async function deleteQueueItem(number: number) { const item = (await getQueuePR(number)); return item ? deletePR(item.id) : false }
-export async function reorderQueue(number: number, direction: 'up'|'down') { const items = (await listPRs('default-project')); const index = items.findIndex((x) => x.number === number); const target = index + (direction === 'up' ? -1 : 1); if (index < 0 || target < 0 || target >= items.length) return null; const ids = items.map((item) => item.id); [ids[index], ids[target]] = [ids[target], ids[index]]; (await reorderPRs('default-project', ids)); return (await listQueue()) }
+export async function listQueue(projectId: string): Promise<QueueItem[]> { await requireProject(projectId); return (await listPRs(projectId)).map(p => ({ ...p, id: p.number })) }
+export async function createQueueItem(input: { projectId: string; title: string; objective: string; specification?: string; acceptanceCriteria?: string[]; constraints?: string[]; dependencies?: string[]; number?: number; priority?: number; position?: number; branch?: string }) {
+ const db=database(), projectId=input.projectId
+ await requireProject(projectId)
+ const basis=await db.readBasis({ records:[{collection:'Project',id:projectId}],predicates:[{collection:'PR',where:[{field:'projectId',eq:projectId}]}] })
+ const all=await listPRs(projectId),timestamp=now()
+ const number=input.number ?? Math.max(0,...all.map(p=>p.number))+1
+ if (!Number.isInteger(number)||number<1||all.some(p=>p.number===number))throw new Error('invalid_or_duplicate_number')
+ const pr:PR={id:id(),projectId,number,title:input.title,objective:input.objective,specification:input.specification??'',acceptanceCriteria:input.acceptanceCriteria??[],constraints:input.constraints??[],dependencies:input.dependencies??[],status:'queued',priority:input.priority??Math.max(-1,...all.map(p=>p.priority))+1,position:input.position??all.length,...(input.branch?{branch:input.branch}:{}),createdAt:timestamp,updatedAt:timestamp}
+ await db.transaction({fences:[basis],operations:[{collection:'PR',id:pr.id,requireAbsent:true,value:pr}]})
+ return {...pr,id:pr.number}
+}
+async function getQueuePR(projectId:string,number:number){await requireProject(projectId);return (await listPRs(projectId)).find(p=>p.number===number)??null}
+export async function updateQueueItem(projectId:string,number:number,patch:Partial<QueueItem>){const item=await getQueuePR(projectId,number);if(!item)return null;const basis=await database().readBasis({records:[{collection:'PR',id:item.id}]});const latest=await getPR(item.id);if(!latest)return null;const allowed=['title','objective','specification','acceptanceCriteria','constraints','dependencies','branch','priority','position'];const safe=Object.fromEntries(Object.entries(patch).filter(([k])=>allowed.includes(k)));const updated={...latest,...safe,updatedAt:now()};await database().transaction({fences:[basis],operations:[{collection:'PR',id:item.id,value:updated}]});return {...updated,id:updated.number}}
+export async function deleteQueueItem(projectId:string,number:number){const item=await getQueuePR(projectId,number);return item?deletePR(item.id):false}
+export async function reorderQueue(projectId:string,number:number,direction:'up'|'down'){await requireProject(projectId);const items=await listPRs(projectId),index=items.findIndex(p=>p.number===number),target=index+(direction==='up'?-1:1);if(index<0||target<0||target>=items.length)return null;const ids=items.map(p=>p.id);[ids[index],ids[target]]=[ids[target],ids[index]];await reorderPRs(projectId,ids);return listQueue(projectId)}
 export async function closeQueueStore() { instance?.close() }
 
 export async function nextExecutablePR(projectId: string) { return selectNext(await listPRs(projectId)) }

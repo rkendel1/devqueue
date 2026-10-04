@@ -48,8 +48,8 @@ protected local environment storage. Generate distinct random tokens of at least
 
 If local file authority is not opted in, the server needs an authenticated durable
 remote FeltDB authority. `.env.example` supplies field names, not valid tokens.
-Remote provisioning is not performed. Production rejects local mode and all API
-requests until trusted caller identity is integrated.
+Remote provisioning is not performed. Production rejects local mode and requires real remote authority plus deployment
+operator configuration. Worker identities/grants are durable FeltDB records.
 
 ```sh
 npm run feltdb:validate
@@ -60,8 +60,8 @@ Human API requests need `Authorization: Bearer <human-token>` (inject securely i
 local client, never URL parameters or committed snippets). Create projects with
 name, goal, repositoryPath and defaultBranch. GET /api/projects obtains record IDs;
 PATCH /api/projects/:id updates the repository path. Local worker grants must name
-those IDs. The queue UI and queue API bind to default-project; rich task editing
-and browser credential UX are not implemented. See operator guide before assuming
+those IDs. Queue requests require explicit projectId. The human UI selects projects and
+edits specification/criteria independently; its credential input is memory-only. See operator guide before assuming
 a custom project is selectable in the UI.
 
 For independent protocol verification run `npm run test:worker-http`; its generated
@@ -113,15 +113,47 @@ with this shape; replace every placeholder locally and do not commit the result:
 [{"id":"local-worker","token":"<distinct-random-worker-token>","projects":["default-project"]}]
 ```
 
-Use a different random value for DEV_QUEUE_LOCAL_HUMAN_TOKEN. With local auth and
-DEV_QUEUE_LOCAL_DATA_PATH configured, an authorized human POST /api/queue creates
-default-project on first use. Set DEV_QUEUE_REPOSITORY_PATH before that creation
-so its repositoryPath matches the worker machine. If default-project already
-exists, update its repositoryPath through PATCH /api/projects/default-project;
-changing the environment variable does not rewrite the existing record.
+Use a distinct random value for DEV_QUEUE_LOCAL_HUMAN_TOKEN. Create the project
+first through the human API, then use its actual ID in worker project grants.
+The project repositoryPath is the worker machine's authorized absolute path.
+There is no implicit project creation or default-project queue fallback.
 
-Worker identities are config-defined; there is no sign-up flow. Reconfigure the
+Local test identities are config-defined; production identities/grants are durable
+FeltDB records provisioned by human authority. There is no worker sign-up flow. Reconfigure the
 local server after changing grants. VS Code Configure Worker stores only the
 worker token, while endpoint/project are ordinary non-secret settings. A human
 token is not accepted as worker identity unless someone incorrectly duplicates
 it into worker configuration; the authenticator rejects such duplication.
+
+## Production authority and authentication
+
+feltdb.config.json is runtime/application configuration; feltdb.contract.json is
+the SDK-generated candidate schema/contract, never a credential. Existing database()
+already consumes FELTDB_URL, FELTDB_TOKEN, FELTDB_APPLICATION_ID and FELTDB_ENVIRONMENT.
+Production validates HTTPS and explicit application/environment, and never opts
+into local file storage. Preview should receive preview-specific authority scope
+through the same names. No NEXT_PUBLIC_ token is allowed.
+
+Provision the actual FeltDB authority and activate/validate the extended contract
+before enabling hosted operation. Set variables in [prism Environment Variables](https://vercel.com/votersvoices1-6569s-projects/prism/settings/environment-variables),
+separately for Preview and Production. Production application/environment may be
+FELTDB_APPLICATION_ID=dev-queue and FELTDB_ENVIRONMENT=production **only if those
+are real provisioned identities**. FELTDB_URL/TOKEN must come from that authority.
+Also set DEV_QUEUE_HUMAN_TOKEN_SHA256 to the SHA-256 of a distinct randomly generated
+operator token. Keep the original operator token protected; no shared worker key.
+
+Human GET /api/readiness verifies canonical application discovery and returns only
+ready/applicationId/environment. Worker GET /api/worker-sessions/readiness?projectId
+checks identity, persisted project grant and repositoryPath without modifying state.
+No URL/token/digest is exposed in readiness. Missing/invalid/unavailable authority
+fails 503; invalid worker fails 401; unauthorized project fails 403.
+
+Credential lifecycle: human POST /api/workers with name/projectIds/operator-generated
+opaque token stores only SHA-256 verification data; response is metadata only.
+Human GET /api/workers/:id inspects safe metadata, DELETE revokes. Workers cannot
+call human routes. No production secrets are changed by this PR.
+
+The older default-project setup notes above are superseded: every queue request now
+requires an explicit projectId and does not create a hidden project. Create a project
+first, use its returned ID in worker grants and bridge settings. Existing local
+protocol test fixtures retain their own explicitly named projects.

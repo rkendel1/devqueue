@@ -20,6 +20,16 @@ export function activate(context: vscode.ExtensionContext) {
   const doc=await vscode.workspace.openTextDocument({language:'json',content:JSON.stringify(session,null,2)})
   await vscode.window.showTextDocument(doc)
  }
+ context.subscriptions.push(vscode.commands.registerCommand('devQueue.testConnection',()=>guarded(async()=>{
+  if (!vscode.workspace.isTrusted) throw new Error('Trusted workspace required')
+  const roots=vscode.workspace.workspaceFolders
+  if (!roots || roots.length!==1 || roots[0].uri.scheme!=='file')throw new Error('Exactly one local workspace required')
+  const projectId=config().get<string>('projectId')!
+  if (!projectId)throw new Error('Configure devQueue.projectId')
+  const readiness=await client(config().get<string>('endpoint')!).readiness(projectId)
+  await verifyWorkspace(readiness.repositoryPath,roots.map(r=>r.uri.fsPath))
+  void vscode.window.showInformationMessage(`Authenticated worker ${readiness.workerId}; project ${readiness.projectId} authorized; workspace matches. No work claimed.`)
+ })))
  context.subscriptions.push(vscode.commands.registerCommand('devQueue.setup',()=>guarded(async()=>{
   const endpoint=config().get<string>('endpoint')!
   client(endpoint) // validate transport before storing credentials

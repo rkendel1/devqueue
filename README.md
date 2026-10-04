@@ -11,7 +11,7 @@ Dev Queue is the control plane for durable coding work.
 - [Deployed control plane](https://prism-nine-jade.vercel.app) — not the worker
 
 **Hosted coding execution is not operational.** This branch's production APIs
-fail closed pending trusted authentication; no production worker credentials are
+require real authority and operator configuration and fail closed without it; no production worker credentials are
 provisioned. The Cline adapter is disabled pending an installed-version public API
 audit. Local authenticated protocol tests prove durability, not real Cline execution.
 

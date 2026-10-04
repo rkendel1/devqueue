@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { timingSafeEqual } from 'node:crypto'
+import { authenticateHuman } from './lib/production-auth'
+import { ProtocolError } from './lib/auth-types'
 export function proxy(request: NextRequest) {
-  if (process.env.NODE_ENV === 'production') return NextResponse.json({ error: 'Dev Queue production API is disabled pending trusted caller authentication.' }, { status: 503 })
+ try {
+  if (process.env.NODE_ENV === 'production' && (!process.env.FELTDB_URL || !process.env.FELTDB_TOKEN || !process.env.FELTDB_APPLICATION_ID || !process.env.FELTDB_ENVIRONMENT || !process.env.DEV_QUEUE_HUMAN_TOKEN_SHA256)) return NextResponse.json({error:'production_configuration_unavailable'},{status:503})
   if (request.nextUrl.pathname.startsWith('/api/worker-sessions')) return NextResponse.next()
-  const expected = process.env.DEV_QUEUE_LOCAL_HUMAN_TOKEN ?? ''
-  const supplied = request.headers.get('authorization')?.replace(/^Bearer /, '') ?? ''
-  if (process.env.DEV_QUEUE_LOCAL_AUTH !== 'enabled' || expected.length < 32 || Buffer.byteLength(expected) !== Buffer.byteLength(supplied) || !timingSafeEqual(Buffer.from(expected), Buffer.from(supplied))) return NextResponse.json({ error: 'human_capability_required' }, { status: 403 })
+  authenticateHuman(request)
   return NextResponse.next()
+ } catch(error) { return NextResponse.json({ error: error instanceof ProtocolError ? error.message : 'authentication_unavailable' }, {status:error instanceof ProtocolError ? error.status : 503}) }
 }
 export const config = { matcher: '/api/:path*' }

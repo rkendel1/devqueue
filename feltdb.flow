@@ -139,4 +139,36 @@ app dev_queue {
     read: authenticated
     write: authenticated
   }
+  collection Worker {
+    id: text
+    name: text
+    status: text
+    createdAt: datetime
+  }
+  collection WorkerProjectGrant {
+    id: text
+    workerId: text
+    projectId: text
+    permissions: json
+    createdAt: datetime
+  }
+  collection WorkerCredential {
+    id: text
+    workerId: text
+    digest: text
+    createdAt: datetime
+    revokedAt: datetime?
+  }
+  policy Worker {
+    read: authenticated
+    write: authenticated
+  }
+  policy WorkerProjectGrant {
+    read: authenticated
+    write: authenticated
+  }
+  policy WorkerCredential {
+    read: authenticated
+    write: authenticated
+  }
 }
