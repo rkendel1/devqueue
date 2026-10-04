@@ -25,3 +25,8 @@ Heartbeat activity is not a lease; no stale automatic failure or reclaim.
 
 No Cline execution/answer delivery, GPT, acceptance automation, pause/resume adapter,
 active bridge heartbeat or outbox is completed. Tests prove protocol, not coding.
+
+Recovery follow-up: see docs/DURABLE-WORKER-LOOP.md. Heartbeats now append durable
+transport evidence. stop fences new execution requests; stop-ack confirms safe
+termination and fails the attempt. decision-ack records consumption durably. The
+bridge has FeltDB outbox/reconnect transport, not an implemented Cline coding loop.

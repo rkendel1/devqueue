@@ -7,7 +7,7 @@ export type PR = { id: string; projectId: string; number: number; title: string;
 export type QueueItem = Omit<PR, 'id'> & { id: number; dependency?: string; elapsed?: string; worker?: string }
 export type WorkerStatus = 'disconnected' | 'idle' | 'running' | 'waiting' | 'completed' | 'failed'
 export type WorkerSession = { id: string; projectId: string; prId: string; workerType: string; workspacePath: string; status: WorkerStatus; startedAt: string; updatedAt: string; completedAt?: string }
-export type WorkerEvent = { id: string; sessionId: string; type: 'started'|'output'|'progress'|'question'|'error'|'completed'; message: string; metadata?: Record<string, unknown>; createdAt: string }
+export type WorkerEvent = { id: string; sessionId: string; type: 'started'|'output'|'progress'|'question'|'error'|'heartbeat'|'completed'|'failed'; message: string; metadata?: Record<string, unknown>; createdAt: string }
 export type Decision = { id: string; sessionId: string; prId: string; question: string; answer: string; recommendation?: string; confidence?: number; requiresHumanApproval: boolean; createdAt: string }
 
 let instance: ReturnType<typeof createFeltDB> | undefined

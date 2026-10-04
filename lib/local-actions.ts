@@ -8,7 +8,7 @@ export async function answerQuestion(sessionId:string,answer:string){
  if(!original)throw new ProtocolError(404,'session_not_found')
  const basis=await db.readBasis({records:[{collection:'WorkerSession',id:sessionId},{collection:'PR',id:original.prId}]})
  const session=await db.collection<Session>('WorkerSession').get(sessionId),pr=await db.collection<PR>('PR').get(original.prId)
- if(!session||!pr||session.status!=='waiting'||pr.workerSessionId!==sessionId||!session.currentQuestion)throw new ProtocolError(409,'not_waiting')
+ if(!session||session.stopRequestedAt||!pr||session.status!=='waiting'||pr.workerSessionId!==sessionId||!session.currentQuestion)throw new ProtocolError(409,'not_waiting')
  const timestamp=new Date().toISOString(),id=crypto.randomUUID(),sequence=session.sequence+1
  const decision={id,sessionId,prId:pr.id,question:session.currentQuestion,answer,requiresHumanApproval:true,createdAt:timestamp}
  await db.transaction({fences:[basis],operations:[{collection:'Decision',id,requireAbsent:true,value:decision},{collection:'WorkerSession',id:sessionId,value:{...session,status:'running',currentQuestion:'',sequence,updatedAt:timestamp}},{collection:'PR',id:pr.id,value:{...pr,status:'running',currentQuestion:'',updatedAt:timestamp}},{collection:'WorkerEvent',id:`${sessionId}-${sequence}`,requireAbsent:true,value:{id:`${sessionId}-${sequence}`,sessionId,sequence,type:'progress',message:'Local operator answered question',metadata:{decisionId:id},createdAt:timestamp}}]})

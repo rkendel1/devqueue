@@ -28,6 +28,18 @@
       {
         "command": "devQueue.testConnection",
         "title": "Dev Queue: Test Connection"
+      },
+      {
+        "command": "devQueue.reconnect",
+        "title": "Dev Queue: Reconnect Existing Task"
+      },
+      {
+        "command": "devQueue.stop",
+        "title": "Dev Queue: Request Stop"
+      },
+      {
+        "command": "devQueue.attachSession",
+        "title": "Dev Queue: Attach Existing Session"
       }
     ],
     "configuration": {
@@ -53,5 +65,8 @@
     "typescript": "^5.7.3",
     "@types/node": "^24",
     "@types/vscode": "^1.95.0"
+  },
+  "dependencies": {
+    "@feltdb/core": "0.11.9"
   }
 }

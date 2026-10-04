@@ -24,9 +24,14 @@ VSIX/source, documented public task and event APIs for the next adapter PR.
 
 Local operators can answer durable questions. Workers read their session's Decisions
 through GET /api/worker-sessions/:id/decisions. Actual Cline answer delivery and
-pause/resume are not implemented. Heartbeat endpoint exists but active bridge
-heartbeat/outbox lifecycle remains unfinished. Completion requests remain pending
+pause/resume are not implemented. Explicit reconnect now drains the FeltDB outbox and sends transport heartbeats.
+Actual Cline activity observation remains unavailable, so transport must not be
+interpreted as coding progress. Completion requests remain pending
 actual acceptance enforcement. No GPT, auto-merge or deployment automation.
 
 Build/test from vscode-bridge: npm run typecheck, npm run build, npm test.
 F5 launch configuration is included. Actual VS Code/Cline host dogfood is unverified.
+
+Durable loop reference: [DURABLE-WORKER-LOOP.md](DURABLE-WORKER-LOOP.md).
+Reconnect Existing Task and Request Stop are explicit commands. FeltDB outbox and
+binding records now retain transport state; no coding resumes on extension startup.

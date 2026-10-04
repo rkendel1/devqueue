@@ -46,3 +46,7 @@ unfinished, so the full automatic done → next loop is not yet demonstrated.
 
 `npm test`, `npm run typecheck`, `npm run build`, `npm run test:worker-http`.
 Extension: `npm run typecheck`, `npm run build`, `npm test` within vscode-bridge.
+
+Durable recovery/outbox/stop reference: [docs/DURABLE-WORKER-LOOP.md](docs/DURABLE-WORKER-LOOP.md).
+Extension dependencies must be installed before `npm run test:worker-http`; that
+script builds the bridge and verifies its generic transport against real local Next.

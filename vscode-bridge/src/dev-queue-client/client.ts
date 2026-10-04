@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import { TaskPacket } from '../worker/contracts'
-export type Session = { id: string; status: string; taskPacket: TaskPacket }
+export type Session = { id: string; status: string; taskPacket: TaskPacket; lastHeartbeatAt?: string; stopRequestedAt?: string }
 export type ClaimNextInput = { projectId: string; workerType: string; workspacePath: string }
 export type ClaimResult = { session: Session; taskPacket: TaskPacket }
 export interface DevQueueClient {
@@ -29,6 +29,7 @@ export class HttpDevQueueClient implements DevQueueClient {
   if (!response.ok) throw new Error(`Dev Queue ${response.status}: ${payload.error ?? 'request failed'}`)
   return payload.data
  }
+ deliver(sessionId:string,action:string,body:Record<string,unknown>,key:string) { return this.request('/'+encodeURIComponent(sessionId)+'/'+encodeURIComponent(action),body,key) }
  claimNext(input: ClaimNextInput, key: string): Promise<ClaimResult> { return this.request('/claim-next',input,key) }
  readiness(projectId: string) { return this.request('/readiness?projectId='+encodeURIComponent(projectId)) }
  decisions(id:string) { return this.request('/'+encodeURIComponent(id)+'/decisions') }
