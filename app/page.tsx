@@ -83,7 +83,7 @@ export default function Page() {
   }, [])
 
   const filteredQueue = queue.filter((item) => `${item.title} ${item.objective} ${item.id}`.toLowerCase().includes(searchQuery.toLowerCase()))
-  const selected = queue.find((item) => item.id === selectedId) ?? queue[0]
+  const selected = queue.find((item) => item.id === selectedId) ?? queue[0] ?? initialQueue[0]
   const counts = useMemo(() => ({
     queued: queue.filter((item) => item.status === 'queued').length,
     running: queue.filter((item) => item.status === 'running').length,
