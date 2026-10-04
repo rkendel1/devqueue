@@ -25,3 +25,11 @@ button { color: inherit; cursor: pointer; }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; animation: none !important; } }
 @custom-variant dark (&:is(.dark *));
 @theme inline { --color-background: var(--bg); --color-foreground: var(--text); --color-border: var(--line); }
+
+/* Local editor: labels retain distinct controls on narrow screens. Browser acceptance pending. */
+.page-content form { display: grid; gap: 12px; margin: 16px 0; }
+.page-content form label { display: grid; gap: 4px; }
+.page-content input, .page-content textarea, .page-content select { max-width: 100%; border: 1px solid #777; padding: 8px; background: transparent; color: inherit; }
+.page-content textarea { min-height: 72px; }
+.page-content pre { overflow-wrap: anywhere; max-width: 100%; }
+@media (max-width: 600px) { .page-content { padding: 12px; } .page-content button { min-height: 44px; margin: 4px; } }

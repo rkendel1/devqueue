@@ -12,7 +12,10 @@
     "feltdb:studio": "feltdb studio",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
-    "test:worker-http": "npm --prefix vscode-bridge run build && node tests/next-worker-smoke.mjs"
+    "test:worker-http": "npm --prefix vscode-bridge run build && node tests/next-worker-smoke.mjs",
+    "test:local-loop": "node tests/local-loop-smoke.mjs",
+    "test:ui": "node tests/ui-local-loop.mjs",
+    "worker:local": "node local-worker/run.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
@@ -35,6 +38,7 @@
     "@types/react-dom": "^19",
     "postcss": "^8.5",
     "tailwindcss": "^4.3.3",
-    "typescript": "5.7.3"
+    "typescript": "5.7.3",
+    "@playwright/test": "1.63.0"
   }
 }

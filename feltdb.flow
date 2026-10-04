@@ -52,6 +52,7 @@ app dev_queue {
     currentQuestion: text?
     resultEvidence: json?
     completionRequestedAt: datetime?
+    acceptanceRunId: text?
     stopRequestedAt: datetime?
     stopAcknowledgedAt: datetime?
     consumedDecisionIds: json?
@@ -139,6 +140,23 @@ app dev_queue {
     response: json
   }
   policy WorkerRequest {
+    read: authenticated
+    write: authenticated
+  }
+  collection AcceptanceEvidence {
+    id: text
+    prId: text
+    sessionId: text
+    command: text
+    workingDirectory: text
+    startedAt: datetime
+    completedAt: datetime
+    exitCode: integer?
+    stdout: text
+    stderr: text
+    result: text
+  }
+  policy AcceptanceEvidence {
     read: authenticated
     write: authenticated
   }

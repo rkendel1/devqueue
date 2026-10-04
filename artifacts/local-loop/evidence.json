@@ -1,0 +1,656 @@
+{
+  "date": "2026-10-04T22:58:24.338Z",
+  "adapter": "deterministic LocalWorker",
+  "inspection": {
+    "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+    "sessions": [
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+        "prId": "eb970785-274f-4dcb-a5f0-8a9c32ab9453",
+        "ownerId": "local-worker",
+        "workerType": "deterministic-local-calculator",
+        "workspacePath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+        "status": "completed",
+        "startedAt": "2026-10-04T22:57:52.335Z",
+        "updatedAt": "2026-10-04T22:58:15.171Z",
+        "lastHeartbeatAt": "2026-10-04T22:58:10.965Z",
+        "sequence": 11,
+        "taskPacket": {
+          "taskId": "task:8879d1bc-85b6-47cf-ab69-a5c211be8164:eb970785-274f-4dcb-a5f0-8a9c32ab9453",
+          "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+          "project": {
+            "name": "Disposable calculator",
+            "goal": "Real commands, no AI",
+            "repositoryPath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+            "defaultBranch": "master",
+            "id": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "createdAt": "2026-10-04T22:57:49.867Z",
+            "updatedAt": "2026-10-04T22:57:49.867Z",
+            "__version": 1
+          },
+          "pr": {
+            "id": "eb970785-274f-4dcb-a5f0-8a9c32ab9453",
+            "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "number": 1,
+            "title": "add",
+            "objective": "Implement add",
+            "specification": "fixture:add",
+            "acceptanceCriteria": [
+              "npm test"
+            ],
+            "constraints": [],
+            "dependencies": [],
+            "status": "queued",
+            "priority": 0,
+            "position": 0,
+            "createdAt": "2026-10-04T22:57:50.397Z",
+            "updatedAt": "2026-10-04T22:57:50.397Z",
+            "__version": 1
+          },
+          "previousDecisions": [],
+          "workerContract": {
+            "inspectBeforeChanging": true,
+            "runAcceptanceCriteria": true,
+            "preserveUnrelatedChanges": true,
+            "reportQuestions": true,
+            "reportResult": true
+          }
+        },
+        "__version": 1,
+        "currentQuestion": "",
+        "consumedDecisionIds": [
+          "0be1235a-753d-44b1-b0cf-fd78eb3a78a8"
+        ],
+        "resultEvidence": {
+          "result": "PASS",
+          "summary": "Executed fixture:add",
+          "tests": [
+            {
+              "command": "npm test",
+              "exitCode": 0,
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.93319ms)\n✔ calculator (1.796964ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 273.851882\n",
+              "stderr": ""
+            }
+          ]
+        },
+        "completionRequestedAt": "2026-10-04T22:58:14.018Z",
+        "acceptanceRunId": "7c830cf8-6a89-4914-901c-10a5cff108a1",
+        "completedAt": "2026-10-04T22:58:15.171Z"
+      },
+      {
+        "id": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba",
+        "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+        "prId": "d6e4d12d-7d15-4122-a31c-d33d34d4141d",
+        "ownerId": "local-worker",
+        "workerType": "deterministic-local-calculator",
+        "workspacePath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+        "status": "failed",
+        "startedAt": "2026-10-04T22:58:15.942Z",
+        "updatedAt": "2026-10-04T22:58:16.155Z",
+        "lastHeartbeatAt": "2026-10-04T22:58:15.942Z",
+        "sequence": 2,
+        "taskPacket": {
+          "taskId": "task:8879d1bc-85b6-47cf-ab69-a5c211be8164:d6e4d12d-7d15-4122-a31c-d33d34d4141d",
+          "sessionId": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba",
+          "project": {
+            "name": "Disposable calculator",
+            "goal": "Real commands, no AI",
+            "repositoryPath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+            "defaultBranch": "master",
+            "id": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "createdAt": "2026-10-04T22:57:49.867Z",
+            "updatedAt": "2026-10-04T22:57:49.867Z",
+            "__version": 1
+          },
+          "pr": {
+            "id": "d6e4d12d-7d15-4122-a31c-d33d34d4141d",
+            "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "number": 2,
+            "title": "subtract",
+            "objective": "Implement subtract",
+            "specification": "fixture:subtract",
+            "acceptanceCriteria": [
+              "npm test"
+            ],
+            "constraints": [],
+            "dependencies": [
+              "1"
+            ],
+            "status": "queued",
+            "priority": 1,
+            "position": 1,
+            "createdAt": "2026-10-04T22:57:50.456Z",
+            "updatedAt": "2026-10-04T22:57:50.456Z",
+            "__version": 1
+          },
+          "previousDecisions": [],
+          "workerContract": {
+            "inspectBeforeChanging": true,
+            "runAcceptanceCriteria": true,
+            "preserveUnrelatedChanges": true,
+            "reportQuestions": true,
+            "reportResult": true
+          }
+        },
+        "__version": 1
+      },
+      {
+        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+        "prId": "d6e4d12d-7d15-4122-a31c-d33d34d4141d",
+        "ownerId": "local-worker",
+        "workerType": "deterministic-local-calculator",
+        "workspacePath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+        "status": "completed",
+        "startedAt": "2026-10-04T22:58:16.352Z",
+        "updatedAt": "2026-10-04T22:58:19.286Z",
+        "lastHeartbeatAt": "2026-10-04T22:58:16.564Z",
+        "sequence": 7,
+        "taskPacket": {
+          "taskId": "task:8879d1bc-85b6-47cf-ab69-a5c211be8164:d6e4d12d-7d15-4122-a31c-d33d34d4141d",
+          "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+          "project": {
+            "name": "Disposable calculator",
+            "goal": "Real commands, no AI",
+            "repositoryPath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+            "defaultBranch": "master",
+            "id": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "createdAt": "2026-10-04T22:57:49.867Z",
+            "updatedAt": "2026-10-04T22:57:49.867Z",
+            "__version": 1
+          },
+          "pr": {
+            "id": "d6e4d12d-7d15-4122-a31c-d33d34d4141d",
+            "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "number": 2,
+            "title": "subtract",
+            "objective": "Implement subtract",
+            "specification": "fixture:subtract",
+            "acceptanceCriteria": [
+              "npm test"
+            ],
+            "constraints": [],
+            "dependencies": [
+              "1"
+            ],
+            "status": "queued",
+            "priority": 1,
+            "position": 1,
+            "createdAt": "2026-10-04T22:57:50.456Z",
+            "updatedAt": "2026-10-04T22:58:16.251Z",
+            "__version": 1
+          },
+          "previousDecisions": [],
+          "workerContract": {
+            "inspectBeforeChanging": true,
+            "runAcceptanceCriteria": true,
+            "preserveUnrelatedChanges": true,
+            "reportQuestions": true,
+            "reportResult": true
+          }
+        },
+        "__version": 1,
+        "resultEvidence": {
+          "result": "PASS",
+          "summary": "Executed fixture:subtract",
+          "tests": [
+            {
+              "command": "npm test",
+              "exitCode": 0,
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.629922ms)\n✔ calculator (1.57263ms)\n✔ subtract (1.798181ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 674.729879\n",
+              "stderr": ""
+            }
+          ]
+        },
+        "completionRequestedAt": "2026-10-04T22:58:18.276Z",
+        "acceptanceRunId": "a6bd9f44-a631-4459-9618-c97385260252",
+        "completedAt": "2026-10-04T22:58:19.286Z"
+      },
+      {
+        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+        "prId": "0102315f-ad78-41aa-a1b7-2e2a3ac7d711",
+        "ownerId": "local-worker",
+        "workerType": "deterministic-local-calculator",
+        "workspacePath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+        "status": "completed",
+        "startedAt": "2026-10-04T22:58:19.401Z",
+        "updatedAt": "2026-10-04T22:58:23.550Z",
+        "lastHeartbeatAt": "2026-10-04T22:58:19.663Z",
+        "sequence": 7,
+        "taskPacket": {
+          "taskId": "task:8879d1bc-85b6-47cf-ab69-a5c211be8164:0102315f-ad78-41aa-a1b7-2e2a3ac7d711",
+          "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+          "project": {
+            "name": "Disposable calculator",
+            "goal": "Real commands, no AI",
+            "repositoryPath": "/tmp/dev-queue-real-loop-AynmT3/repo",
+            "defaultBranch": "master",
+            "id": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "createdAt": "2026-10-04T22:57:49.867Z",
+            "updatedAt": "2026-10-04T22:57:49.867Z",
+            "__version": 1
+          },
+          "pr": {
+            "id": "0102315f-ad78-41aa-a1b7-2e2a3ac7d711",
+            "projectId": "8879d1bc-85b6-47cf-ab69-a5c211be8164",
+            "number": 3,
+            "title": "multiply",
+            "objective": "Implement multiply",
+            "specification": "fixture:multiply",
+            "acceptanceCriteria": [
+              "npm test"
+            ],
+            "constraints": [],
+            "dependencies": [
+              "2"
+            ],
+            "status": "queued",
+            "priority": 2,
+            "position": 2,
+            "createdAt": "2026-10-04T22:57:50.515Z",
+            "updatedAt": "2026-10-04T22:57:50.515Z",
+            "__version": 1
+          },
+          "previousDecisions": [],
+          "workerContract": {
+            "inspectBeforeChanging": true,
+            "runAcceptanceCriteria": true,
+            "preserveUnrelatedChanges": true,
+            "reportQuestions": true,
+            "reportResult": true
+          }
+        },
+        "__version": 1,
+        "resultEvidence": {
+          "result": "PASS",
+          "summary": "Executed fixture:multiply",
+          "tests": [
+            {
+              "command": "npm test",
+              "exitCode": 0,
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.68702ms)\n✔ calculator (1.786672ms)\n✔ multiply (1.433344ms)\n✔ subtract (1.334882ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 580.813305\n",
+              "stderr": ""
+            }
+          ]
+        },
+        "completionRequestedAt": "2026-10-04T22:58:21.278Z",
+        "acceptanceRunId": "27e2d701-af2e-415e-bf7c-589fb1f847ff",
+        "completedAt": "2026-10-04T22:58:23.550Z"
+      }
+    ],
+    "events": [
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-1",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "sequence": 1,
+        "type": "started",
+        "message": "LocalWorker started verified disposable fixture operation",
+        "createdAt": "2026-10-04T22:57:52.594Z",
+        "__version": 1
+      },
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-2",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "sequence": 2,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T22:57:52.738Z",
+        "__version": 1
+      },
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-3",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "sequence": 3,
+        "type": "question",
+        "message": "Should the new function follow the existing direct-export pattern?",
+        "createdAt": "2026-10-04T22:57:52.916Z",
+        "__version": 1
+      },
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-4",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "sequence": 4,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T22:58:10.965Z",
+        "__version": 1
+      },
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-5",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "sequence": 5,
+        "type": "progress",
+        "message": "Local operator answered question",
+        "metadata": {
+          "decisionId": "0be1235a-753d-44b1-b0cf-fd78eb3a78a8"
+        },
+        "createdAt": "2026-10-04T22:58:12.188Z",
+        "__version": 1
+      },
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-6",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "sequence": 6,
+        "type": "progress",
+        "message": "Worker acknowledged durable decision",
+        "createdAt": "2026-10-04T22:58:12.651Z",
+        "__version": 1
+      },
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-7",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "sequence": 7,
+        "type": "progress",
+        "message": "Wrote add implementation to disposable repository",
+        "createdAt": "2026-10-04T22:58:12.768Z",
+        "__version": 1
+      },
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-8",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "sequence": 8,
+        "type": "output",
+        "message": "Actual npm test output",
+        "metadata": {
+          "exitCode": 0,
+          "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.93319ms)\n✔ calculator (1.796964ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 273.851882\n",
+          "stderr": ""
+        },
+        "createdAt": "2026-10-04T22:58:13.808Z",
+        "__version": 1
+      },
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-9",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "sequence": 9,
+        "type": "progress",
+        "message": "Worker result reported (not acceptance)",
+        "metadata": {
+          "result": "PASS",
+          "summary": "Executed fixture:add",
+          "tests": [
+            {
+              "command": "npm test",
+              "exitCode": 0,
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.93319ms)\n✔ calculator (1.796964ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 273.851882\n",
+              "stderr": ""
+            }
+          ]
+        },
+        "createdAt": "2026-10-04T22:58:13.928Z",
+        "__version": 1
+      },
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-10",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "sequence": 10,
+        "type": "completed",
+        "message": "Worker requested completion; acceptance enforcement pending",
+        "metadata": {
+          "acceptance": "pending",
+          "workerRequestedCompletion": true
+        },
+        "createdAt": "2026-10-04T22:58:14.018Z",
+        "__version": 1
+      },
+      {
+        "id": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3-11",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "sequence": 11,
+        "type": "completed",
+        "message": "Human-authorized acceptance gates passed",
+        "metadata": {
+          "gateIds": [
+            "f603734b-52dc-4614-9136-4dd3fb95612c"
+          ]
+        },
+        "createdAt": "2026-10-04T22:58:15.171Z",
+        "__version": 1
+      },
+      {
+        "id": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba-1",
+        "sessionId": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba",
+        "sequence": 1,
+        "type": "started",
+        "message": "Verified deterministic failure fixture starting",
+        "createdAt": "2026-10-04T22:58:16.066Z",
+        "__version": 1
+      },
+      {
+        "id": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba-2",
+        "sessionId": "e3b3122b-edea-4d84-9ea7-5e9a13cb4eba",
+        "sequence": 2,
+        "type": "failed",
+        "message": "Explicit deterministic failure scenario; no test PASS claimed",
+        "createdAt": "2026-10-04T22:58:16.155Z",
+        "__version": 1
+      },
+      {
+        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-1",
+        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "sequence": 1,
+        "type": "started",
+        "message": "LocalWorker started verified disposable fixture operation",
+        "createdAt": "2026-10-04T22:58:16.490Z",
+        "__version": 1
+      },
+      {
+        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-2",
+        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "sequence": 2,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T22:58:16.564Z",
+        "__version": 1
+      },
+      {
+        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-3",
+        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "sequence": 3,
+        "type": "progress",
+        "message": "Wrote subtract implementation to disposable repository",
+        "createdAt": "2026-10-04T22:58:16.651Z",
+        "__version": 1
+      },
+      {
+        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-4",
+        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "sequence": 4,
+        "type": "output",
+        "message": "Actual npm test output",
+        "metadata": {
+          "exitCode": 0,
+          "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.629922ms)\n✔ calculator (1.57263ms)\n✔ subtract (1.798181ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 674.729879\n",
+          "stderr": ""
+        },
+        "createdAt": "2026-10-04T22:58:18.097Z",
+        "__version": 1
+      },
+      {
+        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-5",
+        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "sequence": 5,
+        "type": "progress",
+        "message": "Worker result reported (not acceptance)",
+        "metadata": {
+          "result": "PASS",
+          "summary": "Executed fixture:subtract",
+          "tests": [
+            {
+              "command": "npm test",
+              "exitCode": 0,
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.629922ms)\n✔ calculator (1.57263ms)\n✔ subtract (1.798181ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 674.729879\n",
+              "stderr": ""
+            }
+          ]
+        },
+        "createdAt": "2026-10-04T22:58:18.219Z",
+        "__version": 1
+      },
+      {
+        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-6",
+        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "sequence": 6,
+        "type": "completed",
+        "message": "Worker requested completion; acceptance enforcement pending",
+        "metadata": {
+          "acceptance": "pending",
+          "workerRequestedCompletion": true
+        },
+        "createdAt": "2026-10-04T22:58:18.276Z",
+        "__version": 1
+      },
+      {
+        "id": "0f7b41e0-26fc-4545-a086-40d915f2d0f5-7",
+        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "sequence": 7,
+        "type": "completed",
+        "message": "Human-authorized acceptance gates passed",
+        "metadata": {
+          "gateIds": [
+            "8025b831-92b3-4da9-8330-ad37c0183244"
+          ]
+        },
+        "createdAt": "2026-10-04T22:58:19.286Z",
+        "__version": 1
+      },
+      {
+        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-1",
+        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "sequence": 1,
+        "type": "started",
+        "message": "LocalWorker started verified disposable fixture operation",
+        "createdAt": "2026-10-04T22:58:19.552Z",
+        "__version": 1
+      },
+      {
+        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-2",
+        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "sequence": 2,
+        "type": "heartbeat",
+        "message": "Worker transport heartbeat (not a lease or proof of coding)",
+        "createdAt": "2026-10-04T22:58:19.663Z",
+        "__version": 1
+      },
+      {
+        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-3",
+        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "sequence": 3,
+        "type": "progress",
+        "message": "Wrote multiply implementation to disposable repository",
+        "createdAt": "2026-10-04T22:58:19.785Z",
+        "__version": 1
+      },
+      {
+        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-4",
+        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "sequence": 4,
+        "type": "output",
+        "message": "Actual npm test output",
+        "metadata": {
+          "exitCode": 0,
+          "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.68702ms)\n✔ calculator (1.786672ms)\n✔ multiply (1.433344ms)\n✔ subtract (1.334882ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 580.813305\n",
+          "stderr": ""
+        },
+        "createdAt": "2026-10-04T22:58:21.111Z",
+        "__version": 1
+      },
+      {
+        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-5",
+        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "sequence": 5,
+        "type": "progress",
+        "message": "Worker result reported (not acceptance)",
+        "metadata": {
+          "result": "PASS",
+          "summary": "Executed fixture:multiply",
+          "tests": [
+            {
+              "command": "npm test",
+              "exitCode": 0,
+              "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.68702ms)\n✔ calculator (1.786672ms)\n✔ multiply (1.433344ms)\n✔ subtract (1.334882ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 580.813305\n",
+              "stderr": ""
+            }
+          ]
+        },
+        "createdAt": "2026-10-04T22:58:21.184Z",
+        "__version": 1
+      },
+      {
+        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-6",
+        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "sequence": 6,
+        "type": "completed",
+        "message": "Worker requested completion; acceptance enforcement pending",
+        "metadata": {
+          "acceptance": "pending",
+          "workerRequestedCompletion": true
+        },
+        "createdAt": "2026-10-04T22:58:21.278Z",
+        "__version": 1
+      },
+      {
+        "id": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1-7",
+        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "sequence": 7,
+        "type": "completed",
+        "message": "Human-authorized acceptance gates passed",
+        "metadata": {
+          "gateIds": [
+            "6daab28a-d28b-42c0-b7e9-c246d3857eb8"
+          ]
+        },
+        "createdAt": "2026-10-04T22:58:23.550Z",
+        "__version": 1
+      }
+    ],
+    "acceptance": [
+      {
+        "command": "npm test",
+        "workingDirectory": "/tmp/dev-queue-real-loop-AynmT3/repo",
+        "startedAt": "2026-10-04T22:58:14.155Z",
+        "completedAt": "2026-10-04T22:58:15.153Z",
+        "exitCode": 0,
+        "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (1.708602ms)\n✔ calculator (1.734073ms)\nℹ tests 2\nℹ suites 0\nℹ pass 2\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 321.738598\n",
+        "stderr": "",
+        "result": "PASS",
+        "id": "f603734b-52dc-4614-9136-4dd3fb95612c",
+        "sessionId": "dc0d9dc9-1d4c-4a9a-aa81-4ada3fa19da3",
+        "prId": "eb970785-274f-4dcb-a5f0-8a9c32ab9453",
+        "__version": 1
+      },
+      {
+        "command": "npm test",
+        "workingDirectory": "/tmp/dev-queue-real-loop-AynmT3/repo",
+        "startedAt": "2026-10-04T22:58:18.339Z",
+        "completedAt": "2026-10-04T22:58:19.268Z",
+        "exitCode": 0,
+        "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (4.49829ms)\n✔ calculator (1.505602ms)\n✔ subtract (1.521592ms)\nℹ tests 3\nℹ suites 0\nℹ pass 3\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 500.511644\n",
+        "stderr": "",
+        "result": "PASS",
+        "id": "8025b831-92b3-4da9-8330-ad37c0183244",
+        "sessionId": "0f7b41e0-26fc-4545-a086-40d915f2d0f5",
+        "prId": "d6e4d12d-7d15-4122-a31c-d33d34d4141d",
+        "__version": 1
+      },
+      {
+        "command": "npm test",
+        "workingDirectory": "/tmp/dev-queue-real-loop-AynmT3/repo",
+        "startedAt": "2026-10-04T22:58:21.528Z",
+        "completedAt": "2026-10-04T22:58:23.532Z",
+        "exitCode": 0,
+        "stdout": "\n> test\n> node --test test/*.test.mjs\n\n✔ add (6.026097ms)\n✔ calculator (1.653282ms)\n✔ multiply (1.672787ms)\n✔ subtract (2.063906ms)\nℹ tests 4\nℹ suites 0\nℹ pass 4\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 993.56668\n",
+        "stderr": "",
+        "result": "PASS",
+        "id": "6daab28a-d28b-42c0-b7e9-c246d3857eb8",
+        "sessionId": "1e4057e3-cf0d-4e3c-9873-d47bc4d341f1",
+        "prId": "0102315f-ad78-41aa-a1b7-2e2a3ac7d711",
+        "__version": 1
+      }
+    ]
+  },
+  "diff": "diff --git a/src/calculator.mjs b/src/calculator.mjs\nindex 5d75c37..3f39ff0 100644\n--- a/src/calculator.mjs\n+++ b/src/calculator.mjs\n@@ -1 +1,7 @@\n // Disposable fixture\n+\n+export function add(a,b){return a+b}\n+\n+export function subtract(a,b){return a-b}\n+\n+export function multiply(a,b){return a*b}\n",
+  "node": "v24.21.0"
+}
